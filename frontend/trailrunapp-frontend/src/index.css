@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* ここで1remを10pxに設定している */
+html {
+  font-size: 62.5%; /* 16px × 0.625 = 10px */
+}
+/* 画面幅600px以下のフォントサイズ設定 */
+@media (max-width: 600px) {
+  html {
+    font-size: 50%; /* 16px × 0.5 = 8px → 1rem = 8px */
+  }
+}
