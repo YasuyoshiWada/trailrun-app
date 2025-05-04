@@ -21,30 +21,31 @@ const StatusLegend: React.FC = () => {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
-        gap: 3,
-        mb: 3,
+        gap: '2.4rem',
+        mb: '2.4rem',
         justifyContent: 'left',
       }}
       >
+        {/* mapでstausListの中身を順番に取得、親要素のboxの中にcolorとlabelを挟む */}
         {statusList.map((status) => (
-          <Box
+        <Box
             key={status.label}
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1,
+              gap: '0.8rem',
             }}
           >
           <Box
           sx={{
-            width:20,
-            height: 20,
+            width:'2rem',
+            height: '2rem',
             backgroundColor: status.color,
           }}
           />
           <Typography
           sx={{
-            fontSize:'20px',
+            fontSize:'2rem',
           }}
           color="textPrimary">
             {status.label}
