@@ -1,7 +1,8 @@
 import React from "react";
 import {Box, List,ListItem, ListItemButton, ListItemText, Typography }from '@mui/material';
-import StatusLegend from "../../components/StatusLegend";
 import RaceCategoryStatusBar from "./RaceCategoryStatusBar";
+import DashboardTitle from "./DashboardTitle";
+import StatusLegend from "../../components/StatusLegend";
 import { dummyRaceData } from "../../data/dummyRaceData";
 
 const Dashboard: React.FC = () => {
@@ -10,22 +11,8 @@ const Dashboard: React.FC = () => {
     sx={{
         ml: 6,
     }}>
-      <Box
-        sx={{
-          fontSize: '3.2rem',
-          fontWeight: 'bold',
-          mb: '4rem',
-        }}
-      >
-        レース進行状況
-      </Box>
-      <Box
-      sx={{
-        mb:4,
-      }}
-      >
-          <StatusLegend />
-      </Box>
+      <DashboardTitle />
+      <StatusLegend />
       {dummyRaceData.map((data) => (
       <RaceCategoryStatusBar
       key={data.categoryName}
