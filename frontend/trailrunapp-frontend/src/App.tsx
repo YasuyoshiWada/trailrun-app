@@ -1,20 +1,15 @@
 import React from 'react';
 import {BrowserRouter } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
+import Layout from './components/Layout';
 import { AppRoutes } from './routes/AppRoutes';
 
 
-const App: React.FC = () => {
-  return(
-      <BrowserRouter>
-        <div style={{ display: 'flex'}}>
-          <Sidebar />
-          <div style={{ flexGrow: 1, padding: '1rem' }}>
-              <AppRoutes />
-          </div>
-        </div>
-      </BrowserRouter>
-  );
-};
+const App: React.FC = () => (
+  <BrowserRouter>
+    <Layout>
+      <AppRoutes />
+    </Layout>
+  </BrowserRouter>
+);
 
 export default App;
