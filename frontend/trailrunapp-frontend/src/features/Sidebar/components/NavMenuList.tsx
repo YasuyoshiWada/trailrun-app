@@ -6,14 +6,14 @@ type MenuItem = {
   label: string;
   path: string;
 };
-
+//pathの先のページが出来ていないがエラー回避の為に（一意のpath出ないとエラーになる)一時的にpathを仮に付ける
 const menuItems = [
-  { label: "大会選手一覧", path: "/" },
-  { label: "スタート時刻設定", path: "/" },
-  { label: "スタート時計", path: "/" },
-  { label: "記録証の発行", path: "/" },
-  { label: "表彰状発行", path: "/" },
-  { label: "受信機能停止抑制", path: "/" },
+  { label: "大会選手一覧", path: "/athletes" },
+  { label: "スタート時刻設定", path: "/start-time" },
+  { label: "スタート時計", path: "/clock" },
+  { label: "記録証の発行", path: "/certificate" },
+  { label: "表彰状発行", path: "/award" },
+  { label: "受信機能停止抑制", path: "/disable" },
 ];
 
 type Props = {
@@ -30,6 +30,7 @@ const NavMenuList: React.FC<Props> = ({ direction = "column"}) => (
             slotProps={{
               primary: {
                 sx: { fontSize: '1.4rem' },
+                fontWeight: 'bold',
               },
             }}
           />
