@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from '@mui/material';
-import { palette } from "../../styles/palette";
+import { palette } from "../../../styles/palette";
 
 type StatusData = {
   label: string; // 例: "DNS", "スタート"

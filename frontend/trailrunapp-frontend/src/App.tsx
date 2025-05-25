@@ -1,14 +1,14 @@
 import React from 'react';
 import {BrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout';
+import SidebarLayoutPage from './features/Sidebar/SidebarLayoutPage';
 import { AppRoutes } from './routes/AppRoutes';
 
 
 const App: React.FC = () => (
   <BrowserRouter>
-    <Layout>
+    <SidebarLayoutPage>
       <AppRoutes />
-    </Layout>
+    </SidebarLayoutPage>
   </BrowserRouter>
 );
 
