@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import StatusLegend from "../../../components/StatusLegend";
 
-const DashboardTitle:React.FC = () => {
+const DashboardTitle:React.FC= () => {
 
   return(
   <>

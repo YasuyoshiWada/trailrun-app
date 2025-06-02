@@ -38,7 +38,6 @@ const StatusLegend: React.FC< {isMobile?: boolean}> = ({isMobile}) => {
         gap: '2.4rem',
         mb: '2.4rem',
         justifyContent: isMobile ? 'flex-start' :'left',
-        overflowX: isMobile ? 'auto' : 'visible',
         width:"100%",
         minWidth: isMobile ? `${statusList.length * 120}px` : '0',
       }}
