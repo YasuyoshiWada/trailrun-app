@@ -17,7 +17,7 @@ const Sidebar: React.FC = () => {
       <Typography
         sx={{
           fontWeight: 'bold',
-          fontSize: '1.8rem',
+          fontSize: '1.4rem',
           mt: '4rem',
           mb: '1.6rem',
           ml: '1.6rem',

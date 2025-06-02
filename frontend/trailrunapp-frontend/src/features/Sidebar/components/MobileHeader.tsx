@@ -61,7 +61,7 @@ const MobileHeader: React.FC = () => {
             top: 0,
             left: 0,
             width: "100%",
-            height: "25vh",
+            height: "35vh",
             backgroundColor: palette.cyan,
             zIndex: 1200,
             color: palette.textPrimary,
