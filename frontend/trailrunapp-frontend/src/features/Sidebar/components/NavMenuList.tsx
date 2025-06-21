@@ -29,8 +29,9 @@ const NavMenuList: React.FC<Props> = ({ direction = "column"}) => (
             primary={item.label}
             slotProps={{
               primary: {
-                sx: { fontSize: '1.4rem' },
+                sx: { fontSize: '1.5rem' },
                 fontWeight: 'bold',
+                mb: 1
               },
             }}
           />

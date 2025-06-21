@@ -1,15 +1,16 @@
 // src/components/Layout.tsx
 import React from "react";
-import { Box, useMediaQuery, Toolbar } from "@mui/material";
+import { Box,  Toolbar } from "@mui/material";
 import MobileHeader from "../features/Sidebar/components/MobileHeader";
 import Sidebar from "../features/Sidebar/components/Sidebar";
+import useResponsive from "../hooks/useResponsive";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useResponsive();
 
   return (
     <>

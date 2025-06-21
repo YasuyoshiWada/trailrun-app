@@ -8,7 +8,7 @@ const Sidebar: React.FC = () => {
     <Box
       component="nav"
       sx={{
-        width:'22rem' ,
+        width:'24rem' ,
         height: '100vh',//高さは画面に合わせて縦一杯に広がる設定
         backgroundColor: palette.cyan,
         color: palette.textPrimary,
@@ -17,7 +17,7 @@ const Sidebar: React.FC = () => {
       <Typography
         sx={{
           fontWeight: 'bold',
-          fontSize: '1.4rem',
+          fontSize: '1.7rem',
           mt: '4rem',
           mb: '1.6rem',
           ml: '1.6rem',
@@ -25,7 +25,11 @@ const Sidebar: React.FC = () => {
         >
           みなみえるステータス
         </Typography>
-        <Box>
+        <Box
+        sx={{
+
+        }}
+        >
           <NavMenuList />
         </Box>
     </Box>
