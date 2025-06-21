@@ -57,7 +57,6 @@ const StatusLegend: React.FC< {isMobile?: boolean}> = ({isMobile}) => {
           >
           <Box
           sx={{
-            fontSize: 28,
             Color: status.color
           }}
           >
@@ -65,7 +64,7 @@ const StatusLegend: React.FC< {isMobile?: boolean}> = ({isMobile}) => {
           </Box>
           <Typography
           sx={{
-            fontSize:'2rem',
+            fontSize:'1.6rem',
             color: status.color,
             whiteSpace: 'nowrap'
           }}
