@@ -6,7 +6,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';   // 受付�
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'; // DNS
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';   // スタート
 import LocationOnIcon from '@mui/icons-material/LocationOn';         // 地点1,2
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import NotInterestedIcon from '@mui/icons-material/NotInterested';   //DNF
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';     //  DQ
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';       // フィニッシュ
 

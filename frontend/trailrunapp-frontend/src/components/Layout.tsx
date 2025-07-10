@@ -1,4 +1,5 @@
 // src/components/Layout.tsx
+//ページのレスポンシブを決定しているコンポーネント
 import React from "react";
 import { Box,  Toolbar } from "@mui/material";
 import MobileHeader from "../features/Sidebar/components/MobileHeader";

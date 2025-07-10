@@ -28,7 +28,8 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
                   p: {xs :1,sm:3},
                   width:'100%',
                   maxWidth:'100vw',
-                  boxSizing:'border-box'
+                  boxSizing:'border-box',
+                   ...( !isMobile && { marginLeft: '24rem' } ), // ← サイドバー分のスペース確保
                   }}>
 
           {isMobile && <Toolbar />} {/* AppBar の高さ分スペースを確保 */}

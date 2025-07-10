@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from '@mui/material';
 import DashboardTitle from "./components/DashboardTitle";
 import StatusLegend from "../../components/StatusLegend";
-import RaceCategoryStatusBar from "./components/RaceCategoryStatusBar";
+import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import { dummyRaceData } from "../../data/dummyRaceData";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
