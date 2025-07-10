@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from '@mui/material';
-import { palette } from "../../../styles/palette";
+import { palette } from "../styles/palette";
 
 type StatusData = {
   label: string; // 例: "DNS", "スタート"
@@ -20,8 +20,8 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
       {/* 左側カテゴリ名+人数 */}
       <Box sx={{width: '33%' }}>
         <Typography
-          color="textPrimary"
           sx={{
+            color:palette.textPrimary,
             fontSize: '1.4rem',
             opacity: 0.5,
           }}
@@ -29,8 +29,8 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
           (参加人数 {totalParticipants})
         </Typography>
         <Typography
-          color="textPrimary"
           sx={{
+            color:palette.textPrimary,
             fontSize:'2.4rem',
           }}
           >

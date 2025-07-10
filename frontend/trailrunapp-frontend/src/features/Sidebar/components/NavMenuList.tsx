@@ -8,7 +8,7 @@ type MenuItem = {
 };
 //pathの先のページが出来ていないがエラー回避の為に（一意のpath出ないとエラーになる)一時的にpathを仮に付ける
 const menuItems = [
-  { label: "大会選手一覧", path: "/athletes" },
+  { label: "大会選手一覧", path: "/" },
   { label: "スタート時刻設定", path: "/start-time" },
   { label: "スタート時計", path: "/clock" },
   { label: "記録証の発行", path: "/certificate" },

@@ -8,6 +8,9 @@ const Sidebar: React.FC = () => {
     <Box
       component="nav"
       sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
         width:'24rem' ,
         height: '100vh',//高さは画面に合わせて縦一杯に広がる設定
         backgroundColor: palette.cyan,
