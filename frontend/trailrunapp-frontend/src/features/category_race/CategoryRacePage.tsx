@@ -8,12 +8,14 @@ import { RunnersData, dummyRunners } from "../../data/dummyRunners";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceEntryTable from "../../components/RaceEntryTable";
 import SearchBar from "../../components/SearchBar";
-import DnsPopupDialog from "../../components/button_popup/DnsPopupDialog";
+import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
+import { palette } from "../../styles/palette";
 
 
 const CategoryRacePage:React.FC =() => {
 //popupのopen
-  const [dnsDialogOpen, setDnsDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
   const [selectedRunnerId, setSelectedRunnerId] = useState<number | null>(null);
 
   const [runners, setRunners] = useState<RunnersData[]>(dummyRunners);
@@ -31,30 +33,65 @@ const filteredRunners = runners.filter(r =>
   //runner取得
   const selectedRunner = runners.find(r => r.id === selectedRunnerId);
 
-// DNS登録のコールバック
+// ボタンクリック時
   const handleDnsClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
-    setDnsDialogOpen(true);
+    setDialogType("DNS");
+    setDialogOpen(true);
   };
 
-//DNS登録「はい」押下時のstate更新
-const handleDnsComfirm = () => {
+  const handleDnfClick = (runnerId: number) => {
+    setSelectedRunnerId(runnerId);
+    setDialogType("DNF");
+    setDialogOpen(true);
+  };
+
+  const handleDqClick = (runnerId: number) => {
+    setSelectedRunnerId(runnerId);
+    setDialogType("DQ");
+    setDialogOpen(true);
+  };
+
+//ダイアログ「はい」押下時のstate更新
+const handleConfirm = (reason: string) => {
   if (selectedRunnerId ! == null) {
     setRunners(prev =>
-      prev.map(r =>
-        r.id === selectedRunnerId ? {...r, dns: true} : r
-        )
+      prev.map(r => {
+        if (r.id == selectedRunnerId) return r;
+        if (dialogType === "DNS") return { ...r, dns: true, dnsContent: reason};
+        if (dialogType === "DNF") return { ...r, dnf: true, dnsContent: reason};
+        if (dialogType === "DQ") return { ...r, dq: true, dnsContent: reason};
+        return r;
+      })
       );
-      setDnsDialogOpen(false);
+      setDialogOpen(false);
       setSelectedRunnerId(null);
   }
 };
 
-//DNS登録 「キャンセル」
-const handleDnsCancel = () => {
-  setDnsDialogOpen(false);
+//ダイアログ「キャンセル」
+const handleDialogCancel = () => {
+  setDialogOpen(false);
   setSelectedRunnerId(null);
-}
+};
+
+const dialogProps = {
+  DNS: {
+    reasonLabel: "DNS要因",
+    confirmColor: palette.orange,
+    cancelColor: palette.orange,
+  },
+  DNF: {
+    reasonLabel: "DNF要因",
+    confirmColor: palette.mustardYellow,
+    cancelColor: palette.mustardYellow,
+  },
+  DQ: {
+    reasonLabel: "DQ要因",
+    confirmColor: palette.coralRed,
+    cancelColor: palette.coralRed,
+  },
+}[dialogType];
 
   const isMobile = useResponsive();
   const sixKmMaleData = dummyRaceData.find(
@@ -88,13 +125,19 @@ const handleDnsCancel = () => {
     <RaceEntryTable
       runners={filteredRunners}
       onDnsClick={handleDnsClick}
+      onDnfClick={handleDnfClick}
+      onDqClick={handleDqClick}
     />
     {/* DNSダイアログ表示 */}
-  <DnsPopupDialog
-  open={dnsDialogOpen}
+  <RunnerStatusPopupDialog
+  open={dialogOpen}
   runner={selectedRunner}
-  onConfirm={handleDnsComfirm}
-  onCancel={handleDnsCancel}
+  type={dialogType}
+  reasonLabel={dialogProps.reasonLabel}
+  onConfirm={handleConfirm}
+  onCancel={handleDialogCancel}
+  confirmColor={dialogProps.confirmColor}
+  cancelColor={dialogProps.cancelColor}
   />
   </Box>
 </Box>

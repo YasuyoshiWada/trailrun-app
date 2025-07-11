@@ -3,35 +3,42 @@ import PopupDialog from "../PopupDialog";
 import { RunnersData } from "../../data/dummyRunners";
 import { TextField } from "@mui/material";
 
-type DnsDialogProps = {
+type RunnerStatusPopupProps = {
   open: boolean;
   runner: RunnersData | undefined;
+  type: "DNS" | "DNF" | "DQ";
+  reasonLabel: string;
   onCancel: () => void;
-  onConfirm: (dnsReason: string) => void;
+  onConfirm: (Reason: string) => void;
+  confirmColor: string;
+  cancelColor: string;
 };
 
-const DnsPopupDialog: React.FC<DnsDialogProps> =({
+const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
   open,
   runner,
+  type,
+  reasonLabel,
   onCancel,
   onConfirm,
+  confirmColor,
+  cancelColor,
 }) => {
-  const [ dnsReason, setDnsReason ] = useState("");
+  const [ reason, setReason ] = useState("");
 
-  //選手が切り替わった時にDNSの理由をリセット
+  //選手が切り替わった時に理由をリセット
   useEffect(() => {
-    setDnsReason("");
+    setReason("");
   }, [runner]);
 
   return (
     <PopupDialog
     open={open}
-    title="DNS登録"
     description={
       runner ? (
         <>
           <div style={{ marginBottom: "2rem", fontWeight: "bold",fontSize:"2rem", textAlign: "center"}}>
-            以下の選手をDNS登録しますか？
+            以下の選手を{type}登録しますか？
           </div>
           <div style={{
             display: "flex",
@@ -65,11 +72,11 @@ const DnsPopupDialog: React.FC<DnsDialogProps> =({
               alignItems: "center",
               minWidth: "16rem"
               }}>
-              <span style={{fontSize:"1.4rem"}}>DNS要因</span>
+              <span style={{fontSize:"1.4rem"}}>{reasonLabel}</span>
               <TextField
               placeholder="要因を記入してください"
-              value={dnsReason}
-              onChange={e => setDnsReason(e.target.value)}
+              value={reason}
+              onChange={e => setReason(e.target.value)}
               sx={{ mt: "1rem", width: "14rem" }}
               size="small"
             />
@@ -79,10 +86,12 @@ const DnsPopupDialog: React.FC<DnsDialogProps> =({
         </>
       ) : ""
     }
-    onConfirm={() => onConfirm(dnsReason)}
+    onConfirm={() => onConfirm(reason)}
     onCancel={onCancel}
+    confirmColor={confirmColor}
+    cancelColor={cancelColor}
     />
   )
 }
 
-export default DnsPopupDialog;
+export default RunnerStatusPopupDialog;

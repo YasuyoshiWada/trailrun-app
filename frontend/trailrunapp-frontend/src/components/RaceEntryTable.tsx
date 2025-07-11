@@ -26,9 +26,11 @@ const TableCellSx = {
 type Props = {
   runners: RunnersData[];
   onDnsClick: (id: number) => void;
+  onDnfClick: (id: number) => void;
+  onDqClick: (id: number) => void;
 };
 // 見出しだけのテーブル
-const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick }) => (
+const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick }) => (
   <Box
   sx={{ mt: 2, mb: 4,
   }}>
@@ -70,12 +72,12 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick }) => (
             </TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DNFButton
             value={runner.dnf}
-            onClick={() => onDnsClick(runner.id)}//ここはCategoryRacePageでDnfClickを実装したら変更
+            onClick={() => onDnfClick(runner.id)}//ここはCategoryRacePageでDnfClickを実装したら変更
             />
             </TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DQButton
             value={runner.dq}
-            onClick={() => onDnsClick(runner.id)}//ここはCategoryRacePageでDqClickを実装したら変更
+            onClick={() => onDqClick(runner.id)}//ここはCategoryRacePageでDqClickを実装したら変更
             />
             </TableCell>
           </TableRow>
