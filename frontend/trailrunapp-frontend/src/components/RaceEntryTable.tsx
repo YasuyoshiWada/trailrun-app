@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Button } from "@mui/material";
-import { palette } from "../styles/palette";
 import { RunnersData } from "../data/dummyRunners";
 import DNSButton from "./button/DnsButton";
 import DNFButton from "./button/DnfButton";
 import DQButton from "./button/DqButton";
+import { palette, arrivalStatusColorMap } from "../styles/palette";
 
 
 const  TableHeaderSx = {
@@ -23,12 +23,21 @@ const TableCellSx = {
   borderRight: `1px solid ${palette.lightGray}`,
   textAlign: 'center',
 };
+
 type Props = {
   runners: RunnersData[];
   onDnsClick: (id: number) => void;
   onDnfClick: (id: number) => void;
   onDqClick: (id: number) => void;
 };
+
+//最終到達の時間と場所
+export const getLastArrivalDisplay = (runner: RunnersData) => {
+  return runner.lastArrivalPlace
+  ? `${runner.lastArrivalTime} (${runner.lastArrivalPlace})`
+  : runner.lastArrivalTime;
+}
+
 // 見出しだけのテーブル
 const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick }) => (
   <Box
@@ -60,7 +69,14 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
           <TableRow
           key={runner.id}>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.rank}</TableCell>
-            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.lastArrival}</TableCell>
+            <TableCell sx={{
+              ...TableRowSx,
+              ...TableCellSx,
+              color:arrivalStatusColorMap[runner.lastArrivalPlace] || palette.darkGray
+              }}
+              >
+              {getLastArrivalDisplay(runner)}
+            </TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.raceNumber}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.name}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.category}</TableCell>
@@ -72,12 +88,12 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
             </TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DNFButton
             value={runner.dnf}
-            onClick={() => onDnfClick(runner.id)}//ここはCategoryRacePageでDnfClickを実装したら変更
+            onClick={() => onDnfClick(runner.id)}
             />
             </TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DQButton
             value={runner.dq}
-            onClick={() => onDqClick(runner.id)}//ここはCategoryRacePageでDqClickを実装したら変更
+            onClick={() => onDqClick(runner.id)}
             />
             </TableCell>
           </TableRow>

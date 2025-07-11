@@ -6,7 +6,7 @@ import HorizontalScroller from "../../components/HorizontalScroller";
 import { dummyRaceData } from "../../data/dummyRaceData";
 import { RunnersData, dummyRunners } from "../../data/dummyRunners";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
-import RaceEntryTable from "../../components/RaceEntryTable";
+import RaceEntryTable,{ getLastArrivalDisplay} from "../../components/RaceEntryTable";
 import SearchBar from "../../components/SearchBar";
 import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
 import { palette } from "../../styles/palette";
@@ -24,11 +24,14 @@ const CategoryRacePage:React.FC =() => {
   const [searchText, setSearchText] = useState("");
 
   //曖昧検索でのfilterをかけている部分
-const filteredRunners = runners.filter(r =>
-  Object.values(r).some(val =>
+const filteredRunners = runners.filter(r => {
+  //最終到達の検索用の定数
+  const lastArrivalDisplay = getLastArrivalDisplay(r);
+  return Object.values(r).some(val =>
     String(val).toLowerCase().includes(searchText.toLowerCase())
-    )
-  );
+    ) ||
+      lastArrivalDisplay.toLowerCase().includes(searchText.toLowerCase());
+});
 
   //runner取得
   const selectedRunner = runners.find(r => r.id === selectedRunnerId);
