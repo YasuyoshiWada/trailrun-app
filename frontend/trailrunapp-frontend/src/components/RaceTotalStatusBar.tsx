@@ -8,15 +8,15 @@ type StatusData = {
   color: string; // paletteから取得（MUI sxで使える）
 };
 
-type Props = {
-  categoryName: string;
+type Props ={
   totalParticipants: number;
-  statusList: StatusData[];
-};
+  totalStatusList: StatusData[];
+}
 
-const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipants, statusList}) => {
+
+const RaceTotalStatusBar: React.FC<Props> = ({ totalParticipants, totalStatusList}) => {
   return (
-    <Box sx={{ display: 'flex', alignItems:'center', width: '45rem', height:'3rem', mb: '3.2rem'}}>
+    <Box sx={{ display: 'flex', alignItems:'center', width: '100rem', height:'3rem', mb: '3.2rem'}}>
       {/* 左側カテゴリ名+人数 */}
       <Box sx={{width: '33%' }}>
         <Typography
@@ -35,7 +35,7 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
             fontSize:'2rem',
           }}
           >
-            {categoryName}
+            全体
         </Typography>
       </Box>
 
@@ -43,10 +43,10 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
       <Box
       sx={{
         display: 'flex',
-        width: '40rem',
+        width: '90rem',
         height: '4rem',
         }}>
-        {statusList.map((status,idx) => (
+        {totalStatusList.map((status,idx) => (
           <Box
             key={idx}
             color="textPrimary"
@@ -67,4 +67,4 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
   );
 };
 
-export default RaceCategoryStatusBar;
+export default RaceTotalStatusBar;

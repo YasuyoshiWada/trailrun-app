@@ -33,5 +33,35 @@ export const dummyRaceData: RaceCategoryData[] = [
       { label: "DNS", value: 10, color: palette.orange },
       { label: "スタート", value: 70, color: palette.navyBlue }
     ]
-  }
+  },
+  {
+    categoryName: "リレー男子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "地点1", value: 60, color: palette.darkGray },
+      { label: "地点2", value: 140, color: palette.cyan },
+      { label: "フィニッシュ", value: 160, color: palette.limeGreen },
+      { label: "DNF", value: 40, color: palette.mustardYellow }
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60, color: palette.orange },
+      { label: "スタート", value: 140, color: palette.navyBlue },
+      { label: "地点1", value: 160, color: palette.darkGray },
+      { label: "DNF", value: 40, color: palette.mustardYellow }
+    ]
+  },
+  {
+    categoryName: "リレー男子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "地点1", value: 60, color: palette.darkGray },
+      { label: "地点2", value: 140, color: palette.cyan },
+      { label: "フィニッシュ", value: 160, color: palette.limeGreen },
+      { label: "DNF", value: 40, color: palette.mustardYellow }
+    ]
+  },
 ];
