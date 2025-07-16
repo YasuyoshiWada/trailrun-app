@@ -16,14 +16,16 @@ type Props = {
 
 const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipants, statusList}) => {
   return (
-    <Box sx={{ display: 'flex', alignItems:'center', width: '45rem', height:'3rem', mb: '3.2rem'}}>
+    <Box sx={{ display: 'flex', alignItems:'center', width: '80rem', height:'3rem', mb: '3.2rem'}}>
       {/* 左側カテゴリ名+人数 */}
-      <Box sx={{width: '33%' }}>
+      <Box sx={{width: '30%' }}>
         <Typography
           sx={{
             color:palette.textPrimary,
-            fontSize: '1.4rem',
+            fontSize: '2rem',
             opacity: 0.5,
+            display:"flex",
+            justifyContent: "center",
           }}
         >
           (参加人数 {totalParticipants})
@@ -32,7 +34,9 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
           sx={{
             color:palette.textPrimary,
             fontWeight:"bold",
-            fontSize:'2rem',
+            fontSize:'2.4rem',
+            display:"flex",
+            justifyContent: "center",
           }}
           >
             {categoryName}
@@ -43,7 +47,7 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
       <Box
       sx={{
         display: 'flex',
-        width: '40rem',
+        width: '70rem',
         height: '4rem',
         }}>
         {statusList.map((status,idx) => (

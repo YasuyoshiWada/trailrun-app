@@ -1,14 +1,15 @@
-
-
+// 地点と通過時間データ
+export type RunnerArrival = {
+  place: string;
+  time: string;
+}
 export type RunnersData = {
   id: number;
   rank: number;
   raceNumber: number;
   name: string;
   category: string;
-  lastArrivalTime: string;//最終到達地点のtime
-  lastArrivalPlace:string;//最終到達地点の場所
-  startTime: string;
+  arrivals: RunnerArrival[];
   dns: boolean | null;
   dnf: boolean | null;
   dq: boolean | null;
@@ -24,9 +25,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 1,
     name:"勝見 裕太",
     category: "6km男子",
-    lastArrivalTime: "10:18:28",
-    lastArrivalPlace: "フィニッシュ",
-    startTime: "9:30:00",
+    arrivals:[
+      {place:"スタート", time: "9:30:00"},
+      {place:"地点1", time: "9:45:00"},
+      {place:"地点２", time: "10:00:00"},
+      {place:"フィニッシュ",time:"10:18:28"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -40,9 +44,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 5,
     name:"島田 雄也",
     category: "6km男子",
-    lastArrivalTime: "10:22:28",
-    lastArrivalPlace: "フィニッシュ",
-    startTime: "9:31:00",
+    arrivals:[
+      {place:"スタート", time: "9:31:00"},
+      {place:"地点1", time: "9:47:00"},
+      {place:"地点２", time: "10:02:00"},
+      {place:"フィニッシュ",time:"10:22:28"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -52,15 +59,17 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 3,
-    rank: 3,
+    rank: 18,
     raceNumber: 6,
     name:"和田 康義",
     category: "6km男子",
-    lastArrivalTime: "10:10:00",
-    lastArrivalPlace: "DNF",
-    startTime: "9:32:00",
+    arrivals:[
+      {place:"スタート", time: "9:32:00"},
+      {place:"地点1", time: "9:49:00"},
+      {place:"地点2", time: "10:04:00"},
+    ],
     dns: null,
-    dnf: true,
+    dnf: true,//DNF表示用仮データ
     dq: null,
     dnsContent: undefined,
     dnfContent: undefined,
@@ -72,9 +81,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 7,
     name:"田中 達也",
     category: "6km男子",
-    lastArrivalTime:"10:25:28",
-    lastArrivalPlace: "地点2",
-    startTime: "9:33:00",
+    arrivals:[
+      {place:"スタート", time: "9:33:00"},
+      {place:"地点1", time: "9:49:00"},
+      {place:"地点２", time: "10:04:00"},
+      {place:"フィニッシュ",time:"10:24:29"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -88,9 +100,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 8,
     name:"山田 和樹",
     category: "6km男子",
-    lastArrivalTime:"10:27:28",
-    lastArrivalPlace: "地点2",
-    startTime: "9:34:00",
+    arrivals:[
+      {place:"スタート", time: "9:34:00"},
+      {place:"地点1", time: "9:51:00"},
+      {place:"地点２", time: "10:06:00"},
+      {place:"フィニッシュ",time:"10:27:35"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -104,9 +119,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 9,
     name:"荒井 誠也",
     category: "6km男子",
-    lastArrivalTime: "10:29:28",
-    lastArrivalPlace: "地点2",
-    startTime: "9:35:00",
+    arrivals:[
+      {place:"スタート", time: "9:35:00"},
+      {place:"地点1", time: "9:53:00"},
+      {place:"地点２", time: "10:08:00"},
+      {place:"フィニッシュ",time:"10:29:37"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -120,9 +138,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 10,
     name:"新庄 武",
     category: "6km男子",
-    lastArrivalTime: "10:31:28",
-    lastArrivalPlace: "地点2",
-    startTime: "9:36:00",
+    arrivals:[
+      {place:"スタート", time: "9:36:00"},
+      {place:"地点1", time: "9:55:00"},
+      {place:"地点２", time: "10:10:00"},
+      {place:"フィニッシュ",time:"10:31:39"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -136,9 +157,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 11,
     name:"茜 新",
     category: "6km男子",
-    lastArrivalTime: "10:33:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:37:00",
+    arrivals:[
+      {place:"スタート", time: "9:37:00"},
+      {place:"地点1", time: "9:57:00"},
+      {place:"地点２", time: "10:12:00"},
+      {place:"フィニッシュ",time:"10:33:41"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -152,9 +176,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 12,
     name:"鈴木 竹",
     category: "6km男子",
-    lastArrivalTime: "10:35:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:38:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:00"},
+      {place:"地点1", time: "9:59:00"},
+      {place:"地点２", time: "10:14:00"},
+      {place:"フィニッシュ",time:"10:35:43"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -168,9 +195,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 13,
     name:"David Anderson",
     category: "6km男子",
-    lastArrivalTime: "10:37:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:39:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:10"},
+      {place:"地点1", time: "9:59:10"},
+      {place:"地点２", time: "10:14:10"},
+      {place:"フィニッシュ",time:"10:37:44"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -184,9 +214,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 14,
     name:"パク ピョンイル",
     category: "6km男子",
-    lastArrivalTime: "10:39:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:40:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:20"},
+      {place:"地点1", time: "9:59:20"},
+      {place:"地点２", time: "10:14:20"},
+      {place:"フィニッシュ",time:"10:39:45"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -200,9 +233,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 15,
     name:"Aran Parker",
     category: "6km男子",
-    lastArrivalTime: "10:41:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:41:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:30"},
+      {place:"地点1", time: "9:59:30"},
+      {place:"地点２", time: "10:14:30"},
+      {place:"フィニッシュ",time:"10:39:46"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -216,9 +252,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 16,
     name:"山内 正",
     category: "6km男子",
-    lastArrivalTime: "10:43:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:42:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:40"},
+      {place:"地点1", time: "9:59:40"},
+      {place:"地点２", time: "10:14:40"},
+      {place:"フィニッシュ",time:"10:39:47"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
@@ -232,9 +271,12 @@ export const dummyRunners: RunnersData[] = [
     raceNumber: 17,
     name:"岡田 元",
     category: "6km男子",
-    lastArrivalTime: "10:45:28",
-    lastArrivalPlace: "地点1",
-    startTime: "9:43:00",
+    arrivals:[
+      {place:"スタート", time: "9:39:50"},
+      {place:"地点1", time: "9:59:50"},
+      {place:"地点２", time: "10:14:50"},
+      {place:"フィニッシュ",time:"10:45:48"},
+    ],
     dns: null,
     dnf: null,
     dq: null,
