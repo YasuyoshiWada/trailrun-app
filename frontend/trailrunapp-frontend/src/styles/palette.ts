@@ -12,7 +12,7 @@ export const palette = {
   lightGray: '#D9D9D9'
 };
 
-export const arrivalStatusColorMap: Record<string, string> = {
+export const statusColorMap: Record<string, string> = {
 "未受付": palette.gray,
 "受付済み": palette.aquaLight,
 "DNS": palette.orange,

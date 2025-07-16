@@ -4,7 +4,8 @@ import { RunnersData } from "../data/dummyRunners";
 import DNSButton from "./button/DnsButton";
 import DNFButton from "./button/DnfButton";
 import DQButton from "./button/DqButton";
-import { palette, arrivalStatusColorMap } from "../styles/palette";
+import TimeDetailButton from "./button/TimeDetailButton";
+import { palette, statusColorMap } from "../styles/palette";
 
 
 const  TableHeaderSx = {
@@ -29,17 +30,25 @@ type Props = {
   onDnsClick: (id: number) => void;
   onDnfClick: (id: number) => void;
   onDqClick: (id: number) => void;
+  onTimeDetailClick: (id: number) => void;
 };
 
 //最終到達の時間と場所
 export const getLastArrivalDisplay = (runner: RunnersData) => {
-  return runner.lastArrivalPlace
-  ? `${runner.lastArrivalTime} (${runner.lastArrivalPlace})`
-  : runner.lastArrivalTime;
+  if (!runner.arrivals.length) return "";
+  const last = runner.arrivals[runner.arrivals.length -1];
+  return `${last.time} (${last.place})`;
 }
 
+//RunnersDataからスタートを取得する関数
+const getSartTime = (runner:RunnersData) => {
+  const startArrival = runner.arrivals.find(a => a.place === "スタート");
+  return startArrival ? startArrival.time : "-";
+}
+
+
 // 見出しだけのテーブル
-const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick }) => (
+const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick, onTimeDetailClick }) => (
   <Box
   sx={{ mt: 2, mb: 4,
   }}>
@@ -72,7 +81,12 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
             <TableCell sx={{
               ...TableRowSx,
               ...TableCellSx,
-              color:arrivalStatusColorMap[runner.lastArrivalPlace] || palette.darkGray
+              //最終到達の色の定義はpaletteでしていて、ダミーデータのlastArrivalPlaceと同じ値が見つかった場合に色を適用している仕様。
+              color:statusColorMap[
+                runner.arrivals.length
+                ? runner.arrivals[runner.arrivals.length -1].place
+                :""
+              ] || palette.darkGray
               }}
               >
               {getLastArrivalDisplay(runner)}
@@ -80,7 +94,7 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.raceNumber}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.name}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.category}</TableCell>
-            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.startTime}</TableCell>
+            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{getSartTime(runner)}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DNSButton
             value={runner.dns}
             onClick={() => onDnsClick(runner.id)}
@@ -94,6 +108,11 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DQButton
             value={runner.dq}
             onClick={() => onDqClick(runner.id)}
+            />
+            </TableCell>
+            {/* Time詳細ボタン */}
+            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><TimeDetailButton
+            onClick={ () => onTimeDetailClick(runner.id)}
             />
             </TableCell>
           </TableRow>

@@ -6,16 +6,22 @@ import HorizontalScroller from "../../components/HorizontalScroller";
 import { dummyRaceData } from "../../data/dummyRaceData";
 import { RunnersData, dummyRunners } from "../../data/dummyRunners";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
-import RaceEntryTable,{ getLastArrivalDisplay} from "../../components/RaceEntryTable";
+import RaceEntryTable,{ getLastArrivalDisplay } from "../../components/RaceEntryTable";
 import SearchBar from "../../components/SearchBar";
 import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
 import { palette } from "../../styles/palette";
+//ステータスバーのlabelにmatchした色を渡す関数mapStatusWithColorのimport
+import { mapStatusWithColor } from "../dashboard/DashboardPage";
+import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 
 
 const CategoryRacePage:React.FC =() => {
-//popupのopen
+//DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
+  //Time詳細popup open
+  const [timeDialogOpen, setTimeDialogOpen] = useState(false);
+
   const [selectedRunnerId, setSelectedRunnerId] = useState<number | null>(null);
 
   const [runners, setRunners] = useState<RunnersData[]>(dummyRunners);
@@ -54,6 +60,11 @@ const filteredRunners = runners.filter(r => {
     setDialogType("DQ");
     setDialogOpen(true);
   };
+  //TimeDetailpopup
+  const handleTimeDetailClick = (runnerId: number) => {
+    setSelectedRunnerId(runnerId);
+    setDialogOpen(true);
+  }
 
 //ダイアログ「はい」押下時のstate更新
 const handleConfirm = (reason: string) => {
@@ -97,6 +108,7 @@ const dialogProps = {
 }[dialogType];
 
   const isMobile = useResponsive();
+  //6km男子の定数での定義
   const sixKmMaleData = dummyRaceData.find(
     (data) => data.categoryName === "6Km 男子"
   );
@@ -116,7 +128,7 @@ const dialogProps = {
         <RaceCategoryStatusBar
           categoryName={sixKmMaleData.categoryName}
           totalParticipants={sixKmMaleData.totalParticipants}
-          statusList={sixKmMaleData.statusList}
+          statusList={mapStatusWithColor(sixKmMaleData.statusList)}
         />
         )}
         <SearchBar value={searchText} onChange={e => setSearchText(e.target.value)} />
@@ -130,8 +142,9 @@ const dialogProps = {
       onDnsClick={handleDnsClick}
       onDnfClick={handleDnfClick}
       onDqClick={handleDqClick}
+      onTimeDetailClick={handleTimeDetailClick}
     />
-    {/* DNSダイアログ表示 */}
+    {/* DNS,DNF,DQダイアログ表示 */}
   <RunnerStatusPopupDialog
   open={dialogOpen}
   runner={selectedRunner}
@@ -142,6 +155,11 @@ const dialogProps = {
   confirmColor={dialogProps.confirmColor}
   cancelColor={dialogProps.cancelColor}
   />
+  {/* <RunnerTimeDetailPopup
+  open={timeDialogOpen}
+  runner={selectedRunner}
+  onCancel={handleDialogCancel}
+  /> */}
   </Box>
 </Box>
   )
