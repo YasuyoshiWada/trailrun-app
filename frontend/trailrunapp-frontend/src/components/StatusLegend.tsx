@@ -19,12 +19,12 @@ type statusList ={
 const statusList : statusList[] = [
   { label: '未受付', color: palette.gray, icon: <HelpOutlineIcon />},
   { label: '受付済み', color: palette.aquaLight, icon: <PersonAddAlt1Icon />},
-  { label: 'DNS', color: palette.orange, icon: <RemoveCircleOutlineIcon />},
   { label: 'スタート', color: palette.navyBlue, icon: <DirectionsRunIcon />},
   { label: '地点1', color: palette.darkGray, icon: <LocationOnIcon />},
   { label: '地点2', color: palette.cyan, icon: < LocationOnIcon />},
-  { label: 'DNF', color: palette.mustardYellow, icon: <NotInterestedIcon />},
   { label: 'フィニッシュ', color: palette.limeGreen, icon: <EmojiEventsIcon />},
+  { label: 'DNS', color: palette.orange, icon: <RemoveCircleOutlineIcon />},
+  { label: 'DNF', color: palette.mustardYellow, icon: <NotInterestedIcon />},
   { label: 'DQ', color: palette.coralRed, icon: <HighlightOffIcon />}
 ];
 

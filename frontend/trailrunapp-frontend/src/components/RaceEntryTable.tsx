@@ -41,7 +41,7 @@ export const getLastArrivalDisplay = (runner: RunnersData) => {
 }
 
 //RunnersDataからスタートを取得する関数
-const getSartTime = (runner:RunnersData) => {
+const getStartTime = (runner:RunnersData) => {
   const startArrival = runner.arrivals.find(a => a.place === "スタート");
   return startArrival ? startArrival.time : "-";
 }
@@ -94,7 +94,9 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.raceNumber}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.name}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.category}</TableCell>
-            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{getSartTime(runner)}</TableCell>
+            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{getStartTime(runner)}</TableCell>
+            {/* onClick時にDns,Dnf,Dq,Timeそれぞれ渡す値を変えてそれぞれに対応したpopupを開くロジックになっている.
+            onDnsClick{runner.id}でクリックした選手のデータのpopup(Dns,Dnf,Dq,Timeなどの)が開く仕組み */}
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}><DNSButton
             value={runner.dns}
             onClick={() => onDnsClick(runner.id)}

@@ -13,7 +13,7 @@ const DNFButton: React.FC<DNFButtonProps> = ({ value, onClick }) => (
     size="small"
     onClick={onClick}
     sx={{
-      backgroundColor:palette.mustardYellow,
+      backgroundColor: value ? palette.mustardYellow: palette.gray,
       color: palette.textPrimary,
       opacity: value ? 1 : 0.5,
       borderRadius: "1.2rem",

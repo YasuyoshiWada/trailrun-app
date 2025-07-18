@@ -53,7 +53,8 @@ const totalParticipants = dummyRaceData.reduce((sum, cat) => sum + cat.totalPart
     >
       <Box
       sx={{
-        overflowX: isMobile ? "auto" : "visible",
+        // overflowX: isMobile ? "auto" : "visible",
+        overflowX: "auto",
         width: "100%",
       }}
       >

@@ -10,6 +10,7 @@ type RunnerStatusPopupProps = {
   reasonLabel: string;
   onCancel: () => void;
   onConfirm: (Reason: string) => void;
+  onExited?: () => void;//親で閉じるpopupの一瞬popupが小さくなる現象を解消する値
   confirmColor: string;
   cancelColor: string;
 };
@@ -21,6 +22,7 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
   reasonLabel,
   onCancel,
   onConfirm,
+  onExited,
   confirmColor,
   cancelColor,
 }) => {
@@ -34,6 +36,7 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
   return (
     <PopupDialog
     open={open}
+    onExited={onExited}
     description={
       runner ? (
         <>
