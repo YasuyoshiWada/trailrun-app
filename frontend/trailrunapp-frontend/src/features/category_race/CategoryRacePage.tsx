@@ -42,7 +42,7 @@ const filteredRunners = runners.filter(r => {
   //runner取得
   const selectedRunner = runners.find(r => r.id === selectedRunnerId);
 
-// ボタンクリック時
+// ボタンクリック時どのpopupを開くかクリックするボタンの場所と連動させる。
   const handleDnsClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
     setDialogType("DNS");
@@ -63,7 +63,7 @@ const filteredRunners = runners.filter(r => {
   //TimeDetailpopup
   const handleTimeDetailClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
-    setDialogOpen(true);
+    setTimeDialogOpen(true);
   }
 
 //ダイアログ「はい」押下時のstate更新
@@ -83,11 +83,16 @@ const handleConfirm = (reason: string) => {
   }
 };
 
-//ダイアログ「キャンセル」
+//ダイアログ「キャンセル」Dns,Dnf,Dq
 const handleDialogCancel = () => {
   setDialogOpen(false);
   setSelectedRunnerId(null);
 };
+//ダイアログ「キャンセル」Time
+const handleTimeDialogCancel = () => {
+  setTimeDialogOpen(false);
+  setSelectedRunnerId(null);
+}
 
 const dialogProps = {
   DNS: {
@@ -137,6 +142,7 @@ const dialogProps = {
   sx={{
     maxHeight: 'calc(100vh - 16rem)', overflowY: 'auto'
   }}>
+    {/* Dns,Dnf,Dq,TimeのボタンがRaceEntryTableでクリックされた時に渡ってくる値で開くdialogを決定している。onDnsClickなどが渡ってくる。それに対応したhandleDnsClick関数が反応して指定したpopupが開く仕組み */}
     <RaceEntryTable
       runners={filteredRunners}
       onDnsClick={handleDnsClick}
@@ -152,14 +158,15 @@ const dialogProps = {
   reasonLabel={dialogProps.reasonLabel}
   onConfirm={handleConfirm}
   onCancel={handleDialogCancel}
+  onExited={() => setSelectedRunnerId(null)}
   confirmColor={dialogProps.confirmColor}
   cancelColor={dialogProps.cancelColor}
   />
-  {/* <RunnerTimeDetailPopup
+  <RunnerTimeDetailPopup
   open={timeDialogOpen}
   runner={selectedRunner}
-  onCancel={handleDialogCancel}
-  /> */}
+  onCancel={handleTimeDialogCancel}
+  />
   </Box>
 </Box>
   )

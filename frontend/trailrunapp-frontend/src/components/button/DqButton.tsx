@@ -13,7 +13,7 @@ const DQButton: React.FC<DQButtonProps> = ({ value, onClick }) => (
     size="small"
     onClick={onClick}
     sx={{
-      backgroundColor:palette.coralRed,
+      backgroundColor: value? palette.coralRed : palette.gray,
       color: palette.textPrimary,
       opacity: value ? 1 : 0.5,
       borderRadius: "1.2rem",

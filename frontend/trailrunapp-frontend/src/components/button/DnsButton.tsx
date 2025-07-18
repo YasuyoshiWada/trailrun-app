@@ -13,7 +13,7 @@ const DNSButton: React.FC<DNSButtonProps> = ({ value, onClick }) => (
     size="small"
     onClick={onClick}
     sx={{
-      backgroundColor:palette.orange,
+      backgroundColor: value ? palette.orange : palette.gray,
       color: palette.textPrimary,
       opacity: value ? 1 : 0.5,
       borderRadius: "1.2rem",
@@ -25,6 +25,7 @@ const DNSButton: React.FC<DNSButtonProps> = ({ value, onClick }) => (
       boxShadow: "none",
     }}
 >
+  {/* ここは値がtrueならばDNSと表示させる */}
     {value ? "DNS" : ""}
 </Button>
 );
