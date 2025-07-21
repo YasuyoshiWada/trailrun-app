@@ -53,4 +53,84 @@ export const dummyRaceData: RaceCategoryData[] = [
       { label: "DNF", value: 40}
     ]
   },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
+  {
+    categoryName: "リレー女子",
+    totalParticipants: 400,
+    statusList: [
+      { label: "DNS", value: 60},
+      { label: "スタート", value: 140},
+      { label: "地点1", value: 160},
+      { label: "DNF", value: 40}
+    ]
+  },
 ];

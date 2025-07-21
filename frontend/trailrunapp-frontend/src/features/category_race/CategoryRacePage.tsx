@@ -6,13 +6,14 @@ import HorizontalScroller from "../../components/HorizontalScroller";
 import { dummyRaceData } from "../../data/dummyRaceData";
 import { RunnersData, dummyRunners } from "../../data/dummyRunners";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
-import RaceEntryTable,{ getLastArrivalDisplay } from "../../components/RaceEntryTable";
+import RaceEntryTable from "../../components/RaceEntryTable";
 import SearchBar from "../../components/SearchBar";
 import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
 import { palette } from "../../styles/palette";
 //ステータスバーのlabelにmatchした色を渡す関数mapStatusWithColorのimport
 import { mapStatusWithColor } from "../dashboard/DashboardPage";
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
+import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
 
 
 const CategoryRacePage:React.FC =() => {
