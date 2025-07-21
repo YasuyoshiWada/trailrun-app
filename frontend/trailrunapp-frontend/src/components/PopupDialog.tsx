@@ -1,6 +1,8 @@
 import React from "react";
 import { Dialog, DialogContent, DialogActions, Button } from "@mui/material";
 import { palette } from "../styles/palette";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 
 type PopupDialogProps = {
   open: boolean;
@@ -40,9 +42,27 @@ return (
     }
   }}
   >
-    <DialogContent>
+    <DialogContent
+    sx={{
+      position: 'relative'
+    }}>
       {description}
       {children}
+      <IconButton
+      aria-label="close"
+      onClick={onCancel}
+      sx={{
+        position: "absolute",
+        right: "1rem",
+        top: "1rem"
+      }}
+    >
+      <CloseIcon
+      sx={{
+        fontSize:"2rem"
+      }}
+      />
+    </IconButton>
     </DialogContent>
     <DialogActions sx={{ justifyContent: "center",gap: "5rem"}}>
       <Button
