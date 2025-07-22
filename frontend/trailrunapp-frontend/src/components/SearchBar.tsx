@@ -18,8 +18,7 @@ const SearchBar:React.FC<Props> = ({value, onChange }) => {
       maxWidth:"68rem",
       border:`0.2rem solid ${palette.cyan}`,
       borderRadius:"2rem",
-      background:`${palette.lightGray}`,
-      mb:"1rem"
+      background:`${palette.lightGray}`
     }}>
       <TextField
       value={value}
