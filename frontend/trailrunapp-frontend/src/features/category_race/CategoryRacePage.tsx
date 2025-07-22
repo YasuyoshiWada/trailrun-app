@@ -11,9 +11,13 @@ import SearchBar from "../../components/SearchBar";
 import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
 import { palette } from "../../styles/palette";
 //ステータスバーのlabelにmatchした色を渡す関数mapStatusWithColorのimport
-import { mapStatusWithColor } from "../dashboard/DashboardPage";
+import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
+import SortSearch from "../../components/SortSearch";
+
+//昇順、降順のタイプ
+type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
 
 const CategoryRacePage:React.FC =() => {
@@ -29,6 +33,8 @@ const CategoryRacePage:React.FC =() => {
 
   //検索ワード
   const [searchText, setSearchText] = useState("");
+  //昇順、降順
+  const[sortType, setSortType] = useState<SortType>("rankAsc");
 
   //曖昧検索でのfilterをかけている部分
 const filteredRunners = runners.filter(r => {
@@ -39,6 +45,22 @@ const filteredRunners = runners.filter(r => {
     ) ||
       lastArrivalDisplay.toLowerCase().includes(searchText.toLowerCase());
 });
+//昇順、降順検索
+const sortedRunners = React.useMemo(() => {
+  const copied = [...filteredRunners];
+  switch (sortType) {
+    case "rankAsc":
+      return copied.sort((a, b) => a.rank - b.rank);
+    case "rankDesc":
+      return copied.sort((a, b) => b.rank - a.rank);
+    case "numAsc":
+      return copied.sort((a, b) => a.raceNumber - b.raceNumber);
+    case "numDesc":
+      return copied.sort((a, b) => b.raceNumber - a.raceNumber);
+    default:
+    return copied;
+  }
+}, [filteredRunners, sortType]);
 
   //runner取得
   const selectedRunner = runners.find(r => r.id === selectedRunnerId);
@@ -61,7 +83,7 @@ const filteredRunners = runners.filter(r => {
     setDialogType("DQ");
     setDialogOpen(true);
   };
-  //TimeDetailpopup
+  //TimeDetailPopup
   const handleTimeDetailClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
     setTimeDialogOpen(true);
@@ -137,7 +159,17 @@ const dialogProps = {
           statusList={mapStatusWithColor(sixKmMaleData.statusList)}
         />
         )}
-        <SearchBar value={searchText} onChange={e => setSearchText(e.target.value)} />
+      <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+      }}>
+        <SortSearch sortType={sortType} onChange={setSortType}/>
+        <SearchBar value={searchText} onChange={e => setSearchText(e.target.value)}
+          
+        />
+      </Box>
+
   </Box>
   <Box
   sx={{
@@ -145,7 +177,7 @@ const dialogProps = {
   }}>
     {/* Dns,Dnf,Dq,TimeのボタンがRaceEntryTableでクリックされた時に渡ってくる値で開くdialogを決定している。onDnsClickなどが渡ってくる。それに対応したhandleDnsClick関数が反応して指定したpopupが開く仕組み */}
     <RaceEntryTable
-      runners={filteredRunners}
+      runners={sortedRunners}
       onDnsClick={handleDnsClick}
       onDnfClick={handleDnfClick}
       onDqClick={handleDqClick}

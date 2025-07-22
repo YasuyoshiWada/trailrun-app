@@ -8,6 +8,7 @@ import {StatusItem, RaceCategoryData, dummyRaceData } from "../../data/dummyRace
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { palette, statusColorMap } from "../../styles/palette";
+import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 
 //ステータスバー合計値ロジック
 function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
@@ -26,12 +27,7 @@ function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
     color
   }));
 }
-//ステータスバーのlabelにmatchした色を渡す関数
-export const mapStatusWithColor = (statusList:StatusItem[]) =>
-  statusList.map(status => ({
-    ...status,
-    color: statusColorMap[status.label] || palette.darkGray,
-  }));
+
 
 const DashboardPage: React.FC = () => {
   const isMobile = useResponsive();

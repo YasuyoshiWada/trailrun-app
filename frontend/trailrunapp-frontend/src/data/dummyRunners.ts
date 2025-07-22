@@ -59,7 +59,7 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 3,
-    rank: 18,
+    rank: 5,
     raceNumber: 6,
     name:"和田 康義",
     category: "6km男子",
@@ -67,9 +67,10 @@ export const dummyRunners: RunnersData[] = [
       {place:"スタート", time: "9:32:00"},
       {place:"地点1", time: "9:49:00"},
       {place:"地点2", time: "10:04:00"},
+      {place:"フィニッシュ", time:"10:24:22"}
     ],
     dns: null,
-    dnf: true,//DNF表示用仮データ
+    dnf: null,
     dq: null,
     dnsContent: undefined,
     dnfContent: undefined,
@@ -77,15 +78,14 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 4,
-    rank: 4,
+    rank: 24,
     raceNumber: 7,
     name:"田中 達也",
     category: "6km男子",
     arrivals:[
       {place:"スタート", time: "9:33:00"},
       {place:"地点1", time: "9:49:00"},
-      {place:"地点２", time: "10:04:00"},
-      {place:"フィニッシュ",time:"10:24:29"},
+      {place:"地点2", time: "10:04:00"},
     ],
     dns: null,
     dnf: null,
@@ -96,18 +96,16 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 5,
-    rank: 5,
+    rank: 25,
     raceNumber: 8,
     name:"山田 和樹",
     category: "6km男子",
     arrivals:[
       {place:"スタート", time: "9:34:00"},
       {place:"地点1", time: "9:51:00"},
-      {place:"地点２", time: "10:06:00"},
-      {place:"フィニッシュ",time:"10:27:35"},
     ],
     dns: null,
-    dnf: null,
+    dnf: true,
     dq: null,
     dnsContent: undefined,
     dnfContent: undefined,
@@ -115,8 +113,8 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 6,
-    rank: 6,
-    raceNumber: 9,
+    rank: 16,
+    raceNumber: 90,
     name:"荒井 誠也",
     category: "6km男子",
     arrivals:[
@@ -135,7 +133,7 @@ export const dummyRunners: RunnersData[] = [
   {
     id: 7,
     rank: 7,
-    raceNumber: 10,
+    raceNumber: 101,
     name:"新庄 武",
     category: "6km男子",
     arrivals:[
@@ -173,7 +171,7 @@ export const dummyRunners: RunnersData[] = [
   {
     id: 9,
     rank: 9,
-    raceNumber: 12,
+    raceNumber: 22,
     name:"鈴木 竹",
     category: "6km男子",
     arrivals:[
@@ -192,7 +190,7 @@ export const dummyRunners: RunnersData[] = [
   {
     id: 10,
     rank: 10,
-    raceNumber: 13,
+    raceNumber: 23,
     name:"David Anderson",
     category: "6km男子",
     arrivals:[
@@ -249,7 +247,7 @@ export const dummyRunners: RunnersData[] = [
   {
     id: 13,
     rank: 13,
-    raceNumber: 16,
+    raceNumber: 19,
     name:"山内 正",
     category: "6km男子",
     arrivals:[
@@ -286,12 +284,12 @@ export const dummyRunners: RunnersData[] = [
   },
   {
     id: 15,
-    rank: 18,
+    rank: 30,
     raceNumber: 18,
     name:"始 梨",
     category: "6km男子",
     arrivals:[
-      
+      {place:"スタート", time: "9:45:00"}
     ],
     dns: null,
     dnf: null,
