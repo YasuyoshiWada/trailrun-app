@@ -22,7 +22,7 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
         width:'100vw',
         height: '100vh',
         maxWidth:'100vw',
-        overflow: 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
+        overflowY: 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
       }}
       >
         {!isMobile && <Sidebar />}
@@ -36,7 +36,7 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
                   height: "100vh",
                   boxSizing:'border-box',
                   minHeight: 0,
-                   ...( !isMobile && { marginLeft: '24rem' } ), // ← サイドバー分のスペース確保
+                   ...( !isMobile && { marginLeft: '20rem' } ), // ← サイドバー分のスペース確保
                   }}>
 
           {isMobile && <Toolbar />} {/* AppBar の高さ分スペースを確保 */}

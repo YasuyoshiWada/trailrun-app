@@ -4,5 +4,5 @@ import { RunnersData } from "../data/dummyRunners";
 export const getLastArrivalDisplay = (runner: RunnersData) => {
   if (!runner.arrivals.length) return "";
   const last = runner.arrivals[runner.arrivals.length -1];
-  return `${last.time} (${last.place})`;
+  return `${last.time}`;
 }
