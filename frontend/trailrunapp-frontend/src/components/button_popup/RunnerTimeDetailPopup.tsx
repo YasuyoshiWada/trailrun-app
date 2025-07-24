@@ -16,14 +16,14 @@ type RunnerTimeDetailPopupProps = {
 const  TableHeaderSx = {
   fontSize: '2rem',
   fontWeight: 'bold',
-  border: `1px solid ${palette.lightGray}`,
+  border: `1px solid ${palette.gray}`,
   textAlign: 'center'
 };
 
 const TableCellSx = {
   fontSize: '1.6rem',
   fontWeight: 'bold',
-  border: `1px solid ${palette.lightGray}`,
+  border: `1px solid ${palette.gray}`,
   textAlign: 'center'
 }
 
@@ -39,14 +39,13 @@ return (
   <Dialog
   open={open}
   onClose={onCancel}
-  sx={{
-
-  }}
   >
     <DialogContent
     sx={{
-      marginBottom: '1rem',
-      position: 'relative'
+      marginTop: '1.7rem',
+      position: 'relative',
+      width:"55rem",//popupの横幅
+      height:"35rem"
     }}>
       <IconButton
         aria-label="close"
@@ -54,7 +53,7 @@ return (
         sx={{
           position:"absolute",
           right: "1rem",
-          top: "1rem",
+          top: "-1rem",
         }}
       >
         <CloseIcon
@@ -70,7 +69,7 @@ return (
         textAlign: "center",
         marginBottom: "1rem"
       }}>
-        {runner?.name}_地点通過記録
+        {runner?.name} 地点通過記録
       </div>
       <Table>
         <TableHead>

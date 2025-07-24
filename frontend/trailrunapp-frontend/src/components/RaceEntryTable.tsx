@@ -8,22 +8,25 @@ import TimeDetailButton from "./button/TimeDetailButton";
 import { palette, statusColorMap } from "../styles/palette";
 import { getElapsed } from "../utils/getElapsed";
 import { getLastArrivalDisplay } from "../utils/getLastArrivalDisplay";
-import ToggleOffTwoToneIcon from '@mui/icons-material/ToggleOffTwoTone';
-import ToggleOnTwoToneIcon from '@mui/icons-material/ToggleOnTwoTone';
+import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
+import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import IconButton from "@mui/material/IconButton";
 
 
 const  TableHeaderSx = {
-  fontSize: '2rem',
+  fontSize: '1.6rem',
   fontWeight: 'bold',
-  borderTop: `1px solid ${palette.lightGray}`,
-  borderBottom: `1px solid ${palette.lightGray}`,
+  borderTop: `1px solid ${palette.gray}`,
+  borderBottom: `1px solid ${palette.gray}`,
 };
 const TableRowSx = {
-  fontSize: '2rem',
-  borderTop: `1px solid ${palette.lightGray}`,
-  borderBottom: `1px solid ${palette.lightGray}`,
-}
+  fontSize: '1.6rem',
+  borderTop: `1px solid ${palette.gray}`,
+  borderBottom: `1px solid ${palette.gray}`,
+  "&:last-child td": {
+    borderBottom: `1px solid ${palette.gray} !important`,
+  },
+};
 const TableCellSx = {
   borderLeft: `1px solid ${palette.lightGray}`,
   borderRight: `1px solid ${palette.lightGray}`,
@@ -50,7 +53,7 @@ const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDq
 
 return (
   <Box
-  sx={{ mt: 2, mb: 4,
+  sx={{  mb: "7rem",
   }}>
     <Table>
       <TableHead
@@ -62,36 +65,62 @@ return (
       }}>
         <TableRow>
           <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>順位</TableCell>
-          <TableCell
-          sx={{ ...TableHeaderSx, ...TableCellSx}}>
-            <Box sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap:"2.5rem"
-            }}>
-            {showElapsed ? "タイム" : "最終到達時刻"}
+          <TableCell sx={{ ...TableHeaderSx}}>
             <IconButton
-            aria-label="toggle"
-            onClick={() => setShowElapsed( prev =>!prev)}
+              disableRipple
+              aria-label="toggle"
+              onClick={() => setShowElapsed( prev =>!prev)}
+              sx={{ p: 0,
+                position: "relative",
+                width: 48,
+                height: 48,
+                backgroundColor: "transparent",
+                "&:hover": {
+                backgroundColor: "transparent", //背景色は変えない
+                "& .MuiSvgIcon-root": {
+                  opacity: 0.5, //アイコンのみ薄く
+                  transition: "opacity 0.2s",
+                }
+                }
+                }}
             >
-            {showElapsed  ? (
-            <ToggleOnTwoToneIcon
-            sx={{
-              fontSize:"2.4rem",
-              color:  palette.limeGreen,
-            }} />
-            ) : (
-            <ToggleOffTwoToneIcon
-            sx={{
-              fontSize:"2.4rem",
-              color: palette.darkGray,
-            }}
-            />
-            )}
+                  <ToggleOnOutlinedIcon
+                  sx={{
+                    position: "absolute",
+                    fontSize:"4rem",
+                    color:  palette.orange,
+                    display: showElapsed ? "block" : "none",
+                    transition: "opacity 0.2s",
+                    PointerEvent: "none", //これによりhoverがiconButtonに伝わる
+                  }}
+                  />
+                  <ToggleOffOutlinedIcon
+                  sx={{
+                    position: "absolute",
+                    fontSize:"4rem",
+                    color: palette.darkGray,
+                    display: showElapsed ? "none" : "block",
+                    transition: "opacity 0.2s",
+                    PointerEvent: "none",
+                  }}
+                  />
             </IconButton>
-            </Box>
           </TableCell>
+          <TableCell
+          sx={{ ...TableHeaderSx,
+            p: 0,
+          }}>
+          <Box sx={{
+            minWidth: "13rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+              {showElapsed ? "タイム" : "最終到達時刻"}
+          </Box>
+        </TableCell>
+
+          <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>最終到達地点</TableCell>
           <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>ゼッケン</TableCell>
           <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>名前</TableCell>
           <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>カテゴリ</TableCell>
@@ -115,17 +144,19 @@ return (
           let display;
           if (showElapsed) {
             display = (lastTime)
-            ? `${getElapsed(runner, lastTime)} (${lastPlace})`
+            ? `${getElapsed(runner, lastTime)}`//地点を同時に表示したければ、ここにlastPlaceを記述
             : "-";
           } else {
-            display = getLastArrivalDisplay(runner);
+            display = getLastArrivalDisplay(runner);//最終到達地点のタイムを出す外部関数
           }
 
           return (
           <TableRow
           key={runner.id}>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.rank}</TableCell>
-            <TableCell sx={{
+            <TableCell
+            colSpan={2}
+            sx={{
               ...TableRowSx,
               ...TableCellSx,
               //最終到達の色の定義はpaletteでしていて、ダミーデータのlastArrivalPlaceと同じ値が見つかった場合に色を適用している仕様。
@@ -138,6 +169,18 @@ return (
               >
               {display}
             </TableCell>
+            <TableCell
+            sx={{
+              ...TableRowSx,
+              ...TableCellSx,
+              color:statusColorMap[
+                runner.arrivals.length
+                ? last.place
+                :""
+              ] || palette.darkGray
+            }}
+              >
+                {lastPlace}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.raceNumber}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.name}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.category}</TableCell>

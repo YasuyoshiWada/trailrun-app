@@ -142,7 +142,10 @@ const dialogProps = {
   );
 
   return(
-<Box>
+<Box
+sx={{
+  overflow:"auto"
+}}>
   <Box
   sx={{
     ml: isMobile ? 0: 2,
@@ -166,14 +169,14 @@ const dialogProps = {
       }}>
         <SortSearch sortType={sortType} onChange={setSortType}/>
         <SearchBar value={searchText} onChange={e => setSearchText(e.target.value)}
-          
+
         />
       </Box>
 
   </Box>
   <Box
   sx={{
-    maxHeight: 'calc(100vh - 16rem)', overflowY: 'auto'
+    maxHeight: 'calc(100vh - 16rem)', overflowY: 'auto', mt: '1.4rem'
   }}>
     {/* Dns,Dnf,Dq,TimeのボタンがRaceEntryTableでクリックされた時に渡ってくる値で開くdialogを決定している。onDnsClickなどが渡ってくる。それに対応したhandleDnsClick関数が反応して指定したpopupが開く仕組み */}
     <RaceEntryTable

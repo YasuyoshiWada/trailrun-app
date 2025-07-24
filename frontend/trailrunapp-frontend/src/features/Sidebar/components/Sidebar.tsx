@@ -11,7 +11,7 @@ const Sidebar: React.FC = () => {
         position: 'fixed',
         top: 0,
         left: 0,
-        width:'24rem' ,
+        width:'20rem' ,
         height: '100vh',//高さは画面に合わせて縦一杯に広がる設定
         backgroundColor: palette.cyan,
         color: palette.textPrimary,
