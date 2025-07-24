@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography, useMediaQuery } from '@mui/material';
-import StatusLegend from "../../../components/StatusLegend";
+import { Box } from '@mui/material';
+
 
 const DashboardTitle:React.FC= () => {
 
@@ -10,17 +10,10 @@ const DashboardTitle:React.FC= () => {
     sx={{
       fontSize: '3.2rem',
       fontWeight: 'bold',
-      mb: '4rem',
     }}
   >
     レース進行状況
-  </Box>
-  <Box
-  sx={{
-    mb:4,
-  }}
-  >
-  </Box>
+    </Box>
   </>
 
   )

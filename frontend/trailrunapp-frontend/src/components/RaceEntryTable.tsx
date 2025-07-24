@@ -76,7 +76,6 @@ return (
           <Box sx={{
             minWidth: "13rem",
             display: showElapsed ? "inline-block" : "flex",
-            transition: "transform 0.4s", //横からヘッダーの文字が切り替わるアニメーション
             transform: showElapsed ? "translateX(2rem)" : "none",
             alignItems: "center",
             justifyContent: "center",

@@ -135,8 +135,9 @@ const dialogProps = {
   },
 }[dialogType];
 
-  const isMobile = useResponsive();
+  const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
+  const responsive = {isSmallMobile, isMobile}
   const sixKmMaleData = dummyRaceData.find(
     (data) => data.categoryName === "6Km 男子"
   );
@@ -151,7 +152,9 @@ sx={{
     ml: isMobile ? 0: 2,
     mt: isMobile ? 2: 0,
   }}>
-        <HorizontalScroller isMobile={isMobile}>
+        <HorizontalScroller
+        isSmallMobile={isSmallMobile}
+        isMobile={isMobile}>
           <StatusLegend isMobile={isMobile} />
         </HorizontalScroller>
         {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
@@ -160,6 +163,7 @@ sx={{
           categoryName={sixKmMaleData.categoryName}
           totalParticipants={sixKmMaleData.totalParticipants}
           statusList={mapStatusWithColor(sixKmMaleData.statusList)}
+          responsive={responsive}
         />
         )}
       <Box

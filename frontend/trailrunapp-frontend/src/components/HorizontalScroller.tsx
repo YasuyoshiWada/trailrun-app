@@ -3,8 +3,8 @@ import { Box, IconButton } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import useResponsive from "../hooks/useResponsive";
 
-const HorizontalScroller: React.FC<{ children: React.ReactNode; isMobile: boolean }> = ({ children }) => {
-  const isMobile = useResponsive();
+const HorizontalScroller: React.FC<{ children: React.ReactNode; isSmallMobile:boolean, isMobile: boolean }> = ({ children }) => {
+  const {isSmallMobile,isMobile } = useResponsive();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -63,7 +63,7 @@ const HorizontalScroller: React.FC<{ children: React.ReactNode; isMobile: boolea
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            flexWrap: isMobile ? 'nowrap' : 'wrap',
+            flexWrap: (isSmallMobile || isMobile) ? 'nowrap' : 'wrap',
             gap: '2.4rem',
             scrollBehavior: "smooth",
             pl: showLeft ? 4 : 0,
