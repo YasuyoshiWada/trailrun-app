@@ -8,9 +8,7 @@ import TimeDetailButton from "./button/TimeDetailButton";
 import { palette, statusColorMap } from "../styles/palette";
 import { getElapsed } from "../utils/getElapsed";
 import { getLastArrivalDisplay } from "../utils/getLastArrivalDisplay";
-import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
-import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
-import IconButton from "@mui/material/IconButton";
+import ToggleElapsedButton from "./button/ToggleElapsedButton";
 
 
 const  TableHeaderSx = {
@@ -66,45 +64,10 @@ return (
         <TableRow>
           <TableCell sx={{ ...TableHeaderSx, ...TableCellSx}}>順位</TableCell>
           <TableCell sx={{ ...TableHeaderSx}}>
-            <IconButton
-              disableRipple
-              aria-label="toggle"
-              onClick={() => setShowElapsed( prev =>!prev)}
-              sx={{ p: 0,
-                position: "relative",
-                width: 48,
-                height: 48,
-                backgroundColor: "transparent",
-                "&:hover": {
-                backgroundColor: "transparent", //背景色は変えない
-                "& .MuiSvgIcon-root": {
-                  opacity: 0.5, //アイコンのみ薄く
-                  transition: "opacity 0.2s",
-                }
-                }
-                }}
-            >
-                  <ToggleOnOutlinedIcon
-                  sx={{
-                    position: "absolute",
-                    fontSize:"4rem",
-                    color:  palette.orange,
-                    display: showElapsed ? "block" : "none",
-                    transition: "opacity 0.2s",
-                    PointerEvent: "none", //これによりhoverがiconButtonに伝わる
-                  }}
-                  />
-                  <ToggleOffOutlinedIcon
-                  sx={{
-                    position: "absolute",
-                    fontSize:"4rem",
-                    color: palette.darkGray,
-                    display: showElapsed ? "none" : "block",
-                    transition: "opacity 0.2s",
-                    PointerEvent: "none",
-                  }}
-                  />
-            </IconButton>
+              <ToggleElapsedButton
+              showElapsed={showElapsed}
+              onToggle={() => setShowElapsed(prev => !prev)}
+              />
           </TableCell>
           <TableCell
           sx={{ ...TableHeaderSx,
@@ -112,7 +75,9 @@ return (
           }}>
           <Box sx={{
             minWidth: "13rem",
-            display: "flex",
+            display: showElapsed ? "inline-block" : "flex",
+            transition: "transform 0.4s", //横からヘッダーの文字が切り替わるアニメーション
+            transform: showElapsed ? "translateX(2rem)" : "none",
             alignItems: "center",
             justifyContent: "center",
           }}>
