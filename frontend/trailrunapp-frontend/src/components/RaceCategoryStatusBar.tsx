@@ -8,17 +8,43 @@ type StatusData = {
   color: string; // paletteから取得（MUI sxで使える）
 };
 
+//レスポンシブデザイン
+type Responsive = {
+  isSmallMobile: boolean;
+  isMobile: boolean;
+}
+
 type Props = {
   categoryName: string;
   totalParticipants: number;
   statusList: StatusData[];
+  responsive: Responsive;
 };
 
-const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipants, statusList}) => {
+const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipants, statusList,responsive }) => {
+  const { isSmallMobile, isMobile } = responsive;
+
   return (
-    <Box sx={{ display: 'flex', alignItems:'center', width: '80rem', height:'3rem', mb: '3.2rem'}}>
+    <Box
+    sx={{
+    display: 'flex',
+    flexDirection: (isSmallMobile || isMobile ) ? 'column' : 'row',
+    alignItems:'center',
+    width: isSmallMobile ? '40rem' : isMobile ? '45rem' : '80rem',
+    height:'auto',
+    mb: '1.2rem'
+    }}
+    >
       {/* 左側カテゴリ名+人数 */}
-      <Box sx={{width: '30%' }}>
+      <Box
+      sx={{
+        width:(isSmallMobile || isMobile) ? '100%' : '30%',
+        textAlign: (isSmallMobile || isMobile) ? 'center' : 'left',
+        ...(isSmallMobile || isMobile//この書き方で、isSmallMobileとisMobileのみにスタイルが適用
+          ? { display: 'flex', alignItems: 'center', gap: '1rem' }
+          : {}), // 何も指定しない場合は空オブジェクト
+        }}
+        >
         <Typography
           sx={{
             color:palette.textPrimary,
@@ -47,7 +73,7 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
       <Box
       sx={{
         display: 'flex',
-        width: '70rem',
+        width:(isSmallMobile || isMobile) ? '100%' : '70rem',
         height: '4rem',
         }}>
         {statusList.map((status,idx) => (

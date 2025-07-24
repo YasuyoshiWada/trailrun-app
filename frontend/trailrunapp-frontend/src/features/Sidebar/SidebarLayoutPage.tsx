@@ -10,11 +10,11 @@ type Props = {
 };
 
 const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
-  const isMobile = useResponsive();
+  const {isSmallMobile, isMobile} = useResponsive();
 
   return (
     <>
-      {isMobile && <MobileHeader />}
+      {(isSmallMobile || isMobile) && <MobileHeader />}
 
       <Box
       sx={{
@@ -22,10 +22,11 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
         width:'100vw',
         height: '100vh',
         maxWidth:'100vw',
-        overflowY: 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
+        overflowY:(isSmallMobile || isMobile) ? 'auto' : 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
+        overflowX: 'hidden',
       }}
       >
-        {!isMobile && <Sidebar />}
+        {!(isSmallMobile || isMobile) && <Sidebar />}
 
         <Box component="main"
               sx={{
@@ -36,10 +37,10 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
                   height: "100vh",
                   boxSizing:'border-box',
                   minHeight: 0,
-                   ...( !isMobile && { marginLeft: '20rem' } ), // ← サイドバー分のスペース確保
+                   ...( !(isSmallMobile || isMobile) && { marginLeft: '20rem' } ), // ← サイドバー分のスペース確保
                   }}>
 
-          {isMobile && <Toolbar />} {/* AppBar の高さ分スペースを確保 */}
+          {(isSmallMobile || isMobile) && <Toolbar />} {/* AppBar の高さ分スペースを確保 */}
           {children}
         </Box>
       </Box>

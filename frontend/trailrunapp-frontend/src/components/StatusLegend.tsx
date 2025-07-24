@@ -28,18 +28,18 @@ const statusList : statusList[] = [
   { label: 'DQ', color: palette.coralRed, icon: <HighlightOffIcon />}
 ];
 
-const StatusLegend: React.FC< {isMobile?: boolean}> = ({isMobile}) => {
+const StatusLegend: React.FC< {isSmallMobile?: boolean, isMobile?: boolean}> = ({isSmallMobile, isMobile}) => {
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: isMobile ? 'nowrap' : 'wrap',
+        flexWrap: (isSmallMobile || isMobile) ? 'nowrap' : 'wrap',
         gap: '2.4rem',
         mb: '2.4rem',
-        justifyContent: isMobile ? 'flex-start' :'left',
+        justifyContent:(isSmallMobile || isMobile) ? 'flex-start' :'left',
         width:"100%",
-        minWidth: isMobile ? `${statusList.length * 120}px` : '0',
+        minWidth: (isSmallMobile || isMobile) ? `${statusList.length * 120}px` : '0',
       }}
       >
         {/* mapでstausListの中身を順番に取得、親要素のboxの中にcolorとlabelを挟む */}
@@ -51,7 +51,7 @@ const StatusLegend: React.FC< {isMobile?: boolean}> = ({isMobile}) => {
               alignItems: 'center',
               gap: '0.8rem',
               flex: '0 0 auto',
-              minWidth: isMobile ? '120px' : 'undefined',
+              minWidth: (isSmallMobile || isMobile) ? '120px' : 'undefined',
               whiteSpace: 'nowrap'
             }}
           >

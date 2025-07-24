@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { palette } from "../styles/palette";
@@ -9,6 +9,8 @@ type Props = {
 }
 
 const SearchBar:React.FC<Props> = ({value, onChange }) => {
+  const [focused, setFocused] = useState(false);
+
   return(
     <Box
     sx={{
@@ -16,13 +18,16 @@ const SearchBar:React.FC<Props> = ({value, onChange }) => {
       alignItems:"center",
       width:"100%",
       maxWidth:"68rem",
-      border:`0.2rem solid ${palette.cyan}`,
+      border:`0.3rem solid ${focused ? palette.cyan : palette.gray}`,
       borderRadius:"2rem",
-      background:`${palette.lightGray}`
+      background:palette.lightGray,
+      transition: "border-color 0.2s"
     }}>
       <TextField
       value={value}
       onChange={onChange}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       fullWidth
       id="search-bar"
       placeholder="名前を検索"

@@ -4,7 +4,7 @@ import DashboardTitle from "./components/DashboardTitle";
 import StatusLegend from "../../components/StatusLegend";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
-import {StatusItem, RaceCategoryData, dummyRaceData } from "../../data/dummyRaceData";
+import { RaceCategoryData, dummyRaceData } from "../../data/dummyRaceData";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { palette, statusColorMap } from "../../styles/palette";
@@ -30,11 +30,12 @@ function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
 
 
 const DashboardPage: React.FC = () => {
-  const isMobile = useResponsive();
+  const {isSmallMobile,isMobile} = useResponsive();
 
   //現在はdummyRaceDataを使用しているが、APIでデータを取得する予定
 const totalStatusList = getTotalStatusList(dummyRaceData);
 const totalParticipants = dummyRaceData.reduce((sum, cat) => sum + cat.totalParticipants, 0);
+const responsive = {isSmallMobile, isMobile}
 
   return (
     <Box
@@ -49,22 +50,33 @@ const totalParticipants = dummyRaceData.reduce((sum, cat) => sum + cat.totalPart
     >
       <Box
       sx={{
-        // overflowX: isMobile ? "auto" : "visible",
-        overflowX: "auto",
+        overflow: "auto",
         width: "100%",
       }}
       >
        {/* 横スクロール部分をHorizontalScrollerでまとめる */}
-        <HorizontalScroller isMobile={isMobile}>
-          <StatusLegend isMobile={isMobile} />
+        <HorizontalScroller
+        isSmallMobile={isSmallMobile}
+        isMobile={isMobile}
+        >
+          <StatusLegend
+          isSmallMobile={isSmallMobile}
+          isMobile={isMobile}
+          />
         </HorizontalScroller>
-        <Box sx={{ textAlign: isMobile ? 'center' : undefined }}>
+        <Box
+        sx={{
+          mb: (isSmallMobile || isMobile) ? 'undefined' : '3rem',
+          textAlign: (isSmallMobile || isMobile)? 'center' : undefined
+          }}
+          >
           <DashboardTitle />
         </Box>
         {/* 合計バーを表示 */}
         <RaceTotalStatusBar
           totalParticipants={totalParticipants}
           totalStatusList={mapStatusWithColor(totalStatusList)}
+          responsive={responsive}
           />
         {/* レースステータスバーの表示 */}
         {dummyRaceData.map((data) => (
@@ -73,6 +85,7 @@ const totalParticipants = dummyRaceData.reduce((sum, cat) => sum + cat.totalPart
             categoryName={data.categoryName}
             totalParticipants={data.totalParticipants}
             statusList={mapStatusWithColor(data.statusList)}
+            responsive={responsive}
           />
         ))}
       </Box>
