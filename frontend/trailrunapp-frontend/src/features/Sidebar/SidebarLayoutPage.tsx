@@ -7,9 +7,10 @@ import Sidebar from "./components/Sidebar";
 
 type Props = {
   children: React.ReactNode;
+  outerScroll?: boolean;
 };
 
-const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
+const SidebarLayoutPage: React.FC<Props> = ({ children, outerScroll = false }) => {
   const {isSmallMobile, isMobile} = useResponsive();
 
   return (
@@ -22,7 +23,7 @@ const SidebarLayoutPage: React.FC<Props> = ({ children }) => {
         width:'100vw',
         height: '100vh',
         maxWidth:'100vw',
-        overflowY:(isSmallMobile || isMobile) ? 'auto' : 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
+        overflowY:outerScroll ? 'auto' : 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
         overflowX: 'hidden',
       }}
       >

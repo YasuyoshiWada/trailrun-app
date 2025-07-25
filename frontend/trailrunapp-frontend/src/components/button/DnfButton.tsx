@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { palette } from "../../styles/palette";
+import useResponsive from "../../hooks/useResponsive";
 
 type DNFButtonProps = {
   value: boolean | null;
   onClick: () => void;
 };
 
-const DNFButton: React.FC<DNFButtonProps> = ({ value, onClick }) => (
+const DNFButton: React.FC<DNFButtonProps> = ({ value, onClick }) => {
+  const {isSmallMobile, isMobile} = useResponsive();
+  return(
   <Button
     variant="contained"
     size="small"
@@ -24,8 +27,9 @@ const DNFButton: React.FC<DNFButtonProps> = ({ value, onClick }) => (
       boxShadow: "none",
     }}
 >
-    {value ? "DNF" : ""}
+    {(isSmallMobile || isMobile) ? "DNF" : value ? "DNF" : ""}
 </Button>
-);
+)
+  };
 
 export default DNFButton;
