@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Box, Table, TableBody, TableCell, TableHead, TableRow, Button } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { RunnersData } from "../data/dummyRunners";
 import DNSButton from "./button/DnsButton";
 import DNFButton from "./button/DnfButton";
@@ -46,12 +46,13 @@ const getStartTime = (runner:RunnersData) => {
 }
 
 // 見出しだけのテーブル
-const RaceEntryTable: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick, onTimeDetailClick }) => {
+const RaceEntryTableDesktop: React.FC<Props> = ({ runners, onDnsClick, onDnfClick, onDqClick, onTimeDetailClick }) => {
   const [ showElapsed, setShowElapsed ] = useState(false);
 
 return (
   <Box
-  sx={{  mb: "7rem",
+  sx={{
+    // mb: "9rem",
   }}>
     <Table>
       <TableHead
@@ -179,4 +180,4 @@ return (
   </Box>
 );
 };
-export default RaceEntryTable;
+export default RaceEntryTableDesktop;

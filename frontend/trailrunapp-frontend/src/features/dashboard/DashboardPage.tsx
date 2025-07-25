@@ -40,7 +40,8 @@ const responsive = {isSmallMobile, isMobile}
   return (
     <Box
       sx={{
-        ml: isMobile ? 0 : 4,
+        ml: (isSmallMobile || isMobile) ? "2rem" : "2rem",
+        mt:"1.5rem",
         justifyContent: 'center',
         width: "100%",
         height: "100%",
@@ -50,7 +51,6 @@ const responsive = {isSmallMobile, isMobile}
     >
       <Box
       sx={{
-        overflow: "auto",
         width: "100%",
       }}
       >
@@ -66,7 +66,7 @@ const responsive = {isSmallMobile, isMobile}
         </HorizontalScroller>
         <Box
         sx={{
-          mb: (isSmallMobile || isMobile) ? 'undefined' : '3rem',
+          mb: (isSmallMobile || isMobile) ? '1rem' : '3rem',
           textAlign: (isSmallMobile || isMobile)? 'center' : undefined
           }}
           >

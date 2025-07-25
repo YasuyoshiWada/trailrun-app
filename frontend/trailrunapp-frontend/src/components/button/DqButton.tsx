@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { palette } from "../../styles/palette";
+import useResponsive from "../../hooks/useResponsive";
 
 type DQButtonProps = {
   value: boolean | null;
   onClick: () => void;
 };
 
-const DQButton: React.FC<DQButtonProps> = ({ value, onClick }) => (
+const DQButton: React.FC<DQButtonProps> = ({ value, onClick }) => {
+  const {isSmallMobile, isMobile} = useResponsive();
+  return (
   <Button
     variant="contained"
     size="small"
@@ -24,8 +27,9 @@ const DQButton: React.FC<DQButtonProps> = ({ value, onClick }) => (
       boxShadow: "none",
     }}
 >
-    {value ? "DQ" : ""}
+    {(isSmallMobile || isMobile) ? "DQ" : value ? "DQ" : ""}
 </Button>
-);
+)
+  };
 
 export default DQButton;

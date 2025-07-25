@@ -1,13 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { palette } from "../../styles/palette";
+import useResponsive from "../../hooks/useResponsive";
 
 type DNSButtonProps = {
   value: boolean | null;
   onClick: () => void;
 };
 
-const DNSButton: React.FC<DNSButtonProps> = ({ value, onClick }) => (
+const DNSButton: React.FC<DNSButtonProps> = ({ value, onClick }) => {
+  const {isSmallMobile, isMobile} = useResponsive();
+  return (
   <Button
     variant="contained"
     size="small"
@@ -26,8 +29,9 @@ const DNSButton: React.FC<DNSButtonProps> = ({ value, onClick }) => (
     }}
 >
   {/* ここは値がtrueならばDNSと表示させる */}
-    {value ? "DNS" : ""}
+    {(isSmallMobile || isMobile) ? "DNS" : value ? "DNS" : ""}
 </Button>
-);
+)
+  };
 
 export default DNSButton;
