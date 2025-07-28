@@ -1,5 +1,5 @@
 import React from "react";
-import { RunnersData } from "../../data/dummyRunners";
+import { RunnersData } from "../../data/runnersTypes";
 import { Dialog, DialogContent, DialogActions} from "@mui/material";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { palette, statusColorMap } from "../../styles/palette";
@@ -86,13 +86,17 @@ return (
             >
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.time}</TableCell>
-              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place === "スタート" ? "-" : getElapsed(runner,a.time)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </DialogContent>
-  </Dialog>
-)};
+              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{["未受付", "受付済み", "スタート"].includes(a.place) || !a.time
+          ? "-"
+          : getElapsed(runner, a.time)
+        }
+              </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </DialogContent>
+        </Dialog>
+      )};
 
 export default RunnerTimeDetailPopup;

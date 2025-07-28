@@ -1,5 +1,5 @@
 import React from "react";
-import { RunnersData } from "../../data/dummyRunners";
+import { RunnersData } from "../../data/runnersTypes";
 import { Dialog, DialogContent, DialogActions} from "@mui/material";
 import {Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { palette, statusColorMap } from "../../styles/palette";
@@ -20,14 +20,14 @@ type RunnerTimeDetailMobilePopupProps = {
 };
 
 const  TableHeaderSx = {
-  fontSize: '1.4rem',
+  fontSize: '1.6rem',
   fontWeight: 'bold',
   border: `1px solid ${palette.gray}`,
   textAlign: 'center'
 };
 
 const TableCellSx = {
-  fontSize: '1.4rem',
+  fontSize: '1.6rem',
   fontWeight: 'bold',
   border: `1px solid ${palette.gray}`,
   textAlign: 'center'
@@ -53,7 +53,7 @@ return (
     sx={{
       marginTop: '1.7rem',
       position: 'relative',
-      width:"35rem",//popupの横幅
+      width:"35.5rem",//popupの横幅
       height:"auto"
     }}>
       <IconButton
@@ -107,13 +107,17 @@ return (
             >
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.time}</TableCell>
-              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place === "スタート" ? "-" : getElapsed(runner,a.time)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </DialogContent>
-  </Dialog>
-)};
+              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{["未受付", "受付済み", "スタート"].includes(a.place) || !a.time
+          ? "-"
+          : getElapsed(runner, a.time)
+        }
+              </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </DialogContent>
+        </Dialog>
+      )};
 
 export default RunnerTimeDetailMobilePopup;

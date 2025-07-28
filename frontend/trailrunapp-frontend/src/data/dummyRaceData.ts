@@ -54,7 +54,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "リレー混合",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -64,7 +64,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "リレー親子",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -74,7 +74,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "キッズA-1",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -84,7 +84,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "キッズA-2",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -94,7 +94,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "キッズB-1",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -104,7 +104,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "キッズB-2",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -114,7 +114,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "キッズ混合",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},
@@ -124,7 +124,7 @@ export const dummyRaceData: RaceCategoryData[] = [
     ]
   },
   {
-    categoryName: "リレー女子",
+    categoryName: "リレーキッズ",
     totalParticipants: 400,
     statusList: [
       { label: "DNS", value: 60},

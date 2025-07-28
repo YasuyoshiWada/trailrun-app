@@ -4,11 +4,14 @@ import DashboardTitle from "./components/DashboardTitle";
 import StatusLegend from "../../components/StatusLegend";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
-import { RaceCategoryData, dummyRaceData } from "../../data/dummyRaceData";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { palette, statusColorMap } from "../../styles/palette";
 import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
+import { allRunners } from "../../data/all_Runners";
+import { countStatusByCategory, RaceCategoryData} from "../../utils/aggregateRaceData";
+
+
 
 //ステータスバー合計値ロジック
 function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
@@ -32,9 +35,9 @@ function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
 const DashboardPage: React.FC = () => {
   const {isSmallMobile,isMobile} = useResponsive();
 
-  //現在はdummyRaceDataを使用しているが、APIでデータを取得する予定
-const totalStatusList = getTotalStatusList(dummyRaceData);
-const totalParticipants = dummyRaceData.reduce((sum, cat) => sum + cat.totalParticipants, 0);
+const raceCategoryData = countStatusByCategory(allRunners);
+const totalStatusList = getTotalStatusList(raceCategoryData);
+const totalParticipants = raceCategoryData.reduce((sum, cat) => sum + cat.totalParticipants, 0);
 const responsive = {isSmallMobile, isMobile}
 
   return (
@@ -79,7 +82,7 @@ const responsive = {isSmallMobile, isMobile}
           responsive={responsive}
           />
         {/* レースステータスバーの表示 */}
-        {dummyRaceData.map((data) => (
+        {raceCategoryData.map((data) => (
           <RaceCategoryStatusBar
             key={data.categoryName}
             categoryName={data.categoryName}

@@ -4,7 +4,10 @@ import { Box } from "@mui/material";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { dummyRaceData } from "../../data/dummyRaceData";
-import { RunnersData, dummyRunners } from "../../data/dummyRunners";
+import { allRunners } from "../../data/all_Runners";
+import { countStatusByCategory } from "../../utils/aggregateRaceData";
+import { runners6kmMen } from "../../data/runners_6km_men";
+import { RunnersData } from "../../data/runnersTypes"
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceEntryTableDesktop from "../../components/RaceEntryTableDesktop";
 import RaceEntryTableMobile from "../../components/RaceEntryTableMobile";
@@ -17,6 +20,9 @@ import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetai
 import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTimeDetailMobilePopup";
 import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
 import SortSearch from "../../components/SortSearch";
+import { getElapsed } from "../../utils/getElapsed";
+
+
 
 //昇順、降順のタイプ
 type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
@@ -33,22 +39,92 @@ const CategoryRacePage:React.FC =() => {
 
   const [selectedRunnerId, setSelectedRunnerId] = useState<number | null>(null);
 
-  const [runners, setRunners] = useState<RunnersData[]>(dummyRunners);
+  const categoryName = "6km男子";
+  const runners = allRunners.filter(r => r.category === categoryName);
+  const [runnersState, setRunners] = useState<RunnersData[]>(runners);
+
+  //RaceEntryTableにタイムと最終到達時刻を切り替えるイベントを渡す
+  const [showElapsed, setShowElapsed] = useState(false);
 
   //検索ワード
   const [searchText, setSearchText] = useState("");
   //昇順、降順
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
-  //曖昧検索でのfilterをかけている部分
+//   //曖昧検索でのfilterをかけている部分
+// const filteredRunners = runners.filter(r => {
+//   const keyword = searchText.toLowerCase();
+//   //最終到達地点名
+//   const lastPlace = r.arrivals[r.arrivals.length - 1]?.place || "";
+//   //最終到達時刻
+//   const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
+//   //全elapsed
+//   const allElapsed = r.arrivals
+//   .filter(a => a.place !== "スタート")
+//   .map(a => getElapsed(r, a.time))
+//   .join(" ")
+//   .toLowerCase();
+
+//   if (showElapsed) {
+//     //タイムで検索
+//     if (allElapsed.includes(keyword)) return true;
+//     //最終到達地点名で部分一致検索
+//     if (keyword && lastPlace.includes(keyword)) return true;
+//   } else {
+//     // 最終到達時刻 表示中 最終到達時刻で検索
+//     if (lastArrivalDisplay.includes(keyword)) return true;
+//     //最終到達地点名で部分一致検索
+//     if (keyword && lastPlace.includes(keyword)) return true;
+//   }
+
+//   // 共通項目 (名前やゼッケンなど) も拾う
+//   if (
+//     String(r.rank).includes(keyword) ||
+//     String(r.raceNumber).includes(keyword) ||
+//     r.name.toLowerCase().includes(keyword)
+//   )
+
+
+//   return true;
+
+//   return false;
+// });
 const filteredRunners = runners.filter(r => {
-  //最終到達の検索用の定数
-  const lastArrivalDisplay = getLastArrivalDisplay(r);
-  return Object.values(r).some(val =>
-    String(val).toLowerCase().includes(searchText.toLowerCase())
-    ) ||
-      lastArrivalDisplay.toLowerCase().includes(searchText.toLowerCase());
+  const keyword = searchText.toLowerCase();
+  const lastPlace = (r.arrivals[r.arrivals.length - 1]?.place || "").toLowerCase();
+  const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
+  const allElapsed = r.arrivals
+    .filter(a => !["未受付", "受付済み","スタート"].includes(a.place))
+    .map(a => a.time? getElapsed(r, a.time) : "-")
+    .join(" ")
+    .toLowerCase();
+
+  let hitReason = "";
+
+  if (showElapsed) {
+    if (allElapsed.includes(keyword)) hitReason += "[allElapsed] ";
+    if (keyword && lastPlace.includes(keyword)) hitReason += "[lastPlace] ";
+  } else {
+    if (lastArrivalDisplay.includes(keyword)) hitReason += "[lastArrivalDisplay] ";
+    if (keyword && lastPlace.includes(keyword)) hitReason += "[lastPlace] ";
+  }
+
+  if (
+    String(r.rank).includes(keyword) ||
+    String(r.raceNumber).includes(keyword) ||
+    r.name.toLowerCase().includes(keyword)
+  ) hitReason += "[basicFields] ";
+
+  // ここで出力（必ずreturnの直前！）
+  if (hitReason) {
+    console.log(
+      `検索ワード:${keyword}, showElapsed:${showElapsed}, 名前:${r.name}, lastPlace:${lastPlace}, lastArrivalDisplay:${lastArrivalDisplay}, allElapsed:${allElapsed}, hit:${hitReason}`
+    );
+  }
+
+  return !!hitReason;
 });
+
 //昇順、降順検索
 const sortedRunners = React.useMemo(() => {
   const copied = [...filteredRunners];
@@ -153,9 +229,10 @@ const dialogProps = {
   const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
   const responsive = {isSmallMobile, isMobile}
-  const sixKmMaleData = dummyRaceData.find(
-    (data) => data.categoryName === "6Km 男子"
+  const sixKmMaleData = countStatusByCategory(allRunners).find(
+    (data) => data.categoryName === "6km男子"
   );
+
   //tableの高さをmobileとそれ以上で分岐している。それによりテーブル内のスクロールで全ての選手が表示される。
   const boxHeight = isSmallMobile || isMobile
   ? 'calc(100vh - 36rem)'
