@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box,Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { RunnersData } from "../data/dummyRunners";
+import { RunnersData } from "../data/runnersTypes";
 import { palette, statusColorMap } from "../styles/palette";
 import { getLastArrivalDisplay } from "../utils/getLastArrivalDisplay";
 import ToggleElapsedButton from "./button/ToggleElapsedButton";

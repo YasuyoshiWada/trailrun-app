@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { RunnersData } from "../data/dummyRunners";
+import { RunnersData } from "../data/runnersTypes";
 import DNSButton from "./button/DnsButton";
 import DNFButton from "./button/DnfButton";
 import DQButton from "./button/DqButton";

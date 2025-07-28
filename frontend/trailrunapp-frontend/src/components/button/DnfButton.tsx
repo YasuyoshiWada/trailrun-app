@@ -21,8 +21,8 @@ const DNFButton: React.FC<DNFButtonProps> = ({ value, onClick }) => {
       opacity: value ? 1 : 0.5,
       borderRadius: "1.2rem",
       fontWeight: "bold",
-      minWidth: "4rem",
-      minHeight: "4rem",
+      minWidth:(isSmallMobile || isMobile) ? "5rem" : "4rem",
+      minHeight:(isSmallMobile || isMobile) ? "5rem" : "4rem",
       transition: "opacity 0.2s",
       boxShadow: "none",
     }}

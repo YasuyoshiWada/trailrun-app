@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PopupDialog from "../PopupDialog";
-import { RunnersData } from "../../data/dummyRunners";
+import { RunnersData } from "../../data/runnersTypes";
 import { TextField } from "@mui/material";
 
 type RunnerStatusPopupProps = {

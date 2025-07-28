@@ -1,4 +1,4 @@
-import { RunnersData } from "../data/dummyRunners";
+import { RunnersData } from "../data/runnersTypes";
 
 //最終到達の時間と場所
 export const getLastArrivalDisplay = (runner: RunnersData) => {

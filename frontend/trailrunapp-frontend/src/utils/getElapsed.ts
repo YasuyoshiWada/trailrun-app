@@ -1,4 +1,4 @@
-import { RunnersData } from "../data/dummyRunners";
+import { RunnersData } from "../data/runnersTypes";
 
 // スタートした時間を取得する
 const getStartTime = (runner:RunnersData) =>{
