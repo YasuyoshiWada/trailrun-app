@@ -6,34 +6,18 @@ import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
-import { palette, statusColorMap } from "../../styles/palette";
 import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 import { allRunners } from "../../data/all_Runners";
-import { countStatusByCategory, RaceCategoryData} from "../../utils/aggregateRaceData";
-
-
-
-//ステータスバー合計値ロジック
-function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
-  const totals:{ [label: string]: {value:number; color:string}} = {};
-  raceCategoryList.forEach(category => {
-    category.statusList.forEach(status => {
-      if (!totals[status.label]) {
-        totals[status.label] = { value: 0, color: statusColorMap[status.label] || palette.darkGray };
-      }
-      totals[status.label].value += status.value;
-    });
-  });
-  return Object.entries(totals).map(([label, { value, color }]) => ({
-    label,
-    value,
-    color
-  }));
-}
+import { countStatusByCategory,  getTotalStatusList} from "../../utils/aggregateRaceData";
+import { Link } from "react-router-dom";
+import { useRunnersData } from "../../hooks/useRunnersData";
+import { RefreshButton } from "../../components/button/RefreshButton";
 
 
 const DashboardPage: React.FC = () => {
   const {isSmallMobile,isMobile} = useResponsive();
+  //リフレッシュボタン用ダミーデータ
+  const { data, loading, refresh } = useRunnersData();
 
 const raceCategoryData = countStatusByCategory(allRunners);
 const totalStatusList = getTotalStatusList(raceCategoryData);
@@ -70,26 +54,44 @@ const responsive = {isSmallMobile, isMobile}
         <Box
         sx={{
           mb: (isSmallMobile || isMobile) ? '1rem' : '3rem',
-          textAlign: (isSmallMobile || isMobile)? 'center' : undefined
+          textAlign: (isSmallMobile || isMobile)? 'center' : undefined,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "1rem"
           }}
           >
+          <RefreshButton
+          onClick={refresh}
+          loading={loading}
+          />
           <DashboardTitle />
+
         </Box>
         {/* 合計バーを表示 */}
-        <RaceTotalStatusBar
-          totalParticipants={totalParticipants}
-          totalStatusList={mapStatusWithColor(totalStatusList)}
-          responsive={responsive}
-          />
+        <Link to="/total_category"
+        style={{textDecoration: "none"}}
+        >
+          <RaceTotalStatusBar
+            totalParticipants={totalParticipants}
+            totalStatusList={mapStatusWithColor(totalStatusList)}
+            responsive={responsive}
+            />
+          </Link>
         {/* レースステータスバーの表示 */}
         {raceCategoryData.map((data) => (
-          <RaceCategoryStatusBar
-            key={data.categoryName}
-            categoryName={data.categoryName}
-            totalParticipants={data.totalParticipants}
-            statusList={mapStatusWithColor(data.statusList)}
-            responsive={responsive}
-          />
+          <Link to={`/category/${encodeURIComponent(data.categoryName)}`}
+          key={data.categoryName}
+          style={{textDecoration: "none", background: "red"}}
+          >
+            <RaceCategoryStatusBar
+              key={data.categoryName}
+              categoryName={data.categoryName}
+              totalParticipants={data.totalParticipants}
+              statusList={mapStatusWithColor(data.statusList)}
+              responsive={responsive}
+            />
+          </Link>
         ))}
       </Box>
     </Box>

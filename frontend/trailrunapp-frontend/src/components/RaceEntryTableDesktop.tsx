@@ -7,7 +7,7 @@ import DQButton from "./button/DqButton";
 import TimeDetailButton from "./button/TimeDetailButton";
 import { palette, statusColorMap } from "../styles/palette";
 import { getElapsed } from "../utils/getElapsed";
-import { getLastArrivalDisplay } from "../utils/getLastArrivalDisplay";
+import { getLastArrivalDisplay, getLastPlaceDisplay } from "../utils/getLastArrivalDisplay";
 import ToggleElapsedButton from "./button/ToggleElapsedButton";
 
 
@@ -102,7 +102,6 @@ return (
           const last = runner.arrivals[runner.arrivals.length -1];
 
           //lastやlast.placeがない場合も考慮
-          const lastPlace = last?.place ?? "";
           const lastTime = last?.time;
 
           // 表示内容の切り替え
@@ -145,7 +144,7 @@ return (
               ] || palette.darkGray
             }}
               >
-                {lastPlace}</TableCell>
+                {getLastPlaceDisplay(runner)}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.raceNumber}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.name}</TableCell>
             <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.category}</TableCell>

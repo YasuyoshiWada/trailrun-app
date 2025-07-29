@@ -2,11 +2,11 @@ import { RunnersData } from "./runnersTypes";
 
 export const runners6kmWomen: RunnersData[] = [
     // 未受付 5名
-    { id: 101, rank: 1, raceNumber: 101, name: "佐藤 花子", category: "6km女子", arrivals: [{ place: "未受付" }], dns: null, dnf: null, dq: null },
-    { id: 102, rank: 2, raceNumber: 102, name: "鈴木 彩香", category: "6km女子", arrivals: [{ place: "未受付" }], dns: null, dnf: null, dq: null },
-    { id: 103, rank: 3, raceNumber: 103, name: "高橋 由紀", category: "6km女子", arrivals: [{ place: "未受付" }], dns: null, dnf: null, dq: null },
-    { id: 104, rank: 4, raceNumber: 104, name: "田中 美咲", category: "6km女子", arrivals: [{ place: "未受付" }], dns: null, dnf: null, dq: null },
-    { id: 105, rank: 5, raceNumber: 105, name: "伊藤 理沙", category: "6km女子", arrivals: [{ place: "未受付" }], dns: null, dnf: null, dq: null },
+    { id: 101, rank: 1, raceNumber: 101, name: "佐藤 花子", category: "6km女子", arrivals: [], dns: null, dnf: null, dq: null },
+    { id: 102, rank: 2, raceNumber: 102, name: "鈴木 彩香", category: "6km女子", arrivals: [], dns: null, dnf: null, dq: null },
+    { id: 103, rank: 3, raceNumber: 103, name: "高橋 由紀", category: "6km女子", arrivals: [], dns: null, dnf: null, dq: null },
+    { id: 104, rank: 4, raceNumber: 104, name: "田中 美咲", category: "6km女子", arrivals: [], dns: null, dnf: null, dq: null },
+    { id: 105, rank: 5, raceNumber: 105, name: "伊藤 理沙", category: "6km女子", arrivals: [], dns: null, dnf: null, dq: null },
     // 受付済み 2名
     { id: 106, rank: 6, raceNumber: 106, name: "渡辺 恵美", category: "6km女子", arrivals: [{ place: "受付済み", time: "9:15:00" }], dns: null, dnf: null, dq: null },
     { id: 107, rank: 7, raceNumber: 107, name: "小林 亜希子", category: "6km女子", arrivals: [{ place: "受付済み", time: "9:18:00" }], dns: null, dnf: null, dq: null },
@@ -29,5 +29,3 @@ export const runners6kmWomen: RunnersData[] = [
     { id: 115, rank: 15, raceNumber: 115, name: "三浦 由香", category: "6km女子", arrivals: [
       { place: "受付済み", time: "9:34:00" }, { place: "スタート", time: "9:47:00" }, { place: "地点1", time: "10:03:00" }, { place: "地点2", time: "10:19:00" }, { place: "フィニッシュ", time: "10:37:55" }], dns: null, dnf: null, dq: null },
   ];
-
-

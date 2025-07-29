@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box,Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { RunnersData } from "../data/runnersTypes";
 import { palette, statusColorMap } from "../styles/palette";
-import { getLastArrivalDisplay } from "../utils/getLastArrivalDisplay";
+import { getLastArrivalDisplay, getLastPlaceDisplay } from "../utils/getLastArrivalDisplay";
 import ToggleElapsedButton from "./button/ToggleElapsedButton";
 import { getElapsed } from "../utils/getElapsed";
 import TimeDetailButton from "./button/TimeDetailButton";
@@ -87,8 +87,7 @@ const RaceEntryTableMobile: React.FC<Props> = ({runners,onTimeMobileDetailClick}
             // 最後の地点を取得する
             const last = runner.arrivals[runner.arrivals.length -1];
 
-            //lastやlast.placeがない場合も考慮
-            const lastPlace = last?.place ?? "";
+            //lastがない場合も考慮
             const lastTime = last?.time;
 
             // 表示内容の切り替え
@@ -105,7 +104,7 @@ const RaceEntryTableMobile: React.FC<Props> = ({runners,onTimeMobileDetailClick}
                   <TableCell sx={{...TableRowSx,...TableCellSx}}>{runner.rank}</TableCell>
                   <TableCell
                   sx={{...TableRowSx,...TableCellSx,
-                  color: statusColorMap[lastPlace] || palette.darkGray,
+                  color: statusColorMap[getLastPlaceDisplay(runner)] || palette.darkGray,
                   fontWeight: "bold"
                   }}>
                     {display}
@@ -113,7 +112,7 @@ const RaceEntryTableMobile: React.FC<Props> = ({runners,onTimeMobileDetailClick}
                     sx={{
 
                     }}>
-                      {lastPlace}
+                      {getLastPlaceDisplay(runner)}
                     </Box>
                   </TableCell>
                   <TableCell sx={{...TableRowSx,...TableCellSx}}>{runner.raceNumber}</TableCell>

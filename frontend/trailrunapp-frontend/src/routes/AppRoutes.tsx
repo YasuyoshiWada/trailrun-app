@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import DashboardPage from '../features/dashboard/DashboardPage';
 import CategoryRacePage from '../features/category_race/CategoryRacePage';
 import SidebarLayoutPage from '../features/Sidebar/SidebarLayoutPage';
+import AllCategoryRacePage from '../features/category_race/TotalCategoryRacePage';
 
 export const AppRoutes = () => (
   <Routes>
@@ -17,11 +18,19 @@ export const AppRoutes = () => (
     }
     />
     <Route
-    path="/category"
+    path="/category/:categoryName"
     element={
     <SidebarLayoutPage>
       <CategoryRacePage />
     </SidebarLayoutPage>
+    }
+    />
+    <Route
+    path="/total_category"
+    element={
+      <SidebarLayoutPage>
+        <AllCategoryRacePage />
+      </SidebarLayoutPage>
     }
     />
     {/* <Route path="/login" element={<LoginPage />} /> */}
