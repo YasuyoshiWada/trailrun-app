@@ -5,7 +5,7 @@ import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { useParams } from "react-router-dom";
 import { allRunners } from "../../data/all_Runners";
-import { countStatusByCategory } from "../../utils/aggregateRaceData";
+import { countStatusByCategory, getTotalStatusList } from "../../utils/aggregateRaceData";
 import { RunnersData } from "../../data/runnersTypes"
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceEntryTableDesktop from "../../components/RaceEntryTableDesktop";
@@ -20,6 +20,8 @@ import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTim
 import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
 import SortSearch from "../../components/SortSearch";
 import { getElapsed } from "../../utils/getElapsed";
+import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 
 
@@ -27,9 +29,9 @@ import { getElapsed } from "../../utils/getElapsed";
 type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
 
-const CategoryRacePage:React.FC =() => {
+const TotalCategoryRacePage:React.FC =() => {
   //URLパラメータを取得
-  const { categoryName } =useParams<{categoryName: string}>();
+  // const { categoryName } =useParams<{categoryName: string}>();
 //DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
@@ -41,8 +43,12 @@ const CategoryRacePage:React.FC =() => {
   const [selectedRunnerId, setSelectedRunnerId] = useState<number | null>(null);
 
   //カテゴリの選手データ取得
-  const runners = allRunners.filter(r => r.category === categoryName);
-  const categoryStatus = countStatusByCategory(allRunners).find(data => data.categoryName === categoryName);
+  const runners = allRunners;
+  //全体のステータスバー
+  const raceCategoryData = countStatusByCategory(allRunners);
+  const totalStatusList = getTotalStatusList(raceCategoryData);
+  const totalParticipants = raceCategoryData.reduce((sum,cat) => sum + cat.
+  totalParticipants, 0);
 
   const [runnersState, setRunners] = useState<RunnersData[]>(runners);
 
@@ -216,14 +222,11 @@ const dialogProps = {
               sx={{
                 ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
               }}>
-                {categoryStatus&& (
-                <RaceCategoryStatusBar
-                  categoryName={categoryStatus.categoryName}
-                  totalParticipants={categoryStatus.totalParticipants}
-                  statusList={mapStatusWithColor(categoryStatus.statusList)}
-                  responsive={responsive}
+                <RaceTotalStatusBar
+                totalParticipants={totalParticipants}
+                totalStatusList={mapStatusWithColor(totalStatusList)}
+                responsive={responsive}
                 />
-                )}
               </Box>
               <Box
               sx={{
@@ -290,4 +293,4 @@ const dialogProps = {
     )
   }
 
-export default CategoryRacePage;
+export default TotalCategoryRacePage;

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Box, Typography } from '@mui/material';
 import { palette } from "../styles/palette";
 
@@ -26,8 +26,12 @@ type Props ={
 
 const RaceTotalStatusBar: React.FC<Props> = ({ totalParticipants, totalStatusList, responsive}) => {
   const {isSmallMobile, isMobile } = responsive;
+  const [ hovered, setHovered ] = useState(false);
+
   return (
     <Box
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
     sx={{
       display: 'flex',
       flexDirection: (isSmallMobile || isMobile ) ? 'column' : 'row',
@@ -35,6 +39,9 @@ const RaceTotalStatusBar: React.FC<Props> = ({ totalParticipants, totalStatusLis
       width: isSmallMobile ? '40rem' : isMobile ? '45rem' : '80rem',
       height:'auto',
       mb: '1.2rem',
+      opacity: hovered ? 0.5 :1,
+      cursor: "pointer",
+      transition: "opacity 0.2s"
       }}
       >
       {/* 左側カテゴリ名+人数 */}

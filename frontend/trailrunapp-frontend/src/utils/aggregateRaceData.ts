@@ -1,4 +1,5 @@
 import { RunnersData } from "../data/runnersTypes";
+import { palette, statusColorMap } from "../styles/palette";
 
 function groupByCategory(runners: RunnersData[]): Record<string, RunnersData[]> {
   return runners.reduce((acc,  runner) => {
@@ -42,4 +43,22 @@ export function countStatusByCategory(runners: RunnersData[]): RaceCategoryData[
     })),
   };
 });
+}
+
+//ステータスバー合計値ロジック
+export function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
+  const totals:{ [label: string]: {value:number; color:string}} = {};
+  raceCategoryList.forEach(category => {
+    category.statusList.forEach(status => {
+      if (!totals[status.label]) {
+        totals[status.label] = { value: 0, color: statusColorMap[status.label] || palette.darkGray };
+      }
+      totals[status.label].value += status.value;
+    });
+  });
+  return Object.entries(totals).map(([label, { value, color }]) => ({
+    label,
+    value,
+    color
+  }));
 }
