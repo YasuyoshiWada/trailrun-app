@@ -11,6 +11,7 @@ import ListIcon from "@mui/icons-material/List";
 import CloseIcon from "@mui/icons-material/Close";
 import NavMenuList from "./NavMenuList";
 import { palette } from "../../../styles/palette";
+import { BackToDashboardButton } from "../../../components/button/BackToDashboardButton";
 
 const MobileHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ const MobileHeader: React.FC = () => {
             alignItems: "center",
           }}
         >
+          <BackToDashboardButton />
           <Typography
             sx={{
               color: palette.textPrimary,

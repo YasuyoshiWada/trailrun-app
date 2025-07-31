@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { allRunners } from "../../data/all_Runners";
 import { countStatusByCategory, getTotalStatusList } from "../../utils/aggregateRaceData";
 import { RunnersData } from "../../data/runnersTypes"
-import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
 import RaceEntryTableDesktop from "../../components/RaceEntryTableDesktop";
 import RaceEntryTableMobile from "../../components/RaceEntryTableMobile";
 import SearchBar from "../../components/SearchBar";
@@ -17,19 +16,20 @@ import { palette } from "../../styles/palette";
 import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTimeDetailMobilePopup";
-import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
 import SortSearch from "../../components/SortSearch";
-import { getElapsed } from "../../utils/getElapsed";
 import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
-
+import { useNavigate } from "react-router-dom";
 
 
 //昇順、降順のタイプ
 type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
-
 const TotalCategoryRacePage:React.FC =() => {
+
+  const { label } = useParams();
+  //AppRoutesの遷移ロジックにnavigateするための定数
+  const navigate = useNavigate();
+
   //URLパラメータを取得
   // const { categoryName } =useParams<{categoryName: string}>();
 //DNS,DNF,DQ popupのopen
@@ -52,46 +52,39 @@ const TotalCategoryRacePage:React.FC =() => {
 
   const [runnersState, setRunners] = useState<RunnersData[]>(runners);
 
-  //RaceEntryTableにタイムと最終到達時刻を切り替えるイベントを渡す
-  const [showElapsed, setShowElapsed] = useState(false);
-
   //検索ワード
   const [searchText, setSearchText] = useState("");
   //昇順、降順
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
-//曖昧検索でのfilter部分。
-const filteredRunners = runners.filter(r => {
-  const keyword = searchText.toLowerCase();
-  const category = (r.category || "").toLowerCase();
-  const lastPlace = (r.arrivals[r.arrivals.length - 1]?.place || "").toLowerCase();
-  const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
-  const allElapsed = r.arrivals
-    .filter(a => !["未受付", "受付済み","スタート"].includes(a.place))
-    .map(a => a.time? getElapsed(r, a.time) : "-")
-    .join(" ")
-    .toLowerCase();
-
-  let hit = false;
-
-  // 3. タイム・最終到達地点名・時刻などで部分一致検索
-  if (showElapsed) {
-    if (allElapsed.includes(keyword)) hit = true;
-    if (keyword && lastPlace.includes(keyword)) hit = true;
-  } else {
-    if (lastArrivalDisplay.includes(keyword)) hit = true;
-    if (keyword && lastPlace.includes(keyword))  hit = true;
+  //順位、ゼッケン、名前、カテゴリの検索ロジック
+  const filteredRunners = runners.filter(r => {
+    if (label) {
+    // DNS,DNF,DQが優先される
+    if (["DNS", "DNF","DQ"].includes(label)) {
+      //該当者だけ出す
+    if (label === "DNS" && !r.dns) return false;
+    if (label === "DNF" && !r.dnf) return false;
+    if (label === "DQ" && !r.dq) return false;
+    } else {
+     //DNS,DNF,DQでない場合は、該当者を除外
+    if (r.dns || r.dnf || r.dq) return false;
+    const lastPlace = r.arrivals[r.arrivals.length - 1]?.place || "";
+    if (lastPlace !== label) return false;
+    }
   }
+    const keyword = searchText.toLowerCase();
+    if (!keyword) return true;
 
-  if (
-    String(r.rank).includes(keyword) ||
-    String(r.raceNumber).includes(keyword) ||
-    r.name.toLowerCase().includes(keyword) ||
-    category.includes(keyword)
-  )  hit = true;
+    const category = (r.category || "").toLowerCase();
+    return (
+      String(r.rank).includes(keyword) ||
+      String(r.raceNumber).includes(keyword) ||
+      r.name.toLowerCase().includes(keyword) ||
+      category.includes(keyword)
+    );
+  });
 
-  return hit;
-});
 
 //昇順、降順検索
 const sortedRunners = React.useMemo(() => {
@@ -215,6 +208,7 @@ const dialogProps = {
                 <StatusLegend
                 isSmallMobile={isSmallMobile}
                 isMobile={isMobile}
+                onStatusClick={label => navigate(`/total_category/status/${label}`)}
                 />
               </HorizontalScroller>
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
@@ -294,3 +288,38 @@ const dialogProps = {
   }
 
 export default TotalCategoryRacePage;
+
+
+
+// //曖昧検索でのfilter部分。順位、最終到達時刻、タイム、最終到達地点、ゼッケン、名前、カテゴリのフル検索ロジック
+// const filteredRunners = runners.filter(r => {
+//   const keyword = searchText.toLowerCase();
+//   const category = (r.category || "").toLowerCase();
+//   const lastPlace = (r.arrivals[r.arrivals.length - 1]?.place || "").toLowerCase();
+//   const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
+//   const allElapsed = r.arrivals
+//     .filter(a => !["未受付", "受付済み","スタート"].includes(a.place))
+//     .map(a => a.time? getElapsed(r, a.time) : "-")
+//     .join(" ")
+//     .toLowerCase();
+
+//   let hit = false;
+
+//   // 3. タイム・最終到達地点名・時刻などで部分一致検索
+//   if (showElapsed) {
+//     if (allElapsed.includes(keyword)) hit = true;
+//     if (keyword && lastPlace.includes(keyword)) hit = true;
+//   } else {
+//     if (lastArrivalDisplay.includes(keyword)) hit = true;
+//     if (keyword && lastPlace.includes(keyword))  hit = true;
+//   }
+
+//   if (
+//     String(r.rank).includes(keyword) ||
+//     String(r.raceNumber).includes(keyword) ||
+//     r.name.toLowerCase().includes(keyword) ||
+//     category.includes(keyword)
+//   )  hit = true;
+
+//   return hit;
+// });

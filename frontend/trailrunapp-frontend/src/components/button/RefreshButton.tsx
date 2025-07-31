@@ -1,19 +1,25 @@
 import {Box, IconButton, Tooltip } from "@mui/material";
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import { palette } from "../../styles/palette";
+import { ReactNode } from "react";
 
 type Props = {
   onClick: () => void;
   loading?: boolean;
   tooltip?: string;
+  icon?: ReactNode;
 }
 
-export function RefreshButton({ onClick, loading, tooltip = "データ再取得"}: Props) {
+export function RefreshButton({
+  onClick,
+  loading,
+  tooltip = "データ再取得",
+  icon,
+}: Props) {
   return (
     <Tooltip
     title={tooltip}
-    //ここは現状非推奨だが必要
-    componentsProps={{
+    slotProps={{
       tooltip: {
         sx: { fontSize: "1.5rem"}
       }
@@ -29,12 +35,15 @@ export function RefreshButton({ onClick, loading, tooltip = "データ再取得"
         disabled={loading}
         sx={{
           fontSize:"2.5rem"
-        }}>
-          <AutorenewRoundedIcon
+        }}
+        >
+          {icon ?? (
+            <AutorenewRoundedIcon
           sx={{
             fontSize:"2.5rem"
           }}
           />
+          )}
         </IconButton>
       </Box>
     </Tooltip>
