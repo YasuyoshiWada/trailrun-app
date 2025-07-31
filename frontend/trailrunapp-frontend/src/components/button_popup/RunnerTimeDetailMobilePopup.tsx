@@ -9,6 +9,7 @@ import DQButton from "../button/DqButton";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import { getElapsed } from"../../utils/getElapsed";
+import useResponsive from "../../hooks/useResponsive";
 
 type RunnerTimeDetailMobilePopupProps = {
   open: boolean;
@@ -33,6 +34,8 @@ const TableCellSx = {
   textAlign: 'center'
 }
 
+
+
 const RunnerTimeDetailMobilePopup: React.FC<RunnerTimeDetailMobilePopupProps> = ({
   open,
   runner,
@@ -41,8 +44,10 @@ const RunnerTimeDetailMobilePopup: React.FC<RunnerTimeDetailMobilePopupProps> = 
   onDqClick,
   onCancel,
 }) => {
+  const {isSmallMobile, isMobile} = useResponsive();
 
 if (!open || !runner ) return null;
+
 
 return (
   <Dialog
@@ -53,7 +58,7 @@ return (
     sx={{
       marginTop: '1.7rem',
       position: 'relative',
-      width:"35.5rem",//popupの横幅
+      width:isSmallMobile ? "32rem" : "36rem",//popupの横幅
       height:"auto"
     }}>
       <IconButton

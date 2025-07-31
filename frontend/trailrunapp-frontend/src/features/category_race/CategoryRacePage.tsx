@@ -17,9 +17,7 @@ import { palette } from "../../styles/palette";
 import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTimeDetailMobilePopup";
-import { getLastArrivalDisplay } from "../../utils/getLastArrivalDisplay";
 import SortSearch from "../../components/SortSearch";
-import { getElapsed } from "../../utils/getElapsed";
 
 
 
@@ -54,37 +52,17 @@ const CategoryRacePage:React.FC =() => {
   //昇順、降順
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
-//曖昧検索でのfilter部分。
+//順位、ゼッケン、名前、カテゴリの検索ロジック
 const filteredRunners = runners.filter(r => {
   const keyword = searchText.toLowerCase();
   const category = (r.category || "").toLowerCase();
-  const lastPlace = (r.arrivals[r.arrivals.length - 1]?.place || "").toLowerCase();
-  const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
-  const allElapsed = r.arrivals
-    .filter(a => !["未受付", "受付済み","スタート"].includes(a.place))
-    .map(a => a.time? getElapsed(r, a.time) : "-")
-    .join(" ")
-    .toLowerCase();
 
-  let hit = false;
-
-  // 3. タイム・最終到達地点名・時刻などで部分一致検索
-  if (showElapsed) {
-    if (allElapsed.includes(keyword)) hit = true;
-    if (keyword && lastPlace.includes(keyword)) hit = true;
-  } else {
-    if (lastArrivalDisplay.includes(keyword)) hit = true;
-    if (keyword && lastPlace.includes(keyword))  hit = true;
-  }
-
-  if (
+  return (
     String(r.rank).includes(keyword) ||
     String(r.raceNumber).includes(keyword) ||
     r.name.toLowerCase().includes(keyword) ||
     category.includes(keyword)
-  )  hit = true;
-
-  return hit;
+  );
 });
 
 //昇順、降順検索

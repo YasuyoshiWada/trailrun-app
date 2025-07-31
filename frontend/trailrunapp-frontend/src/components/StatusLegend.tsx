@@ -10,6 +10,12 @@ import NotInterestedIcon from '@mui/icons-material/NotInterested';   //DNF
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';     //  DQ
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';       // フィニッシュ
 
+type StatusLegendProps = {
+  isSmallMobile?: boolean,
+  isMobile?:boolean,
+  onStatusClick?: (statusLabel: string) => void;
+}
+
 type statusList ={
   label: string;
   color: string;
@@ -28,7 +34,11 @@ const statusList : statusList[] = [
   { label: 'DQ', color: palette.coralRed, icon: <HighlightOffIcon />}
 ];
 
-const StatusLegend: React.FC< {isSmallMobile?: boolean, isMobile?: boolean}> = ({isSmallMobile, isMobile}) => {
+const StatusLegend: React.FC< StatusLegendProps> = ({
+  isSmallMobile,
+  isMobile,
+  onStatusClick,
+}) => {
   return (
     <Box
       sx={{
@@ -54,6 +64,8 @@ const StatusLegend: React.FC< {isSmallMobile?: boolean, isMobile?: boolean}> = (
               minWidth: (isSmallMobile || isMobile) ? '120px' : 'undefined',
               whiteSpace: 'nowrap'
             }}
+            onClick={() => onStatusClick?. (status.label)}//labelをクリック
+            style={{ cursor: onStatusClick ? "pointer" : "default"}}
           >
           <Box
           sx={{
