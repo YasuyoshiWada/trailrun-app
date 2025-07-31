@@ -26,6 +26,7 @@ type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
 
 const CategoryRacePage:React.FC =() => {
+  
   //URLパラメータを取得
   const { categoryName } =useParams<{categoryName: string}>();
 //DNS,DNF,DQ popupのopen
