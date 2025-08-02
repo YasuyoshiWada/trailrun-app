@@ -11,7 +11,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:30:00"},
       {place:"地点1", time: "9:45:00"},
-      {place:"地点２", time: "10:00:00"},
+      {place:"地点2", time: "10:00:00"},
       {place:"フィニッシュ",time:"10:18:28"},
     ],
     dns: true,

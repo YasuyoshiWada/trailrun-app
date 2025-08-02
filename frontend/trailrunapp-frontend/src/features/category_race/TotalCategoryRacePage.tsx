@@ -19,19 +19,20 @@ import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTim
 import SortSearch from "../../components/SortSearch";
 import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { getLastPlaceDisplay } from "../../utils/getLastArrivalDisplay";
 
 
 //昇順、降順のタイプ
 type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
 const TotalCategoryRacePage:React.FC =() => {
-
+  //地点クリック時のURLパラメータを取得
   const { label } = useParams();
   //AppRoutesの遷移ロジックにnavigateするための定数
   const navigate = useNavigate();
 
-  //URLパラメータを取得
-  // const { categoryName } =useParams<{categoryName: string}>();
+
 //DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
@@ -58,7 +59,7 @@ const TotalCategoryRacePage:React.FC =() => {
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
   //順位、ゼッケン、名前、カテゴリの検索ロジック
-  const filteredRunners = runners.filter(r => {
+  const filteredRunners = runnersState.filter(r => {
     if (label) {
     // DNS,DNF,DQが優先される
     if (["DNS", "DNF","DQ"].includes(label)) {
@@ -69,7 +70,7 @@ const TotalCategoryRacePage:React.FC =() => {
     } else {
      //DNS,DNF,DQでない場合は、該当者を除外
     if (r.dns || r.dnf || r.dq) return false;
-    const lastPlace = r.arrivals[r.arrivals.length - 1]?.place || "";
+    const lastPlace =  getLastPlaceDisplay(r);
     if (lastPlace !== label) return false;
     }
   }
@@ -216,11 +217,15 @@ const dialogProps = {
               sx={{
                 ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
               }}>
-                <RaceTotalStatusBar
-                totalParticipants={totalParticipants}
-                totalStatusList={mapStatusWithColor(totalStatusList)}
-                responsive={responsive}
-                />
+                <Link to="/total_category"
+                style={{textDecoration: "none"}}
+                >
+                  <RaceTotalStatusBar
+                  totalParticipants={totalParticipants}
+                  totalStatusList={mapStatusWithColor(totalStatusList)}
+                  responsive={responsive}
+                  />
+                </Link>
               </Box>
               <Box
               sx={{

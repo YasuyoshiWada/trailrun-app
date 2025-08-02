@@ -26,6 +26,14 @@ export const AppRoutes = () => (
     }
     />
     <Route
+    path="/category/:categoryName/status/:label"
+    element={
+    <SidebarLayoutPage>
+      <CategoryRacePage />
+    </SidebarLayoutPage>
+    }
+    />
+    <Route
     path="/total_category"
     element={
       <SidebarLayoutPage>
