@@ -74,6 +74,7 @@ return (
       <Table>
         <TableHead>
           <TableRow>
+          <TableCell sx={{...TableHeaderSx}}>順位</TableCell>
             <TableCell sx={{...TableHeaderSx}}>地点</TableCell>
             <TableCell sx={{...TableHeaderSx}}>到達時間</TableCell>
             <TableCell sx={{...TableHeaderSx}}>タイム</TableCell>
@@ -84,6 +85,7 @@ return (
             <TableRow
             key={a.place}
             >
+              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.time}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{["未受付", "受付済み", "スタート"].includes(a.place) || !a.time

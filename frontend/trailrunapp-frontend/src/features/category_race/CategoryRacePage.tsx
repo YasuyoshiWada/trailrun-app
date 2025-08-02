@@ -18,6 +18,9 @@ import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTimeDetailMobilePopup";
 import SortSearch from "../../components/SortSearch";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { getLastPlaceDisplay } from "../../utils/getLastArrivalDisplay";
 
 
 
@@ -26,7 +29,10 @@ type SortType = "rankAsc" | "rankDesc" | "numAsc" | "numDesc";
 
 
 const CategoryRacePage:React.FC =() => {
-  
+  //地点クリック時のURLパラメータを取得
+  const { label } = useParams();
+  //AppRoutesの遷移ロジックにnavigateするための定数
+  const navigate = useNavigate();
   //URLパラメータを取得
   const { categoryName } =useParams<{categoryName: string}>();
 //DNS,DNF,DQ popupのopen
@@ -55,9 +61,24 @@ const CategoryRacePage:React.FC =() => {
 
 //順位、ゼッケン、名前、カテゴリの検索ロジック
 const filteredRunners = runners.filter(r => {
+  if (label) {
+  // DNS,DNF,DQが優先される
+  if (["DNS", "DNF","DQ"].includes(label)) {
+    //該当者だけ出す
+  if (label === "DNS" && !r.dns) return false;
+  if (label === "DNF" && !r.dnf) return false;
+  if (label === "DQ" && !r.dq) return false;
+  } else {
+   //DNS,DNF,DQでない場合は、該当者を除外
+  if (r.dns || r.dnf || r.dq) return false;
+  const lastPlace =  getLastPlaceDisplay(r);
+  if (lastPlace !== label) return false;
+  }
+}
   const keyword = searchText.toLowerCase();
-  const category = (r.category || "").toLowerCase();
+  if (!keyword) return true;
 
+  const category = (r.category || "").toLowerCase();
   return (
     String(r.rank).includes(keyword) ||
     String(r.raceNumber).includes(keyword) ||
@@ -188,6 +209,7 @@ const dialogProps = {
                 <StatusLegend
                 isSmallMobile={isSmallMobile}
                 isMobile={isMobile}
+                onStatusClick={label => navigate(`/category/${categoryName}/status/${label}`)}
                 />
               </HorizontalScroller>
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
@@ -195,14 +217,18 @@ const dialogProps = {
               sx={{
                 ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
               }}>
-                {categoryStatus&& (
-                <RaceCategoryStatusBar
-                  categoryName={categoryStatus.categoryName}
-                  totalParticipants={categoryStatus.totalParticipants}
-                  statusList={mapStatusWithColor(categoryStatus.statusList)}
-                  responsive={responsive}
-                />
-                )}
+                <Link to={`/category/${encodeURIComponent(categoryStatus?.categoryName ?? "")}`}
+                style={{textDecoration: "none"}}
+                >
+                    {categoryStatus&& (
+                    <RaceCategoryStatusBar
+                      categoryName={categoryStatus.categoryName}
+                      totalParticipants={categoryStatus.totalParticipants}
+                      statusList={mapStatusWithColor(categoryStatus.statusList)}
+                      responsive={responsive}
+                    />
+                    )}
+                </Link>
               </Box>
               <Box
               sx={{

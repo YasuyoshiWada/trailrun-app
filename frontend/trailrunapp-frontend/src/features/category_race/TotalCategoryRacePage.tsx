@@ -59,7 +59,7 @@ const TotalCategoryRacePage:React.FC =() => {
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
   //順位、ゼッケン、名前、カテゴリの検索ロジック
-  const filteredRunners = runners.filter(r => {
+  const filteredRunners = runnersState.filter(r => {
     if (label) {
     // DNS,DNF,DQが優先される
     if (["DNS", "DNF","DQ"].includes(label)) {
