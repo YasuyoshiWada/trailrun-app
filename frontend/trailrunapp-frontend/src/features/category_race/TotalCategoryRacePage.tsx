@@ -278,6 +278,7 @@ const dialogProps = {
         open={timeDialogOpen}
         runner={selectedRunner}
         onCancel={handleTimeDialogCancel}
+        allRunners={runnersState}
         />
         <RunnerTimeDetailMobilePopup
         open={timeMobileDialogOpen}
@@ -286,6 +287,7 @@ const dialogProps = {
         onDnfClick={handleDnfClick}
         onDqClick={handleDqClick}
         onCancel={handleTimeMobileDialogCancel}
+        allRunners={runnersState}
         />
         </Box>
       </Box>

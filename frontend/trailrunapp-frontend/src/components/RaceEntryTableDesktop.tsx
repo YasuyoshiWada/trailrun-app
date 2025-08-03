@@ -117,7 +117,7 @@ return (
           return (
           <TableRow
           key={runner.id}>
-            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}>{runner.rank}</TableCell>
+            <TableCell sx={{ ...TableRowSx, ...TableCellSx}}></TableCell>
             <TableCell
             colSpan={2}
             sx={{

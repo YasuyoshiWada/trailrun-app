@@ -30,7 +30,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:31:00"},
       {place:"地点1", time: "9:47:00"},
-      {place:"地点２", time: "10:02:00"},
+      {place:"地点2", time: "10:02:00"},
       {place:"フィニッシュ",time:"10:22:28"},
     ],
     dns: null,
@@ -103,7 +103,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:35:00"},
       {place:"地点1", time: "9:53:00"},
-      {place:"地点２", time: "10:08:00"},
+      {place:"地点2", time: "10:08:00"},
       {place:"フィニッシュ",time:"10:29:37"},
     ],
     dns: null,
@@ -122,7 +122,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:36:00"},
       {place:"地点1", time: "9:55:00"},
-      {place:"地点２", time: "10:10:00"},
+      {place:"地点2", time: "10:10:00"},
       {place:"フィニッシュ",time:"10:31:39"},
     ],
     dns: null,
@@ -141,7 +141,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:37:00"},
       {place:"地点1", time: "9:57:00"},
-      {place:"地点２", time: "10:12:00"},
+      {place:"地点2", time: "10:12:00"},
       {place:"フィニッシュ",time:"10:33:41"},
     ],
     dns: null,
@@ -160,7 +160,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:00"},
       {place:"地点1", time: "9:59:00"},
-      {place:"地点２", time: "10:14:00"},
+      {place:"地点2", time: "10:14:00"},
       {place:"フィニッシュ",time:"10:35:43"},
     ],
     dns: null,
@@ -179,7 +179,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:10"},
       {place:"地点1", time: "9:59:10"},
-      {place:"地点２", time: "10:14:10"},
+      {place:"地点2", time: "10:14:10"},
       {place:"フィニッシュ",time:"10:37:44"},
     ],
     dns: null,
@@ -198,7 +198,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:20"},
       {place:"地点1", time: "9:59:20"},
-      {place:"地点２", time: "10:14:20"},
+      {place:"地点2", time: "10:14:20"},
       {place:"フィニッシュ",time:"10:39:45"},
     ],
     dns: null,
@@ -217,7 +217,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:30"},
       {place:"地点1", time: "9:59:30"},
-      {place:"地点２", time: "10:14:30"},
+      {place:"地点2", time: "10:14:30"},
       {place:"フィニッシュ",time:"10:39:46"},
     ],
     dns: null,
@@ -236,7 +236,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:40"},
       {place:"地点1", time: "9:59:40"},
-      {place:"地点２", time: "10:14:40"},
+      {place:"地点2", time: "10:14:40"},
       {place:"フィニッシュ",time:"10:39:47"},
     ],
     dns: null,
@@ -255,7 +255,7 @@ export const runners6kmMen: RunnersData[] = [
     arrivals:[
       {place:"スタート", time: "9:39:50"},
       {place:"地点1", time: "9:59:50"},
-      {place:"地点２", time: "10:14:50"},
+      {place:"地点2", time: "10:14:50"},
       {place:"フィニッシュ",time:"10:45:48"},
     ],
     dns: null,

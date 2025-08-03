@@ -6,11 +6,13 @@ import { palette, statusColorMap } from "../../styles/palette";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import { getElapsed } from"../../utils/getElapsed";
+import { rankingByLocation } from "../../utils/rankingByLocation";
 
 type RunnerTimeDetailPopupProps = {
   open: boolean;
   runner: RunnersData | undefined;
   onCancel: () => void;
+  allRunners: RunnersData[];
 };
 
 const  TableHeaderSx = {
@@ -31,6 +33,7 @@ const RunnerTimeDetailPopup: React.FC<RunnerTimeDetailPopupProps> = ({
   open,
   runner,
   onCancel,
+  allRunners,
 }) => {
 
 if (!open) return null;
@@ -74,18 +77,26 @@ return (
       <Table>
         <TableHead>
           <TableRow>
-          <TableCell sx={{...TableHeaderSx}}>順位</TableCell>
+            <TableCell sx={{...TableHeaderSx}}>順位</TableCell>
             <TableCell sx={{...TableHeaderSx}}>地点</TableCell>
             <TableCell sx={{...TableHeaderSx}}>到達時間</TableCell>
             <TableCell sx={{...TableHeaderSx}}>タイム</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {runner?.arrivals.map(a => (
+          {runner?.arrivals.map(a => {
+            //IGNORE_PLACESなら常に "-"
+            const IGNORE_PLACES = ["未受付", "受付済み", "スタート"];
+            let myRank: number | string = "-";
+            if (!IGNORE_PLACES.includes(a.place)) {
+            const ranking = rankingByLocation(allRunners, a.place);
+            myRank = ranking.find(r=> r.runnerId === runner.id)?.rank ?? "-";
+            }
+            return (
             <TableRow
             key={a.place}
             >
-              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{}</TableCell>
+              <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{myRank}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.place}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{a.time}</TableCell>
               <TableCell sx={{...TableCellSx, color: statusColorMap[a.place] || palette.darkGray}}>{["未受付", "受付済み", "スタート"].includes(a.place) || !a.time
@@ -94,7 +105,8 @@ return (
         }
               </TableCell>
                   </TableRow>
-                ))}
+            )
+          })}
               </TableBody>
             </Table>
           </DialogContent>

@@ -51,16 +51,13 @@ const CategoryRacePage:React.FC =() => {
 
   const [runnersState, setRunners] = useState<RunnersData[]>(runners);
 
-  //RaceEntryTableにタイムと最終到達時刻を切り替えるイベントを渡す
-  const [showElapsed, setShowElapsed] = useState(false);
-
   //検索ワード
   const [searchText, setSearchText] = useState("");
   //昇順、降順
   const[sortType, setSortType] = useState<SortType>("rankAsc");
 
 //順位、ゼッケン、名前、カテゴリの検索ロジック
-const filteredRunners = runners.filter(r => {
+const filteredRunners = runnersState.filter(r => {
   if (label) {
   // DNS,DNF,DQが優先される
   if (["DNS", "DNF","DQ"].includes(label)) {
@@ -281,6 +278,7 @@ const dialogProps = {
         open={timeDialogOpen}
         runner={selectedRunner}
         onCancel={handleTimeDialogCancel}
+        allRunners={runnersState}
         />
         <RunnerTimeDetailMobilePopup
         open={timeMobileDialogOpen}
@@ -289,6 +287,7 @@ const dialogProps = {
         onDnfClick={handleDnfClick}
         onDqClick={handleDqClick}
         onCancel={handleTimeMobileDialogCancel}
+        allRunners={runnersState}
         />
         </Box>
       </Box>
