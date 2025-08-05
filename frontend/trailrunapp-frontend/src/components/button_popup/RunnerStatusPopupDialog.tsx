@@ -7,6 +7,7 @@ type RunnerStatusPopupProps = {
   open: boolean;
   runner: RunnersData | undefined;
   type: "DNS" | "DNF" | "DQ";
+  mode: "register" | "remove";
   reasonLabel: string;
   onCancel: () => void;
   onConfirm: (Reason: string) => void;
@@ -19,6 +20,7 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
   open,
   runner,
   type,
+  mode,
   reasonLabel,
   onCancel,
   onConfirm,
@@ -41,7 +43,10 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
       runner ? (
         <>
           <div style={{ marginBottom: "2rem", fontWeight: "bold",fontSize:"2rem", textAlign: "center"}}>
-            以下の選手を{type}登録しますか？
+            以下の選手
+            {mode === "register" ? "を" : "の"}
+            {type}
+            {mode === "register" ? "登録しますか？" : "を解除しますか？"}
           </div>
           <div style={{
             display: "flex",

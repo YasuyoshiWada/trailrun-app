@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { JSX,useState } from "react";
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { palette } from "../styles/palette";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';       // 未受付
@@ -14,6 +14,7 @@ type StatusLegendProps = {
   isSmallMobile?: boolean,
   isMobile?:boolean,
   onStatusClick?: (statusLabel: string) => void;
+  selectedStatus?: string;
 }
 
 type statusList ={
@@ -38,7 +39,11 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
   isSmallMobile,
   isMobile,
   onStatusClick,
+  selectedStatus,
 }) => {
+   // hover中のstatus labelを記憶
+  const [ hovered, setHovered ] = useState<string | null>(null);
+
   return (
     <Box
       sx={{
@@ -52,8 +57,12 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
         minWidth: (isSmallMobile || isMobile) ? `${statusList.length * 120}px` : '0',
       }}
       >
-        {/* mapでstausListの中身を順番に取得、親要素のboxの中にcolorとlabelを挟む */}
-        {statusList.map((status) => (
+        {/* mapでstatusListの中身を順番に取得、親要素のboxの中にcolorとlabelを挟む */}
+        {statusList.map((status) => {
+          const isActive = status.label === selectedStatus;
+
+
+      return (
         <Box
             key={status.label}
             sx={{
@@ -62,29 +71,42 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
               gap: '0.8rem',
               flex: '0 0 auto',
               minWidth: (isSmallMobile || isMobile) ? '120px' : 'undefined',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              background: isActive ? status.color : palette.white,
+              color: isActive ? palette.white : status.color,
+              fontWeight: isActive ? "bold" : "normal",
+            opacity: hovered ===status.label ? 0.5 :1,//現在どのlabelにhoveredしているかstatus.labelで判定
             }}
             onClick={() => onStatusClick?. (status.label)}//labelをクリック
             style={{ cursor: onStatusClick ? "pointer" : "default"}}
+            onMouseEnter={() => setHovered(status.label)}
+            onMouseLeave={() => setHovered(null)}
           >
           <Box
           sx={{
-            Color: status.color
+            Color: status.color,
           }}
           >
-            {React.cloneElement(status.icon, {sx: { fontSize: 28, color: status.color}})}
+            {React.cloneElement(status.icon, {
+              sx: {
+                fontSize: 28,
+                color: isActive ? palette.white : status.color,
+                }
+                })}
           </Box>
           <Typography
           sx={{
             fontSize:'1.6rem',
-            color: status.color,
+            color: isActive ? palette.white : status.color,
+            fontWeight: isActive ? "bold" : "normal",
             whiteSpace: 'nowrap'
           }}
           >
             {status.label}
           </Typography>
       </Box>
-    ))}
+      );
+    })}
   </Box>
   )
 }

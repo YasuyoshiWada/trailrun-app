@@ -38,6 +38,10 @@ const CategoryRacePage:React.FC =() => {
 //DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
+
+  //dns,dnf,dqの登録と、解除のフラグ
+  const [dialogMode, setDialogMode] = useState<"register" | "remove">("register");
+
   //Time詳細popup open
   const [timeDialogOpen, setTimeDialogOpen] = useState(false);
   //MobileのTime詳細popup open
@@ -106,22 +110,42 @@ const sortedRunners = React.useMemo(() => {
 
 // ボタンクリック時どのpopupを開くかクリックするボタンの場所と連動させる。
   const handleDnsClick = (runnerId: number) => {
+    //runnersStateやallRunnersなどの配列から、選手情報を取得
+    const runner = runnersState.find(r => r.id === runnerId);
+    //runnersがDNS済みかどうかを判定
+    const isDns = !!runner?.dns;
+
     setSelectedRunnerId(runnerId);
     setDialogType("DNS");
+    setDialogMode(isDns ? "remove" : "register"); //ここで分岐
     setDialogOpen(true);
   };
 
   const handleDnfClick = (runnerId: number) => {
+    //runnersStateやallRunnersなどの配列から、選手情報を取得
+    const runner = runnersState.find(r => r.id === runnerId);
+    //runnersがDNS済みかどうかを判定
+    const isDnf = !!runner?.dnf;
+
     setSelectedRunnerId(runnerId);
     setDialogType("DNF");
+    setDialogMode(isDnf ? "remove" : "register"); //ここで分岐
     setDialogOpen(true);
   };
 
   const handleDqClick = (runnerId: number) => {
-    setSelectedRunnerId(runnerId);
-    setDialogType("DQ");
-    setDialogOpen(true);
-  };
+  //runnersStateやallRunnersなどの配列から、選手情報を取得
+  const runner = runnersState.find(r => r.id === runnerId);
+  //runnersがDNS済みかどうかを判定
+  const isDq = !!runner?.dq;
+
+  setSelectedRunnerId(runnerId);
+  setDialogType("DQ");
+  setDialogMode(isDq ? "remove" : "register"); //ここで分岐
+  setDialogOpen(true);
+};
+
+
   //TimeDetailPopup
   const handleTimeDetailClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
@@ -167,23 +191,26 @@ const handleTimeMobileDialogCancel = () => {
   setSelectedRunnerId(null);
 }
 
-const dialogProps = {
+const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove") => ({
   DNS: {
     reasonLabel: "DNS要因",
-    confirmColor: palette.orange,
-    cancelColor: palette.orange,
+    confirmColor: mode === "register" ? palette.orange : palette.gray,
+    cancelColor: mode === "register" ? palette.gray : palette.orange,
   },
   DNF: {
     reasonLabel: "DNF要因",
-    confirmColor: palette.mustardYellow,
-    cancelColor: palette.mustardYellow,
+    confirmColor: mode === "register" ? palette.mustardYellow : palette.gray,
+    cancelColor: mode === "register" ? palette.gray : palette.mustardYellow,
   },
   DQ: {
     reasonLabel: "DQ要因",
-    confirmColor: palette.coralRed,
-    cancelColor: palette.coralRed,
+    confirmColor: mode === "register" ? palette.coralRed : palette.gray,
+    cancelColor: mode === "register" ? palette.gray : palette.coralRed,
   },
-}[dialogType];
+}[type]);
+
+  //getDialogPropsを定数に格納して、わかりやすくしてpropsとして渡す
+  const dialogProps = getDialogProps(dialogType, dialogMode);
 
   const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
@@ -207,6 +234,7 @@ const dialogProps = {
                 isSmallMobile={isSmallMobile}
                 isMobile={isMobile}
                 onStatusClick={label => navigate(`/category/${categoryName}/status/${label}`)}
+                selectedStatus={label}
                 />
               </HorizontalScroller>
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
@@ -273,6 +301,7 @@ const dialogProps = {
         onExited={() => setSelectedRunnerId(null)}
         confirmColor={dialogProps.confirmColor}
         cancelColor={dialogProps.cancelColor}
+        mode={dialogMode}
         />
         <RunnerTimeDetailPopup
         open={timeDialogOpen}

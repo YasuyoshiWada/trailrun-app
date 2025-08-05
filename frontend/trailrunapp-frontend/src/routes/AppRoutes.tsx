@@ -6,6 +6,7 @@ import CategoryRacePage from '../features/category_race/CategoryRacePage';
 import SidebarLayoutPage from '../features/Sidebar/SidebarLayoutPage';
 import TotalCategoryRacePage from '../features/category_race/TotalCategoryRacePage';
 
+
 export const AppRoutes = () => (
   <Routes>
     <Route
