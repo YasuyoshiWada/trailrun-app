@@ -12,10 +12,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import NavMenuList from "./NavMenuList";
 import { palette } from "../../../styles/palette";
 import { BackToDashboardButton } from "../../../components/button/BackToDashboardButton";
+import { useLocation } from "react-router-dom";
+
 
 const MobileHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
+
+  // 現在のパスを取得
+  const location = useLocation();
+
+  // Dashboardのパス
+  const isDashboardPage = location.pathname === "/";
 
   if (!isMobile) return null;
 
@@ -29,7 +37,8 @@ const MobileHeader: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <BackToDashboardButton />
+        {/* ←ここ！Dashboardの場合は表示しない */}
+          {!isDashboardPage && <BackToDashboardButton />}
           <Typography
             sx={{
               color: palette.textPrimary,

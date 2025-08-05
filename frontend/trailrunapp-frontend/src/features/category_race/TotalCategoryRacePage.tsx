@@ -36,6 +36,10 @@ const TotalCategoryRacePage:React.FC =() => {
 //DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
+
+  //dns,dnf,dqの登録と、解除のフラグ
+  const [dialogMode, setDialogMode] = useState<"register" | "remove">("register");
+
   //Time詳細popup open
   const [timeDialogOpen, setTimeDialogOpen] = useState(false);
   //MobileのTime詳細popup open
@@ -109,27 +113,47 @@ const sortedRunners = React.useMemo(() => {
 
 // ボタンクリック時どのpopupを開くかクリックするボタンの場所と連動させる。
   const handleDnsClick = (runnerId: number) => {
+    //runnersStateやallRunnersなどの配列から、選手情報を取得
+    const runner = runnersState.find(r => r.id === runnerId);
+    //runnersがDNS済みかどうかを判定
+    const isDns = !!runner?.dns;
+
     setSelectedRunnerId(runnerId);
     setDialogType("DNS");
+    setDialogMode(isDns ? "remove" : "register"); //ここで分岐
     setDialogOpen(true);
   };
 
   const handleDnfClick = (runnerId: number) => {
+     //runnersStateやallRunnersなどの配列から、選手情報を取得
+    const runner = runnersState.find(r => r.id === runnerId);
+    //runnersがDNS済みかどうかを判定
+    const isDnf = !!runner?.dnf;
+
     setSelectedRunnerId(runnerId);
     setDialogType("DNF");
+    setDialogMode(isDnf ? "remove" : "register"); //ここで分岐
     setDialogOpen(true);
   };
 
   const handleDqClick = (runnerId: number) => {
+    //runnersStateやallRunnersなどの配列から、選手情報を取得
+    const runner = runnersState.find(r => r.id === runnerId);
+    //runnersがDNS済みかどうかを判定
+    const isDq = !!runner?.dq;
+
     setSelectedRunnerId(runnerId);
     setDialogType("DQ");
+    setDialogMode(isDq ? "remove" : "register"); //ここで分岐
     setDialogOpen(true);
   };
+
   //TimeDetailPopup
   const handleTimeDetailClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
     setTimeDialogOpen(true);
   }
+
   //TimeMobileDetailPopup
   const handleTimeMobileDetailClick = (runnerId: number) => {
     setSelectedRunnerId(runnerId);
@@ -174,17 +198,17 @@ const dialogProps = {
   DNS: {
     reasonLabel: "DNS要因",
     confirmColor: palette.orange,
-    cancelColor: palette.orange,
+    cancelColor: palette.gray,
   },
   DNF: {
     reasonLabel: "DNF要因",
     confirmColor: palette.mustardYellow,
-    cancelColor: palette.mustardYellow,
+    cancelColor: palette.gray,
   },
   DQ: {
     reasonLabel: "DQ要因",
     confirmColor: palette.coralRed,
-    cancelColor: palette.coralRed,
+    cancelColor: palette.gray,
   },
 }[dialogType];
 
@@ -210,6 +234,7 @@ const dialogProps = {
                 isSmallMobile={isSmallMobile}
                 isMobile={isMobile}
                 onStatusClick={label => navigate(`/total_category/status/${label}`)}
+                selectedStatus={label}
                 />
               </HorizontalScroller>
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
@@ -273,6 +298,7 @@ const dialogProps = {
         onExited={() => setSelectedRunnerId(null)}
         confirmColor={dialogProps.confirmColor}
         cancelColor={dialogProps.cancelColor}
+        mode={dialogMode}
         />
         <RunnerTimeDetailPopup
         open={timeDialogOpen}
@@ -295,38 +321,3 @@ const dialogProps = {
   }
 
 export default TotalCategoryRacePage;
-
-
-
-// //曖昧検索でのfilter部分。順位、最終到達時刻、タイム、最終到達地点、ゼッケン、名前、カテゴリのフル検索ロジック
-// const filteredRunners = runners.filter(r => {
-//   const keyword = searchText.toLowerCase();
-//   const category = (r.category || "").toLowerCase();
-//   const lastPlace = (r.arrivals[r.arrivals.length - 1]?.place || "").toLowerCase();
-//   const lastArrivalDisplay = getLastArrivalDisplay(r).toLowerCase();
-//   const allElapsed = r.arrivals
-//     .filter(a => !["未受付", "受付済み","スタート"].includes(a.place))
-//     .map(a => a.time? getElapsed(r, a.time) : "-")
-//     .join(" ")
-//     .toLowerCase();
-
-//   let hit = false;
-
-//   // 3. タイム・最終到達地点名・時刻などで部分一致検索
-//   if (showElapsed) {
-//     if (allElapsed.includes(keyword)) hit = true;
-//     if (keyword && lastPlace.includes(keyword)) hit = true;
-//   } else {
-//     if (lastArrivalDisplay.includes(keyword)) hit = true;
-//     if (keyword && lastPlace.includes(keyword))  hit = true;
-//   }
-
-//   if (
-//     String(r.rank).includes(keyword) ||
-//     String(r.raceNumber).includes(keyword) ||
-//     r.name.toLowerCase().includes(keyword) ||
-//     category.includes(keyword)
-//   )  hit = true;
-
-//   return hit;
-// });

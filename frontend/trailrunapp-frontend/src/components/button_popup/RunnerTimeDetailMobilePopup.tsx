@@ -63,7 +63,7 @@ return (
     sx={{
       marginTop: '1.7rem',
       position: 'relative',
-      width:isSmallMobile ? "32rem" : "36rem",//popupの横幅
+      width:isSmallMobile ? "34rem" : "40rem",//popupの横幅
       height:"auto"
     }}>
       <IconButton

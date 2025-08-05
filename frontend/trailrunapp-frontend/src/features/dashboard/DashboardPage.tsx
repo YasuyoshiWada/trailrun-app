@@ -17,9 +17,9 @@ import { useNavigate } from "react-router-dom";
 
 const DashboardPage: React.FC = () => {
    //地点クリック時のURLパラメータを取得
-   const { label } = useParams();
+  const { label } = useParams();
    //AppRoutesの遷移ロジックにnavigateするための定数
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {isSmallMobile,isMobile} = useResponsive();
   //リフレッシュボタン用ダミーデータ
@@ -56,6 +56,7 @@ const responsive = {isSmallMobile, isMobile}
           isSmallMobile={isSmallMobile}
           isMobile={isMobile}
           onStatusClick={label => navigate(`/total_category/status/${label}`)}
+          selectedStatus={label}
           />
         </HorizontalScroller>
         <Box

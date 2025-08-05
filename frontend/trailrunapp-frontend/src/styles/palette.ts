@@ -9,7 +9,8 @@ export const palette = {
   limeGreen: '#62c338',
   textPrimary: '#231f20',
   mustardYellow: '#f5ba30',
-  lightGray: '#D9D9D9'
+  lightGray: '#D9D9D9',
+  white: '#fff'
 };
 
 export const statusColorMap: Record<string, string> = {
