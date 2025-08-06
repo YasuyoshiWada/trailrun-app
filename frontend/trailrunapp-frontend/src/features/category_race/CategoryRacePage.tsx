@@ -13,15 +13,15 @@ import RaceEntryTableMobile from "../../components/RaceEntryTableMobile";
 import SearchBar from "../../components/SearchBar";
 import RunnerStatusPopupDialog from "../../components/button_popup/RunnerStatusPopupDialog";
 import { palette } from "../../styles/palette";
-//ステータスバーのlabelにmatchした色を渡す関数mapStatusWithColorのimport
-import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
+import { mapStatusWithColor } from "../../utils/mapStatusWithColor";//ステータスバーのlabelにmatchした色を渡す関数mapStatusWithColorのimport
 import RunnerTimeDetailPopup from "../../components/button_popup/RunnerTimeDetailPopup";
 import RunnerTimeDetailMobilePopup from "../../components/button_popup/RunnerTimeDetailMobilePopup";
 import SortSearch from "../../components/SortSearch";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getLastPlaceDisplay } from "../../utils/getLastArrivalDisplay";
-
+import { useRunnersData } from "../../hooks/useRunnersData";
+import { RefreshButton } from "../../components/button/RefreshButton";
 
 
 //昇順、降順のタイプ
@@ -212,6 +212,9 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
   //getDialogPropsを定数に格納して、わかりやすくしてpropsとして渡す
   const dialogProps = getDialogProps(dialogType, dialogMode);
 
+  //リフレッシュボタン用ダミーデータ
+  const { data, loading, refresh } = useRunnersData();
+
   const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
   const responsive = {isSmallMobile, isMobile}
@@ -241,7 +244,12 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
               <Box
               sx={{
                 ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "1rem"
               }}>
+                <RefreshButton onClick={refresh} loading={loading} />
                 <Link to={`/category/${encodeURIComponent(categoryStatus?.categoryName ?? "")}`}
                 style={{textDecoration: "none"}}
                 >
