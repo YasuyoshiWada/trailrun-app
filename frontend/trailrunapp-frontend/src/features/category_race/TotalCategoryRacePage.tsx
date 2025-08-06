@@ -21,6 +21,8 @@ import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getLastPlaceDisplay } from "../../utils/getLastArrivalDisplay";
+import { useRunnersData } from "../../hooks/useRunnersData";
+import { RefreshButton } from "../../components/button/RefreshButton";
 
 
 //昇順、降順のタイプ
@@ -212,6 +214,9 @@ const dialogProps = {
   },
 }[dialogType];
 
+  //リフレッシュボタン用ダミーデータ
+  const { data, loading, refresh } = useRunnersData();
+
   const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
   const responsive = {isSmallMobile, isMobile}
@@ -241,7 +246,12 @@ const dialogProps = {
               <Box
               sx={{
                 ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "1rem"
               }}>
+                <RefreshButton onClick={refresh} loading={loading} />
                 <Link to="/total_category"
                 style={{textDecoration: "none"}}
                 >
