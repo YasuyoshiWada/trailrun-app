@@ -84,10 +84,10 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
         {statusList.map((status,idx) => (
           <Box
             key={idx}
-            color="textPrimary"
             sx={{
               width: `${(status.value / totalParticipants) * 100}%`,
               backgroundColor: status.color,
+              color:palette.textPrimary,
               fontSize:'1.6rem',
               display:"flex",
               alignItems:"center",

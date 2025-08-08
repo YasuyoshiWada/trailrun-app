@@ -50,6 +50,14 @@ export const AppRoutes = () => (
       </SidebarLayoutPage>
     }
     />
+    <Route
+    path="/start-time"
+    element={
+      <SidebarLayoutPage>
+          
+      </SidebarLayoutPage>
+    }
+    />
     {/* <Route path="/login" element={<LoginPage />} /> */}
   </Routes>
 );
