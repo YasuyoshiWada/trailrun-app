@@ -1,12 +1,13 @@
 import React from 'react';
 import {BrowserRouter } from 'react-router-dom';
-import { AppRoutes } from './routes/AppRoutes';
+import AppRouterWithDialogs from './AppRouterWithDialog';
 
 
 const App: React.FC = () => (
+
   <BrowserRouter>
-    <AppRoutes />
+    <AppRouterWithDialogs />
   </BrowserRouter>
-);
+  )
 
 export default App;
