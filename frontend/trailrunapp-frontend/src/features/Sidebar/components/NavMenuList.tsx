@@ -20,7 +20,14 @@ const NavMenuList: React.FC<Props> = ({ direction = "column" }) => {
   const navigate = useNavigate();
 
   return (
-    <List sx={{ ml: '1.6rem', display: 'flex', flexDirection: direction, p:0 }}>
+    <List
+    sx={{
+      ml: '1.6rem',
+      display: 'flex',
+      flexDirection: direction,
+      p:0,
+      gap: "0.6rem",
+      }}>
       {menuItems.map((item) => {
         if (item.path === "/start-time") {
           // ← ここだけ navigate(state) で開く

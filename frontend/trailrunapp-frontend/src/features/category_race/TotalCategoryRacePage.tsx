@@ -245,7 +245,6 @@ const dialogProps = {
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
               <Box
               sx={{
-                ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",

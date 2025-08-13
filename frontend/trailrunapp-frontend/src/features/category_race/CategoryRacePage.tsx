@@ -243,15 +243,13 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
               {/* ここはバックエンドからAPIを取得し、データを表示させる部分 */}
               <Box
               sx={{
-                ml: (isSmallMobile || isMobile) ? "2rem" : undefined,
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                gap: "1rem"
               }}>
                 <RefreshButton onClick={refresh} loading={loading} />
                 <Link to={`/category/${encodeURIComponent(categoryStatus?.categoryName ?? "")}`}
-                style={{textDecoration: "none"}}
+                style={{textDecoration: "none", padding: 0 }}
                 >
                     {categoryStatus&& (
                     <RaceCategoryStatusBar
