@@ -1,5 +1,5 @@
 import {Box, IconButton, Tooltip } from "@mui/material";
-import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { palette } from "../../styles/palette";
 import { ReactNode } from "react";
 
@@ -38,7 +38,7 @@ export function RefreshButton({
         }}
         >
           {icon ?? (
-            <AutorenewRoundedIcon
+            <RefreshIcon
           sx={{
             fontSize:"2.5rem"
           }}
