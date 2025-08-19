@@ -12,6 +12,7 @@ import {
   TableCell,
   TableBody,
   Checkbox,
+  FormControlLabel,
   Box,
   Stack,
   Divider,
@@ -23,10 +24,12 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 import "dayjs/locale/ja";
 import useResponsive from "../../hooks/useResponsive";
 import { palette } from "../../styles/palette";
+import  { SxProps, Theme } from "@mui/material/styles";
+import type { DateTimePickerProps } from "@mui/x-date-pickers/DateTimePicker"
 
 type Category = {
   id: string;
@@ -40,6 +43,8 @@ type Props = {
   onClose: () => void;
   onSave: (categories: Category[]) => void;
 };
+
+
 
 const StartTimeSettingDialog: React.FC<Props> = ({
   open,
@@ -59,10 +64,10 @@ const StartTimeSettingDialog: React.FC<Props> = ({
   const isHandset = isSmallMobile || isMobile;
 
   // ピッカー切替（型が強いので any キャストで素直に）
-  const Picker = useMemo(
-    () => (isHandset ? (MobileDateTimePicker as any) : (DateTimePicker as any)),
-    [isHandset]
-  );
+  // const Picker = useMemo(
+  //   () => (isHandset ? (MobileDateTimePicker as any) : (DateTimePicker as any)),
+  //   [isHandset]
+  // );
 
   useEffect(() => {
     dayjs.locale("ja");
@@ -97,11 +102,94 @@ const StartTimeSettingDialog: React.FC<Props> = ({
     );
   };
 
-  const tableCellSx = {
+  const tableCellSx: SxProps<Theme> = {
     fontSize: isHandset ? "1.6rem" : "2rem",
     textAlign: "center" as const,
     color: palette.textPrimary,
   };
+  // DateTimePicker の props をそのまま受け取り、isHandset だけを追加して
+  // Mobile/Desktop のどちらを使うか切り替える薄いラッパー。
+  // isHandset は内部で分岐にのみ使い、残りの props はそのまま子コンポーネントへ転送（props forwarding）する。
+  // vX の型仕様上、アクセシブルなフィールドDOM構造フラグ（第1ジェネリック）は boolean なので <false> を指定。
+  type RProps = DateTimePickerProps<false> & {
+    isHandset: boolean;
+    value: Dayjs | null; //日付はDayjsを採用
+    onChange: (v: Dayjs | null) => void; //呼び出し側もDayjsで型安全
+    };
+
+  const ResponsiveDateTimePicker: React.FC<RProps> = ({ isHandset, ...props }) => {
+    return isHandset ? (
+    <MobileDateTimePicker {...props} />
+    ) : ( <DateTimePicker {...props} />
+    )
+  };
+
+  // ResponsiveDateTimePicker内のスタイリング一括まとめ
+  // 共通で使い回すと楽
+    const pickerLayoutSx: SxProps<Theme> = {
+      /* ツールバー（上部の「8月 19」や「00:00:00」） */
+      "& .MuiPickersToolbar-title": {
+        fontSize: "2.4rem",           // ← ここで大きく
+        fontWeight: 600,
+        lineHeight: 1,
+      },
+      /* カレンダーヘッダの「8月 2025」 */
+      "& .MuiPickersCalendarHeader-label": {
+        fontSize: "3rem",           // ← 見出しを大きく
+        fontWeight: 600,
+      },
+        /* ===== 年／月ビューのフォントを大きく ===== */
+      /* 年選択（2017/2018/… のグリッド） */
+      "& .MuiYearCalendar-root .MuiYearCalendar-button": {
+        fontSize: "3rem",             // ← 西暦ボタンを大きく
+        minWidth: 64,
+        minHeight: 40,
+        lineHeight: "1.2rem"
+      },
+      /* 選択時も同サイズで維持 */
+      "& .MuiYearCalendar-root .MuiPickersYear-yearButton.Mui-selected": {
+        fontSize: "2.2rem",
+      },
+      /* 月選択（1月〜12月のボタン） */
+      "& .MuiMonthCalendar-root .MuiMonthCalendar-button": {
+        fontSize: "3rem",             // ← 月ボタンを大きく
+        minWidth: 64,
+        minHeight: 40,
+      },
+          /* ===== 上部のカレンダー／時計アイコンを大きく ===== */
+      /* v6: レイアウト内タブのアイコン */
+      "& .MuiPickersLayout-tabs .MuiTab-root .MuiSvgIcon-root": {
+        fontSize: "3.6rem",
+      },
+      /* ついでにタブ自体の高さも少し大きく */
+      "& .MuiPickersLayout-tabs .MuiTab-root": {
+        minHeight: 48,
+        padding: "6px 16px",
+      },
+      // 日付選択の曜日の文字を変更している
+      // "& MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel": {
+      //   fontSize: "3rem",
+      //   fontWeight: 600,
+      // },
+
+      // 日付選択のキャンセルと次への文字を変更している
+      "& .MuiButtonBase-root": {
+        fontSize: "3rem",
+        minWidth: 40,
+        minHeight: 40,
+      },
+       /* カレンダー／時間リスト側（ポータル内） */
+      "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
+      "& .MuiDayCalendar-weekDayLabel": { fontSize: "1.6rem" },
+      "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
+      /* 時刻ビュー（分割リスト） */
+      "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "1.8rem", minHeight: 40 },
+       /* 時刻ビュー（単一縦リスト） */
+      "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
+      /* フッターのボタン */
+      "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
+    };
+
 
   // --- デスクトップ: 従来どおりテーブル表示 ---
   const DesktopTable = () => (
@@ -118,21 +206,21 @@ const StartTimeSettingDialog: React.FC<Props> = ({
           <TableRow key={cat.id}>
             <TableCell sx={tableCellSx}>{cat.name}</TableCell>
             <TableCell>
-              <Picker
+              <ResponsiveDateTimePicker
+              isHandset={isHandset}
               open={openPickerId === cat.id}
               onOpen={() => setOpenPickerId(cat.id)}
               onClose={() => setOpenPickerId(null)}
-
-                value={cat.startTime ? dayjs(cat.startTime) : null}
-                onChange={(val: Dayjs | null) => handleTimeChange(cat.id, val)}
-                ampm={false}
-                views={["year", "month", "day", "hours", "minutes", "seconds"]}
-                format="YYYY/MM/DD HH:mm:ss"
-                closeOnSelect={false}
-                //  reduceAnimationsはモバイルでの体感を良くする
-                reduceAnimations
-                slotProps={{
-                  field: {
+              value={cat.startTime ? dayjs(cat.startTime) : null}
+              onChange={(val: Dayjs | null) => handleTimeChange(cat.id, val)}
+              ampm={false}
+              views={["year", "month", "day", "hours", "minutes", "seconds"]}
+              format="YYYY/MM/DD HH:mm:ss"
+              closeOnSelect={false}
+              //  reduceAnimationsはモバイルでの体感を良くする
+              reduceAnimations
+              slotProps={{
+                  textField: {
                     size: "medium",
                     fullWidth: true,
                     // フィールドクリックでポップアップを開かせたくない場合
@@ -158,12 +246,15 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                       "& .MuiPickersSection-root": { fontSize: "2.2rem" },
                     },
                   },
+
+                   /* カレンダー／時間リスト側（ポータル内） */
+                  layout: { sx: pickerLayoutSx },
                   // アイコン（右側ボタン）経由では開けるようにする
                   openPickerButton: {
                     onClick: () => setOpenPickerId(cat.id),
                   },
-                  actionBar: { actions: ["cancel", "accept"],
                   dialog: { keepMounted: true }, // ← 内部 Dialog を保持
+                  actionBar: { actions: ["cancel", "accept"],
                 sx: {
                   '& .MuiButton-root': {
                     fontSize: '1.6rem',
@@ -217,7 +308,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
           >
             <Typography
               sx={{
-                fontSize: "2rem",
+                fontSize: "3rem",
                 fontWeight: 600,
                 color: palette.textPrimary,
               }}
@@ -226,33 +317,40 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              <Typography sx={{
-                fontSize: "1.8rem",
-                color: palette.darkGray,
-                fontWeight: "bold",
-                }}
-                >
-                一括
-              </Typography>
-              <Checkbox
+              <FormControlLabel
+                labelPlacement="start" //ラベルを左,チェックを右に
                 sx={{
-                  "& .MuiSvgIcon-root": { fontSize: 24 },
-                  p: 0.5,
+                  m: 0,
+                  gap: "0.2rem",
+                  ".MuiFormControlLabel-label": {
+                    fontSize: "3rem",
+                    color: palette.darkGray,
+                    fontWeight: "bold",
+                  },
                 }}
-                checked={checked.includes(cat.id)}
-                onChange={() => handleCheck(cat.id)}
-              />
+                control={
+                  <Checkbox
+                  sx={{
+                    "& .MuiSvgIcon-root": { fontSize: "5rem" },
+                    p: 0.5,
+                  }}
+                  checked={checked.includes(cat.id)}
+                  onChange={() => handleCheck(cat.id)}
+                />
+                }
+                  label="一括"
+                  />
             </Box>
           </Box>
 
           <Divider sx={{ mb: 0.6 }} />
 
           {/* 下段: ピッカー（全幅） */}
-          <Picker
+          <ResponsiveDateTimePicker
+            isHandset={isHandset}
             open={openPickerId === cat.id}
             onOpen={() => setOpenPickerId(cat.id)}
             onClose={() => setOpenPickerId(null)}
-
             value={cat.startTime ? dayjs(cat.startTime) : null}
             onChange={(val: Dayjs | null) => handleTimeChange(cat.id, val)}
             ampm={false}
@@ -263,7 +361,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             reduceAnimations
             slotProps={{
               /* 入力フィールド（表示テキストのフォントを確実に大きくするのは field） */
-              field: {
+              textField: {
                 size: "medium",
                 fullWidth: true,
                 // フィールドクリックでポップアップを開かせたくない場合
@@ -282,34 +380,16 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                 // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
                 sx: {
                   /* 右側アイコン */
-                  "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "2.2rem" },
+                  "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "4rem" },
 
                   /* v8 のセクション表示（年/月/日など） */
-                  "& .MuiPickersSectionList-root": { fontSize: "2.2rem" },
+                  "& .MuiPickersSectionList-root": { fontSize: "3rem" },
                   "& .MuiPickersSection-root": { fontSize: "2.2rem" },
                 },
               },
 
               /* カレンダー／時間リスト側（ポータル内） */
-              layout: {
-                sx: {
-                  "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
-                  "& .MuiDayCalendar-weekDayLabel": { fontSize: "1.6rem" },
-                  "& .MuiPickersCalendarHeader-label": { fontSize: "1.6rem" },
-                  "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
-
-                  /* 時刻ビュー（分割リスト） */
-                  "& .MuiMultiSectionDigitalClockSection-item": {
-                    fontSize: "1.8rem",
-                    minHeight: 40,
-                  },
-                  /* 時刻ビュー（単一縦リスト） */
-                  "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
-
-                  /* フッターのボタン */
-                  "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
-                },
-              },
+              layout: { sx: pickerLayoutSx },
 
               /* 右側のカレンダーアイコン → ここだけで開く */
               openPickerButton: {
@@ -342,7 +422,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
       <DialogTitle
         sx={{
           textAlign: "center",
-          fontSize: isHandset ? "1.9rem" : "2.4rem",
+          fontSize: isHandset ? "4rem" : "2.4rem",
           fontWeight: "bold",
           color: palette.navyBlue,
         }}
@@ -379,7 +459,8 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               flexWrap: "wrap",
             }}
           >
-            <Picker
+            <ResponsiveDateTimePicker
+            isHandset={isHandset}
               value={bulkTime}
               onChange={(v: Dayjs | null) => setBulkTime(v)}
               ampm={false}
@@ -387,62 +468,75 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               format="YYYY/MM/DD HH:mm:ss"
               closeOnSelect={false}
               slotProps={{
-                field: {
+                textField: {
                   size: "medium",
-                  fullWidth: "true",
+                  fullWidth:  true,
                   label: "一括時刻指定",
                   //labelのフォントサイズ調整
                   InputLabelProps: {
                     sx: {
-                      fontSize: "1.6rem"
+                      fontSize: isHandset ? "3rem" : "2rem"
                     }
                   },
                   // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
                   sx: {
                     /* 右側アイコン */
-                    "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "2.2rem" },
+                    "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "3.2rem" },
 
                     /* v8 のセクション表示（年/月/日など） */
-                    "& .MuiPickersSectionList-root": { fontSize: "1.6rem" },
+                    "& .MuiPickersSectionList-root": { fontSize: isHandset ? "3rem" : "1.4rem"},
                     "& .MuiPickersSection-root": { fontSize: "2rem" },
                   },
                 },
-                  // カレンダーの日付セル（数字）
-                day: {
-                  sx: { fontSize: "1.6rem", width: 48, height: 48 },
-                },
-                  // 年/月のボタン（年選択/月選択ビューを使う場合）
-                yearButton: { sx: { fontSize: "1.4rem" } },
-                monthButton: { sx: { fontSize: "1.4rem" } },
-                // カレンダーヘッダー（月名・矢印など）
-                calendarHeader: {
-                  sx: {
-                    "& .MuiPickersCalendarHeader-label": { fontSize: "1.4rem" },
+                  /* カレンダー／時間リスト側（ポータル内） */
+              layout: {
+                sx: {
+                  "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
+                  "& .MuiDayCalendar-weekDayLabel": { fontSize: "1.6rem" },
+                  "& .MuiPickersCalendarHeader-label": { fontSize: "1.6rem" },
+                  "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
+
+                  /* 時刻ビュー（分割リスト） */
+                  "& .MuiMultiSectionDigitalClockSection-item": {
+                    fontSize: "1.8rem",
+                    minHeight: 40,
                   },
+                  /* 時刻ビュー（単一縦リスト） */
+                  "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
+
+                  /* フッターのボタン */
+                  "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
                 },
+              },
                 // フッターの「キャンセル / 次へ」
                 actionBar: {
                   actions: ["cancel", "accept"],
-                  sx: { "& .MuiButton-root": { fontSize: "1.6rem" } },
+                  sx: { "& .MuiButton-root": { fontSize: "2.6rem" } },
                 },
               }}
             />
-            <Button
-              sx={{ fontSize:"2rem" }}
-              variant="outlined"
-              onClick={handleBulkApply}
-              disabled={checked.length === 0 || !bulkTime}
-            >
-              一括適用
-            </Button>
+
           </Box>
 
           {/* 右：キャンセル / 保存 */}
-          <Box sx={{ display: "flex", gap: 1 }}>
+          <Box
+          sx={{
+            display: "flex",
+            gap: isHandset ? 1.5 : 1,
+            }}
+            >
+            <Button
+                sx={{ fontSize:"2.4rem" }}
+                variant="outlined"
+                onClick={handleBulkApply}
+                disabled={checked.length === 0 || !bulkTime}
+              >
+                一括適用
+              </Button>
             <Button
               onClick={onClose}
               sx={{
-                fontSize: "1.8rem",
+                fontSize: "2.6rem",
                 color: palette.darkGray,
               }}
             >
@@ -452,7 +546,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               onClick={() => onSave(edited)}
               variant="contained"
               sx={{
-                fontSize: isHandset ? "1.6rem" : "1.8rem",
+                fontSize: isHandset ? "2.4rem" : "1.8rem",
                 color: palette.white,
                 background: palette.navyBlue,
               }}
