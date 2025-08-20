@@ -167,20 +167,24 @@ const StartTimeSettingDialog: React.FC<Props> = ({
         padding: "6px 16px",
       },
       // 日付選択の曜日の文字を変更している
-      // "& MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel": {
-      //   fontSize: "3rem",
-      //   fontWeight: 600,
-      // },
-
-      // 日付選択のキャンセルと次への文字を変更している
-      "& .MuiButtonBase-root": {
+      "& .MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel": {
         fontSize: "3rem",
-        minWidth: 40,
-        minHeight: 40,
+        fontWeight: 600,
+        mx:"0.6rem"
+      },
+      // カレンダーの左上に出る月日の表示のフォントを変更している
+      "& .MuiTypography-root.MuiTypography-h4.MuiPickersToolbarText-root": {
+        fontSize: "3rem"
+      },
+      "& .MuiTypography-root.MuiTypography-subtitle1.MuiPickersToolbarText-root": {
+        fontSize: "3rem"
+      },
+      //カレンダー内の日にちのフォントを変更している
+      "& .MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin": {
+        fontSize: "3rem"
       },
        /* カレンダー／時間リスト側（ポータル内） */
       "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
-      "& .MuiDayCalendar-weekDayLabel": { fontSize: "1.6rem" },
       "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
       /* 時刻ビュー（分割リスト） */
       "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "1.8rem", minHeight: 40 },
@@ -254,10 +258,12 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                     onClick: () => setOpenPickerId(cat.id),
                   },
                   dialog: { keepMounted: true }, // ← 内部 Dialog を保持
+                  // カレンダーの下のキャンセル、次へボタン
                   actionBar: { actions: ["cancel", "accept"],
+                  // カレンダーの下のキャンセル、次へボタンのスタイル指定
                 sx: {
                   '& .MuiButton-root': {
-                    fontSize: '1.6rem',
+                    fontSize: '2.6rem',
                     color: palette.navyBlue,
                   },
                 },
@@ -399,7 +405,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               /* フッターの「キャンセル / 次へ」 */
               actionBar: {
                 actions: ["cancel", "accept"],
-                sx: { "& .MuiButton-root": { fontSize: "1.6rem" } },
+                sx: { "& .MuiButton-root": { fontSize: "2.6rem",  color: palette.navyBlue } },
               },
             }}
           />
@@ -489,29 +495,11 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                   },
                 },
                   /* カレンダー／時間リスト側（ポータル内） */
-              layout: {
-                sx: {
-                  "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
-                  "& .MuiDayCalendar-weekDayLabel": { fontSize: "1.6rem" },
-                  "& .MuiPickersCalendarHeader-label": { fontSize: "1.6rem" },
-                  "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
-
-                  /* 時刻ビュー（分割リスト） */
-                  "& .MuiMultiSectionDigitalClockSection-item": {
-                    fontSize: "1.8rem",
-                    minHeight: 40,
-                  },
-                  /* 時刻ビュー（単一縦リスト） */
-                  "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
-
-                  /* フッターのボタン */
-                  "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
-                },
-              },
+              layout: {sx: pickerLayoutSx },
                 // フッターの「キャンセル / 次へ」
                 actionBar: {
                   actions: ["cancel", "accept"],
-                  sx: { "& .MuiButton-root": { fontSize: "2.6rem" } },
+                  sx: { "& .MuiButton-root": { fontSize: "2.6rem",  color: palette.navyBlue } },
                 },
               }}
             />
