@@ -54,8 +54,8 @@ const TotalCategoryRacePage:React.FC =() => {
   //全体のステータスバー
   const raceCategoryData = countStatusByCategory(allRunners);
   const totalStatusList = getTotalStatusList(raceCategoryData);
-  const totalParticipants = raceCategoryData.reduce((sum,cat) => sum + cat.
-  totalParticipants, 0);
+  const totalParticipants = raceCategoryData.reduce((sum,cat) => sum + cat
+  .totalParticipants, 0);
 
   const [runnersState, setRunners] = useState<RunnersData[]>(runners);
 

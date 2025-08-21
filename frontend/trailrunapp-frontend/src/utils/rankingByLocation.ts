@@ -1,7 +1,7 @@
 import { RunnersData } from "../data/runnersTypes";
 
 function timeStringToSeconds(t: string): number {
-  const [h, m, s] = t.split(":").map(Number);
+  const [h = 0, m = 0 , s = 0] = t.split(":").map(Number);
   return h * 3600 + m * 60 + s;
 }
 

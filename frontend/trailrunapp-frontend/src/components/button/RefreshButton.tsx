@@ -31,8 +31,10 @@ export function RefreshButton({
         borderRadius: "1.2rem"
       }}>
         <IconButton
+        component="button" //ボタン用のオーバーロードを明示、他にリンクとしての使い方もあるゆえに
+        type="button" //ファーム内なら誤送信防止、buttonコンポーネントはtypeを明示的に記入しないとデフォルトでsubmitに設定されるから。
         onClick={onClick}
-        disabled={loading}
+        disabled={Boolean(loading)} // booleanに正規化
         sx={{
           fontSize:"2.5rem"
         }}

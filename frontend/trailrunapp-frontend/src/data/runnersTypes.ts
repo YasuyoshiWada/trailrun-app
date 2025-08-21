@@ -12,7 +12,7 @@ export type RunnersData = {
   dns: boolean | null;
   dnf: boolean | null;
   dq: boolean | null;
-  dnsContent?: string;
-  dnfContent?: string;
-  dqContent?: string;
+  dnsContent?: string | undefined;
+  dnfContent?: string | undefined;
+  dqContent?: string | undefined;
 }

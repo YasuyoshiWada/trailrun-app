@@ -1,5 +1,5 @@
 import React, { JSX,useState } from "react";
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { palette } from "../styles/palette";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';       // 未受付
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';   // 受付済み
@@ -14,7 +14,7 @@ type StatusLegendProps = {
   isSmallMobile?: boolean,
   isMobile?:boolean,
   onStatusClick?: (statusLabel: string) => void;
-  selectedStatus?: string;
+  selectedStatus?: string | undefined;
 }
 
 type statusList ={

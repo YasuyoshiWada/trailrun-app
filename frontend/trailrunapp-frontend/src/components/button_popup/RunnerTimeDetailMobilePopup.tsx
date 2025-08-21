@@ -1,6 +1,6 @@
 import React from "react";
 import { RunnersData } from "../../data/runnersTypes";
-import { Dialog, DialogContent, DialogActions} from "@mui/material";
+import { Dialog, DialogContent} from "@mui/material";
 import {Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { palette, statusColorMap } from "../../styles/palette";
 import DNSButton from "../button/DnsButton";

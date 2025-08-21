@@ -7,8 +7,12 @@ export function getLastArrivalDisplay(runner: RunnersData): string {
     return "-";
   }
   const lastArrival = runner.arrivals[runner.arrivals.length -1];
+  if(!lastArrival) {
+    return "-";
+  }
   //timeがなければ"-""
   return lastArrival.time || "-";
+
 }
 
 // 最終到達地点の表示
@@ -17,6 +21,9 @@ export function getLastPlaceDisplay(runner: RunnersData): string {
     return "未受付";
   }
   const lastArrival = runner.arrivals[runner.arrivals.length -1];
+  if(!lastArrival) {
+    return "-";
+  }
   //timeがなければ"-""
   return lastArrival.place || "-";
 }

@@ -10,8 +10,8 @@ export const getElapsed = (runner:RunnersData, arrivalTime: string) => {
   const startTime = getStartTime(runner);
   if(!startTime) return "-";
   //時刻差計算。まずはsplitでstringを時間、分、秒に分割してNumber型に変換
-  const [sh, sm, ss] = startTime.split(":").map(Number);
-  const [eh, em, es] = arrivalTime.split(":").map(Number);
+  const [sh = 0, sm = 0, ss = 0] = startTime.split(":").map(Number);
+  const [eh = 0, em = 0, es = 0] = arrivalTime.split(":").map(Number);
   //一度全て秒数に換算
   const startSec = sh * 3600 + sm *60 + ss;
   const endSec = eh * 3600 + em * 60 + es;
