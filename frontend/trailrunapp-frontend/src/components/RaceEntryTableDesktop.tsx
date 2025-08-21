@@ -100,6 +100,9 @@ return (
         {runners.map(runner => {
           // 最後の地点を取得する
           const last = runner.arrivals[runner.arrivals.length -1];
+          if(!last) {
+            return null;
+          }
 
           //lastやlast.placeがない場合も考慮
           const lastTime = last?.time;
@@ -123,7 +126,7 @@ return (
             sx={{
               ...TableRowSx,
               ...TableCellSx,
-              //最終到達の色の定義はpaletteでしていて、ダミーデータのlastArrivalPlaceと同じ値が見つかった場合に色を適用している仕様。
+              //最終到達の色の定義はpaletteでしていて、ダミーデータのlastArrivalPlaceの値とstatusColorMapの値が一致した時にstatusColorMap内の色が反映される仕組み
               color:statusColorMap[
                 runner.arrivals.length
                 ? last.place

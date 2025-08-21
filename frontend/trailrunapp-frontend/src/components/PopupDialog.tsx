@@ -14,7 +14,7 @@ type PopupDialogProps = {
   confirmColor?:string;
   cancelColor?:string;
   children?: React.ReactNode;
-  onExited?: () => void; //親で閉じるpopupの一瞬popupが小さくなる現象を解消する値
+  onExited: (() => void) | undefined //親で閉じるpopupの一瞬popupが小さくなる現象を解消する値
 };
 
 const PopupDialog: React.FC<PopupDialogProps> = ({

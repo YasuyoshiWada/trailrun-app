@@ -3,8 +3,8 @@ import { palette, statusColorMap } from "../styles/palette";
 
 function groupByCategory(runners: RunnersData[]): Record<string, RunnersData[]> {
   return runners.reduce((acc,  runner) => {
-    acc[runner.category] = acc[runner.category] || [];
-    acc[runner.category].push(runner);
+    const key = runner.category;
+    (acc[key] ??= []).push(runner); //??= は「左が null/undefined のときだけ右を代入」する演算子。 代入後は acc[key] が 配列として確定するので push で怒られません。
     return acc;
   }, {} as Record<string, RunnersData[]>);
 }
@@ -32,7 +32,7 @@ export function countStatusByCategory(runners: RunnersData[]): RaceCategoryData[
       if (runner.dns) lastPlace = "DNS";
       else if (runner.dnf) lastPlace ="DNF";
       else if (runner.dq) lastPlace = "DQ";
-      else lastPlace = runner.arrivals[runner.arrivals.length - 1] ?.place || "未受付";
+      else lastPlace = runner.arrivals[runner.arrivals.length - 1]?.place || "未受付";
       statusCount[lastPlace] = (statusCount[lastPlace] || 0) +1;
     });
     return {
@@ -50,10 +50,9 @@ export function getTotalStatusList(raceCategoryList:RaceCategoryData[]) {
   const totals:{ [label: string]: {value:number; color:string}} = {};
   raceCategoryList.forEach(category => {
     category.statusList.forEach(status => {
-      if (!totals[status.label]) {
-        totals[status.label] = { value: 0, color: statusColorMap[status.label] || palette.darkGray };
-      }
-      totals[status.label].value += status.value;
+      const label = status.label;
+      totals[label] ??= { value:0, color: statusColorMap[label] ?? palette.darkGray };
+      totals[label]!.value += status.value;
     });
   });
   return Object.entries(totals).map(([label, { value, color }]) => ({
