@@ -5,10 +5,17 @@ import DashboardPage from '../features/dashboard/DashboardPage';
 import CategoryRacePage from '../features/category_race/CategoryRacePage';
 import SidebarLayoutPage from '../features/Sidebar/SidebarLayoutPage';
 import TotalCategoryRacePage from '../features/category_race/TotalCategoryRacePage';
+import AdminLogin from '../features/Auth/AdminLogin';
 
 
 export const AppRoutes = () => (
   <Routes>
+    <Route
+    path="/login/admin"
+    element={
+      <AdminLogin />
+    }
+    />
     <Route
     path="/"
     element={
@@ -54,7 +61,7 @@ export const AppRoutes = () => (
     path="/start-time"
     element={
       <SidebarLayoutPage>
-          
+
       </SidebarLayoutPage>
     }
     />
