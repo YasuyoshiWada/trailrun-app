@@ -116,13 +116,14 @@ const StartTimeSettingDialog: React.FC<Props> = ({
     value: Dayjs | null; //日付はDayjsを採用
     onChange: (v: Dayjs | null) => void; //呼び出し側もDayjsで型安全
     };
-
+    //ResponsiveDateTimePickerにレイアウトによって変更される、mobileとpc対応のPickerを定義している
   const ResponsiveDateTimePicker: React.FC<RProps> = ({ isHandset, ...props }) => {
     return isHandset ? (
     <MobileDateTimePicker {...props} />
     ) : ( <DateTimePicker {...props} />
     )
   };
+  const today = dayjs();
 
   // ResponsiveDateTimePicker内のスタイリング一括まとめ
   // 共通で使い回すと楽
@@ -184,12 +185,12 @@ const StartTimeSettingDialog: React.FC<Props> = ({
         fontSize: "3rem"
       },
        /* カレンダー／時間リスト側（ポータル内） */
-      "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
+      "& .MuiPickersDay-root": { fontSize: "2.8rem", width: 48, height: 48 },
       "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
-      /* 時刻ビュー（分割リスト） */
-      "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "1.8rem", minHeight: 40 },
+      /* 時刻ビュー（分割リスト） 時間、分、秒のフォント*/
+      "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "2.8rem", minHeight: 40 },
        /* 時刻ビュー（単一縦リスト） */
-      "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
+      "& .MuiDigitalClock-item": { fontSize: "2.8rem", minHeight: 40 },
       /* フッターのボタン */
       "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
     };
@@ -212,6 +213,8 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             <TableCell>
               <ResponsiveDateTimePicker
               isHandset={isHandset}
+              //現在より過去を選択できない
+              disablePast
               open={openPickerId === cat.id}
               onOpen={() => setOpenPickerId(cat.id)}
               onClose={() => setOpenPickerId(null)}
@@ -220,6 +223,8 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               ampm={false}
               views={["year", "month", "day", "hours", "minutes", "seconds"]}
               format="YYYY/MM/DD HH:mm:ss"
+              //時間指定ロールを1刻みに設定している
+              timeSteps={{ hours: 1, minutes: 1, seconds: 1 }}
               closeOnSelect={false}
               //  reduceAnimationsはモバイルでの体感を良くする
               reduceAnimations
@@ -354,6 +359,8 @@ const StartTimeSettingDialog: React.FC<Props> = ({
           {/* 下段: ピッカー（全幅） */}
           <ResponsiveDateTimePicker
             isHandset={isHandset}
+            //現在より過去を選択できない
+            disablePast
             open={openPickerId === cat.id}
             onOpen={() => setOpenPickerId(cat.id)}
             onClose={() => setOpenPickerId(null)}
@@ -362,6 +369,8 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             ampm={false}
             views={["year", "month", "day", "hours", "minutes", "seconds"]}
             format="YYYY/MM/DD HH:mm:ss"
+            //時間指定ロールを1刻みに設定している
+            timeSteps={{ hours: 1, minutes: 1, seconds: 1 }}
             closeOnSelect={false}
             // reduceAnimationsはモバイルでの体感をよくします
             reduceAnimations
@@ -442,6 +451,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
         localeText={{ okButtonLabel: "次へ", cancelButtonLabel: "キャンセル" }} //日付時刻設定のボタンの部分の文言
       >
         <DialogContent>
+          {/* MobileとPCのレイアウトの分岐コード */}
           {isHandset ? <MobileList /> : <DesktopTable />}
         </DialogContent>
 
@@ -467,13 +477,17 @@ const StartTimeSettingDialog: React.FC<Props> = ({
           >
             <ResponsiveDateTimePicker
             isHandset={isHandset}
-              value={bulkTime}
-              onChange={(v: Dayjs | null) => setBulkTime(v)}
-              ampm={false}
-              views={["year", "month", "day", "hours", "minutes", "seconds"]}
-              format="YYYY/MM/DD HH:mm:ss"
-              closeOnSelect={false}
-              slotProps={{
+            //現在より過去を選択できない
+            disablePast
+            value={bulkTime}
+            onChange={(v: Dayjs | null) => setBulkTime(v)}
+            ampm={false}
+            views={["year", "month", "day", "hours", "minutes", "seconds"]}
+            format="YYYY/MM/DD HH:mm:ss"
+            closeOnSelect={false}
+            //時間指定ロールを1刻みに設定している
+            timeSteps={{ hours: 1, minutes: 1, seconds: 1 }}
+            slotProps={{
                 textField: {
                   size: "medium",
                   fullWidth:  true,

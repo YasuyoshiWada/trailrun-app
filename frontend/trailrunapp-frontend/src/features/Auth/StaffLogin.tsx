@@ -6,7 +6,7 @@ import EventName from "./components/EventName";
 import useResponsive from "../../hooks/useResponsive";
 
 
-const AdminLogin: React.FC = () => {
+const StaffLogin: React.FC = () => {
   const { isSmallMobile,isMobile } = useResponsive();
   return (
     <Box
@@ -36,10 +36,10 @@ const AdminLogin: React.FC = () => {
         <EventName
         eventName={"eventName"}/>
         <AuthTextField
-        role={"admin"} />
+        role={"staff"} />
       </Box>
     </Box>
   )
 }
 
-export default AdminLogin;
+export default StaffLogin;
