@@ -1,12 +1,14 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { palette } from "../../../styles/palette";
+import useResponsive from "../../../hooks/useResponsive";
 
 type Props = {
   eventName?: string;
 }
 
 const EventName:React.FC<Props> = ({eventName}) => {
+  const {isSmallMobile, isMobile } = useResponsive();
   const appTitle = "みなみえるステータス";
   return (
     <>
@@ -15,7 +17,7 @@ const EventName:React.FC<Props> = ({eventName}) => {
         display:"flex",
         flexDirection: "column",
         alignItems:"center",
-        gap: "5rem",
+        gap: (isSmallMobile || isMobile) ? "3rem" :"5rem",
         width: "100%",
         maxWidth: "40rem",
         mx:"auto",
@@ -24,7 +26,7 @@ const EventName:React.FC<Props> = ({eventName}) => {
       }}>
         <Typography
         sx={{
-          fontSize: "3.5rem",
+          fontSize:(isSmallMobile || isMobile) ? "2.6rem" : "3.5rem",
           color: palette.textPrimary,
           fontWeight: "bold"
         }}>{appTitle}</Typography>

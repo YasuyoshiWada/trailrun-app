@@ -6,6 +6,7 @@ import CategoryRacePage from '../features/category_race/CategoryRacePage';
 import SidebarLayoutPage from '../features/Sidebar/SidebarLayoutPage';
 import TotalCategoryRacePage from '../features/category_race/TotalCategoryRacePage';
 import AdminLogin from '../features/Auth/AdminLogin';
+import StaffLogin from '../features/Auth/StaffLogin';
 
 
 export const AppRoutes = () => (
@@ -14,6 +15,12 @@ export const AppRoutes = () => (
     path="/login/admin"
     element={
       <AdminLogin />
+    }
+    />
+    <Route
+    path="/login/staff"
+    element={
+      <StaffLogin />
     }
     />
     <Route
@@ -65,6 +72,5 @@ export const AppRoutes = () => (
       </SidebarLayoutPage>
     }
     />
-    {/* <Route path="/login" element={<LoginPage />} /> */}
   </Routes>
 );

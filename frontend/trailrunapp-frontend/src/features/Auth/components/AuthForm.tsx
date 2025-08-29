@@ -1,9 +1,11 @@
 import React, {useMemo, useState} from "react";
-import { Box, TextField, IconButton, InputAdornment, Button } from "@mui/material";
+import { Box, TextField, IconButton, InputAdornment, Button,Typography } from "@mui/material";
 import { palette } from "../../../styles/palette";
 import useResponsive from "../../../hooks/useResponsive";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AuthButton from "./AuthButton";
+import { Link as RouterLink } from "react-router-dom";
 
 
 type Role = "admin" | "staff";
@@ -55,14 +57,31 @@ const [showPassword, setShowPassword] = useState(false);
     });
   };
 
+  // モバイルの幅とPCの幅でgapを分ける定義
+  const baseGapRem = isSmallMobile ? 5 : isMobile ? 7 :3;
+  // staffのページは入力フィールドが１個足りないので、その分のgapを追加する
+  const gapRem = role === "staff" ? baseGapRem + 5 :baseGapRem;
+  const formGap = `${gapRem}rem`;
+  // モバイルとPCでmarginTopを分ける定義
+  const baseMtRem = isSmallMobile ? -5 : 0;
+  //staffのページは入力フィールドが１個足りないので、その分のmarginTopを追加する,staffのmobileとpcでmarginTopの追加数を分けている。
+  const gapMtRem =
+    baseMtRem +
+    (role === "staff" ? -5 : 1) +
+    //400px以下のmarginTop
+    (role === "staff" && (isSmallMobile) ? 2 :0) +
+    //400px-600pxのmarginTop
+    (role === "staff" && (isMobile) ? 7 :3);
+  const MtGap = `${gapMtRem}rem`;
+
   return (
       <Box component="form" onSubmit={handleSubmit}
       sx={{
         display:"grid",
-        gap:"3rem",
+        gap:formGap,
         width: "100%",
-        maxWidth: (isSmallMobile || isMobile) ? "30rem" : "48rem",
-        mx:"auto"
+        maxWidth: isSmallMobile ? "27rem" : isMobile ? "30rem" : "48rem",
+        mx:"auto",
       }}
       >
         {fields.map(f => (
@@ -83,7 +102,18 @@ const [showPassword, setShowPassword] = useState(false);
             "& fieldset": { borderColor: palette.gray },
             "&:hover fieldset": { borderColor: palette.coralRed, opacity: 0.3,borderWidth: 1 },
             "&.Mui-focused fieldset": { borderColor: palette.coralRed,opacity: 0.5, borderWidth: 2 },
-            fontSize: "2rem"
+          },
+          // 入力文字とプレースホルダ
+          "& .MuiInputBase-input": {
+            fontSize: "2rem",
+          },
+          // ラベル（「名前」「所属」「パスワード」）
+          "& .MuiInputLabel-root": {
+            fontSize: "2.5rem",
+          },
+          // 右端の目アイコンの大きさ
+          "& .MuiSvgIcon-root": {
+            fontSize: "3rem",
           },
         }}
         InputProps={
@@ -107,17 +137,31 @@ const [showPassword, setShowPassword] = useState(false);
         />
         ))}
 
-        <Button type="submit" variant="contained" size="large"
+        <AuthButton>
+        管理者ログイン
+        </AuthButton>
+        <Box
         sx={{
-          fontSize:"2rem",
-          backgroundColor: palette.navyBlue,
-          "&:hover": {
-            backgroundColor: palette.navyBlue,
-            opacity: 0.7
-          }
+          mt: MtGap,
+          textAlign: "center",
         }}>
-          {role === "admin" ? "管理者ログイン" : "スタッフログイン"}
-        </Button>
+          <Typography
+          component={RouterLink}
+          to={role === "admin" ? "/login/staff" : "/login/admin"} // ← 遷移先を切り替え
+          sx={{
+            fontSize:"2rem",
+            textDecoration: "none",   // デフォルトの下線を消す
+            color: palette.textPrimary,  // リンクの色（お好みで）
+            cursor: "pointer",
+            "&:hover": {
+              opacity: 0.7,
+      },
+          }}
+          align="center"
+          >
+            {role === "admin" ? "スタッフの方はこちら" : "管理者の方はこちら"}
+          </Typography>
+        </Box>
       </Box>
   )
 }
