@@ -1,5 +1,5 @@
 // src/components/button_popup/StartTimeSettingDialog.tsx
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -30,6 +30,7 @@ import useResponsive from "../../hooks/useResponsive";
 import { palette } from "../../styles/palette";
 import  { SxProps, Theme } from "@mui/material/styles";
 import type { DateTimePickerProps } from "@mui/x-date-pickers/DateTimePicker"
+import type { DateOrTimeViewWithMeridiem } from "@mui/x-date-pickers/internals";
 
 type Category = {
   id: string;
@@ -52,22 +53,20 @@ const StartTimeSettingDialog: React.FC<Props> = ({
   onClose,
   onSave,
 }) => {
+  //カテゴリ編集用
   const [edited, setEdited] = useState<Category[]>([]);
+  //チェックボックス用
   const [checked, setChecked] = useState<string[]>([]);
   //一括設定用
   const [bulkTime, setBulkTime] = useState<Dayjs | null>(null);
-  //カテゴリのdatePicker,open,closeを明確に
+  //行ごとのピッカー開閉
   const [openPickerId, setOpenPickerId] = useState<string | null>(null);
+  //一括pikerを外部制御するためのstate
+  const [bulkOpen, setBulkOpen] = useState(false);
 
   // レスポンシブ判定
   const { isSmallMobile, isMobile } = useResponsive();
   const isHandset = isSmallMobile || isMobile;
-
-  // ピッカー切替（型が強いので any キャストで素直に）
-  // const Picker = useMemo(
-  //   () => (isHandset ? (MobileDateTimePicker as any) : (DateTimePicker as any)),
-  //   [isHandset]
-  // );
 
   useEffect(() => {
     dayjs.locale("ja");
@@ -84,13 +83,13 @@ const StartTimeSettingDialog: React.FC<Props> = ({
       )
     );
   };
-
+//チェックボックスのオン・オフをトグルするための関数
   const handleCheck = (catId: string) => {
     setChecked((prev) =>
       prev.includes(catId) ? prev.filter((id) => id !== catId) : [...prev, catId]
     );
   };
-
+//チェックされたカテゴリに一括で同じ日付 (bulkTime) を設定する関数
   const handleBulkApply = () => {
     if (!bulkTime) return;
     setEdited((prev) =>
@@ -107,6 +106,33 @@ const StartTimeSettingDialog: React.FC<Props> = ({
     textAlign: "center" as const,
     color: palette.textPrimary,
   };
+
+  // ====== ここから：ビュー外部制御（自動で day に戻らないようにする）======
+  type PickerView = DateOrTimeViewWithMeridiem; // ← MUIの型をそのまま使う
+  const [pickerView, setPickerView] = useState<PickerView>("day");
+  const isTimeView = (v: PickerView) =>
+    v === "hours" || v === "minutes" || v === "seconds";
+
+  const handleViewChange = (next: PickerView) => {
+    // 時刻ビューにいる間は day への自動遷移をブロック
+    if (isTimeView(pickerView) && next === "day") return;
+    setPickerView(next);
+  };
+
+  const handlePickerOpen = (id: string) => {
+    setOpenPickerId(id);
+    setPickerView("day"); // 開いた直後はカレンダー
+  };
+
+  // 行ピッカーは onAccept / onClose で確実に閉じる（理由分岐は使わない）
+  const closeRowPicker = () => {
+    setOpenPickerId(null);
+    setPickerView("day");
+  };
+
+  // ====== ここまで：ビュー外部制御 =======
+
+
   // DateTimePicker の props をそのまま受け取り、isHandset だけを追加して
   // Mobile/Desktop のどちらを使うか切り替える薄いラッパー。
   // isHandset は内部で分岐にのみ使い、残りの props はそのまま子コンポーネントへ転送（props forwarding）する。
@@ -123,6 +149,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
     ) : ( <DateTimePicker {...props} />
     )
   };
+  //本日の日付の定数
   const today = dayjs();
 
   // ResponsiveDateTimePicker内のスタイリング一括まとめ
@@ -216,8 +243,10 @@ const StartTimeSettingDialog: React.FC<Props> = ({
               //現在より過去を選択できない
               disablePast
               open={openPickerId === cat.id}
-              onOpen={() => setOpenPickerId(cat.id)}
-              onClose={() => setOpenPickerId(null)}
+              onOpen={() => handlePickerOpen(cat.id)}
+              onClose={closeRowPicker}
+              onAccept={closeRowPicker}
+              thresholdToRenderTimeInASingleColumn={0} // 常にドラム3列で安定
               value={cat.startTime ? dayjs(cat.startTime) : null}
               onChange={(val: Dayjs | null) => handleTimeChange(cat.id, val)}
               ampm={false}
@@ -362,8 +391,12 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             //現在より過去を選択できない
             disablePast
             open={openPickerId === cat.id}
-            onOpen={() => setOpenPickerId(cat.id)}
-            onClose={() => setOpenPickerId(null)}
+            onOpen={() => handlePickerOpen(cat.id)}
+            onClose={closeRowPicker}
+            onAccept={closeRowPicker}
+            view={pickerView}
+            onViewChange={handleViewChange}
+            thresholdToRenderTimeInASingleColumn={0}
             value={cat.startTime ? dayjs(cat.startTime) : null}
             onChange={(val: Dayjs | null) => handleTimeChange(cat.id, val)}
             ampm={false}
@@ -479,6 +512,23 @@ const StartTimeSettingDialog: React.FC<Props> = ({
             isHandset={isHandset}
             //現在より過去を選択できない
             disablePast
+           // ★ 一括ピッカーは“完全外部制御”
+            open={bulkOpen}
+            onOpen={() => {
+              setBulkOpen(true);
+              setPickerView("day");
+            }}
+            onClose={() => {
+              setBulkOpen(false);
+              setPickerView("day");
+            }}
+            onAccept={() => {
+              setBulkOpen(false);
+              setPickerView("day");
+            }}
+            view={pickerView}
+            onViewChange={handleViewChange}
+            thresholdToRenderTimeInASingleColumn={0}
             value={bulkTime}
             onChange={(v: Dayjs | null) => setBulkTime(v)}
             ampm={false}
