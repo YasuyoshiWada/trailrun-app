@@ -545,7 +545,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                   //labelのフォントサイズ調整
                   InputLabelProps: {
                     sx: {
-                      fontSize: isHandset ? "3rem" : "2rem"
+                      fontSize: isHandset ? "3rem" : "3rem"
                     }
                   },
                   // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
@@ -554,7 +554,7 @@ const StartTimeSettingDialog: React.FC<Props> = ({
                     "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "3.2rem" },
 
                     /* v8 のセクション表示（年/月/日など） */
-                    "& .MuiPickersSectionList-root": { fontSize: isHandset ? "3rem" : "1.4rem"},
+                    "& .MuiPickersSectionList-root": { fontSize: isHandset ? "3rem" : "2.4rem"},
                     "& .MuiPickersSection-root": { fontSize: "2rem" },
                   },
                 },
