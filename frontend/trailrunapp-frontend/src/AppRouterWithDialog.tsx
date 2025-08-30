@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoutes } from './routes/AppRoutes';
-import StartTimeSettingDialog from './components/button_popup/StartTimeSettingDialog';
+import StartTimeSettingDialog from './components/StartTime/StartTimeSettingDialog';
 import { categoriesStart } from './data/categories_start';
 
 
