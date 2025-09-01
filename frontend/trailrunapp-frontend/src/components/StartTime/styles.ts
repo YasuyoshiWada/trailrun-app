@@ -19,6 +19,10 @@ export const pickerLayoutSx: SxProps<Theme> ={
     fontSize: "3rem",           // ← 見出しを大きく
     fontWeight: 600,
   },
+  //<>の部分のフォントの大きさ
+  "&.MuiPickersArrowSwitcher-root .MuiSvgIcon-root": {
+    fontSize: "3rem",
+  },
     /* ===== 年／月ビューのフォントを大きく ===== */
   /* 年選択（2017/2018/… のグリッド） */
   "& .MuiYearCalendar-root .MuiYearCalendar-button": {

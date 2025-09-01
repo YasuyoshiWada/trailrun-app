@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { palette } from "../../styles/palette";
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
-import type { Category, OnTimeChange } from "./types";
+import type { Category, OnTimeChange, PickerView } from "./types";
 
 type Props = {
   items: Category[];
@@ -14,8 +14,8 @@ type Props = {
   isOpen: (id: string) => boolean;
   open: (id: string) => void;
   close: () => void;
-  view: any;
-  onViewChange: (v: any) => void;
+  view: PickerView;
+  onViewChange: (v: PickerView) => void;
   onTimeChange: OnTimeChange;
   checked: string[];
   onToggleCheck: (id: string) => void;
@@ -67,7 +67,6 @@ const MobileCards: React.FC<Props> = ({
           format="YYYY/MM/DD HH:mm:ss"
           timeSteps={{ hours:1, minutes:1, seconds:1 }}
           closeOnSelect={false}
-          reduceAnimations
           slotProps={{
             textField: {
               size: "medium",
@@ -75,7 +74,7 @@ const MobileCards: React.FC<Props> = ({
               sx: makeTextFieldSx(isHandset),
             },
             layout: { sx: pickerLayoutSx },
-            openPickerButton: { onClick: () => open(cat.id) },
+            openPickerButton: { onClick: () => open(cat.id), type: "button" },
             actionBar: {
               actions: ["cancel","accept"],
               sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue }},
