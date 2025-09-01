@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import { palette } from "../../styles/palette";
-import type { Category, OnTimeChange } from "./types";
+import type { Category, OnTimeChange, PickerView } from "./types";
 
 type Props = {
   items: Category[];
@@ -15,8 +15,8 @@ type Props = {
   isOpen: (id: string) => boolean;
   open: (id: string) => void;
   close: () => void;
-  view: any;
-  onViewChange: (v: any) => void;
+  view: PickerView;
+  onViewChange: (v: PickerView) => void;
   // 値操作
   onTimeChange: OnTimeChange;
   checked: string[];
@@ -58,7 +58,6 @@ const DesktopTable: React.FC<Props> = ({
               format="YYYY/MM/DD HH:mm:ss"
               timeSteps={{ hours:1, minutes:1, seconds:1 }}
               closeOnSelect={false}
-              reduceAnimations
               slotProps={{
                 textField: {
                   size: "medium",
@@ -67,7 +66,7 @@ const DesktopTable: React.FC<Props> = ({
                   sx: makeTextFieldSx(isHandset),
                 },
                 layout: { sx: pickerLayoutSx },
-                openPickerButton: { onClick: () => open(cat.id) },
+                openPickerButton: { onClick: () => open(cat.id), type:"button" },
                 dialog: { keepMounted: true },
                 actionBar: {
                   actions: ["cancel","accept"],
@@ -81,6 +80,7 @@ const DesktopTable: React.FC<Props> = ({
               sx={{ ...tableCellSx, "& .MuiSvgIcon-root": { fontSize: 28 } }}
               checked={checked.includes(cat.id)}
               onChange={() => onToggleCheck(cat.id)}
+              inputProps={{"aria-label": "一括指定"}}
             />
           </TableCell>
         </TableRow>

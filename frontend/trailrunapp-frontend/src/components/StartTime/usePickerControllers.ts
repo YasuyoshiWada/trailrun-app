@@ -2,15 +2,12 @@
 import { useState } from "react";
 import type { PickerView } from "./types";
 
-const isTimeView = (v: PickerView) => v === "hours" || v === "minutes" || v === "seconds";
-
 /** 行ごとのピッカー群を制御（開閉はID単位、viewは共有） */
 export function useRowPickerController() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [view, setView] = useState<PickerView>("day");
 
   const onViewChange = (next: PickerView) => {
-    if (isTimeView(view) && next === "day") return; // time中にdayへ勝手に戻さない
     setView(next);
   };
 
@@ -27,7 +24,6 @@ export function useSinglePickerController() {
   const [view, setView] = useState<PickerView>("day");
 
   const onViewChange = (next: PickerView) => {
-    if ((view === "hours" || view === "minutes" || view === "seconds") && next === "day") return;
     setView(next);
   };
 

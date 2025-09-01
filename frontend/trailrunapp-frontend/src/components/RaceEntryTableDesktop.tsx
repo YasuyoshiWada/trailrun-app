@@ -39,7 +39,7 @@ type Props = {
   onTimeDetailClick: (id: number) => void;
 };
 
-//RunnersDataからスタートを取得する関数
+//RunnersDataからスタートの受信機をタッチした時間を取得する関数
 const getStartTime = (runner:RunnersData) => {
   const startArrival = runner.arrivals.find(a => a.place === "スタート");
   return startArrival ? startArrival.time : "-";

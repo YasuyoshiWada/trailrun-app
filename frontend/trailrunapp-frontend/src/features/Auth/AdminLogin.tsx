@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { palette } from "../../styles/palette";
-import AuthTextField from "./components/AuthForm";
+import AuthForm from "./components/AuthForm";
 import EventName from "./components/EventName";
 import useResponsive from "../../hooks/useResponsive";
 
@@ -35,7 +35,7 @@ const AdminLogin: React.FC = () => {
         {/* eventNameには大会ごとの名前が入る */}
         <EventName
         eventName={"eventName"}/>
-        <AuthTextField
+        <AuthForm
         role={"admin"} />
       </Box>
     </Box>
