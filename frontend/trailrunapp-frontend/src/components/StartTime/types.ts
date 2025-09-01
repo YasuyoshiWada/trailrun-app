@@ -1,6 +1,6 @@
 import type { Dayjs } from "dayjs";
 //ui/x-date-pickers"がv8なのでmodelsから型をimport,DateOrTimeView型(DateView（"year" | "month" | "day"）TimeView（"hours" | "minutes" | "seconds"）それらを合わせたユニオン型 DateOrTimeView)をPickerViewという名前に変えてimport
-import type { DateOrTimeView as PickerView } from "@mui/x-date-pickers/models";
+import type { DateOrTimeViewWithMeridiem as PickerView } from "@mui/x-date-pickers/internals/models";
 
 export type Category = {
   id: string;

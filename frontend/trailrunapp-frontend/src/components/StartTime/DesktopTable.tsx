@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import { palette } from "../../styles/palette";
-import type { Category, OnTimeChange } from "./types";
+import type { Category, OnTimeChange, PickerView } from "./types";
 
 type Props = {
   items: Category[];
@@ -15,8 +15,8 @@ type Props = {
   isOpen: (id: string) => boolean;
   open: (id: string) => void;
   close: () => void;
-  view: any;
-  onViewChange: (v: any) => void;
+  view: PickerView;
+  onViewChange: (v: PickerView) => void;
   // 値操作
   onTimeChange: OnTimeChange;
   checked: string[];
