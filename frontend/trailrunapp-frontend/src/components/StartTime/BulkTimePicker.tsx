@@ -51,7 +51,7 @@ const BulkTimePicker: React.FC<Props> = ({
       sx: makeTextFieldSx(isHandset),
       },
       layout: { sx: pickerLayoutSx },
-      openPickerButton: { onClick: onOpen },
+      openPickerButton: { onClick: onOpen, type: "button" },
       actionBar: {
         actions: ["cancel","accept"],
         sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue }},

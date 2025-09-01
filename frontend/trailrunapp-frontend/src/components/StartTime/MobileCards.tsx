@@ -67,7 +67,6 @@ const MobileCards: React.FC<Props> = ({
           format="YYYY/MM/DD HH:mm:ss"
           timeSteps={{ hours:1, minutes:1, seconds:1 }}
           closeOnSelect={false}
-          reduceAnimations
           slotProps={{
             textField: {
               size: "medium",
@@ -75,7 +74,7 @@ const MobileCards: React.FC<Props> = ({
               sx: makeTextFieldSx(isHandset),
             },
             layout: { sx: pickerLayoutSx },
-            openPickerButton: { onClick: () => open(cat.id) },
+            openPickerButton: { onClick: () => open(cat.id), type: "button" },
             actionBar: {
               actions: ["cancel","accept"],
               sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue }},
