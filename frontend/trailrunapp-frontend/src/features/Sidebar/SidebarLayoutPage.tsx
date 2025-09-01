@@ -6,7 +6,7 @@ import MobileHeader from "./components/MobileHeader";
 import Sidebar from "./components/Sidebar";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   outerScroll?: boolean;
 };
 

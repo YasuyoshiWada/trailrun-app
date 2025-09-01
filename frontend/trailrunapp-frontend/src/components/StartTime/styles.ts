@@ -20,8 +20,8 @@ export const pickerLayoutSx: SxProps<Theme> ={
     fontWeight: 600,
   },
   //<>の部分のフォントの大きさ
-  "&.MuiPickersArrowSwitcher-root .MuiSvgIcon-root": {
-    fontSize: "3rem",
+  "& .MuiPickersArrowSwitcher-root .MuiSvgIcon-root": {
+    fontSize: "4rem",
   },
     /* ===== 年／月ビューのフォントを大きく ===== */
   /* 年選択（2017/2018/… のグリッド） */
@@ -70,7 +70,7 @@ export const pickerLayoutSx: SxProps<Theme> ={
   },
    /* カレンダー／時間リスト側（ポータル内） */
   "& .MuiPickersDay-root": { fontSize: "2.8rem", width: 48, height: 48 },
-  "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
+
   /* 時刻ビュー（分割リスト） 時間、分、秒のフォント*/
   "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "2.8rem", minHeight: 40 },
    /* 時刻ビュー（単一縦リスト） */
