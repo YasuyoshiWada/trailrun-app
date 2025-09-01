@@ -1,12 +1,13 @@
 // routes/AppRoutes.tsx
 import { Routes, Route } from 'react-router-dom';
-// import LoginPage from '../features/auth/LoginPage';
 import DashboardPage from '../features/dashboard/DashboardPage';
 import CategoryRacePage from '../features/category_race/CategoryRacePage';
 import SidebarLayoutPage from '../features/Sidebar/SidebarLayoutPage';
 import TotalCategoryRacePage from '../features/category_race/TotalCategoryRacePage';
 import AdminLogin from '../features/Auth/AdminLogin';
 import StaffLogin from '../features/Auth/StaffLogin';
+import ChatPage from '../features/chat/ChatPage';
+
 
 
 export const AppRoutes = () => (
@@ -61,6 +62,14 @@ export const AppRoutes = () => (
     element={
       <SidebarLayoutPage>
         <TotalCategoryRacePage />
+      </SidebarLayoutPage>
+    }
+    />
+    <Route
+    path="/chat"
+    element={
+      <SidebarLayoutPage>
+        <ChatPage />
       </SidebarLayoutPage>
     }
     />

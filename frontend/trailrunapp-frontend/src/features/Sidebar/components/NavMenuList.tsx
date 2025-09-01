@@ -11,6 +11,7 @@ const menuItems: MenuItem[] = [
   { label: "記録証の発行", path: "/certificate" },
   { label: "表彰状発行", path: "/award" },
   { label: "受信機能停止抑制", path: "/disable" },
+  { label: "チャットページ", path: "/chat"},
 ];
 
 type Props = { direction?: "row" | "column" };

@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import { Box, TextField, IconButton, InputAdornment, Button,Typography } from "@mui/material";
+import { Box, TextField, IconButton, InputAdornment,Typography } from "@mui/material";
 import { palette } from "../../../styles/palette";
 import useResponsive from "../../../hooks/useResponsive";
 import Visibility from "@mui/icons-material/Visibility";
@@ -21,7 +21,7 @@ type FieldConfig = {
 
 type Props = {
   role: Role;
-  onSubmit?: (values: { name: string; group: string; password?: string}) => void;
+  onSubmit?: (values: { name: string;  password?: string; group?: string}) => void;
 };
 
 
@@ -33,8 +33,10 @@ const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
   const fields: FieldConfig[] = useMemo(() => {
     const base: FieldConfig[] = [
       {name: "name", label: "名前", type: "text", required: true, autoComplete: "name" },
-      {name: "group", label: "所属", type: "text", autoComplete: "organization" },
     ];
+    if ( role === "staff") {
+      base.push({ name: "group", label: "所属", type: "text", autoComplete: "organization" });
+    }
     if (role === "admin") {
       base.push({ name: "password", label: "パスワード",type: "password", required: true, autoComplete: "current-password"});
     }
@@ -50,28 +52,23 @@ const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit?.({
+    const result: { name: string; password?: string; group?: string} = {
       name: values.name || "",
-      group: values.group || "",
-      ...(role === "admin" ? {password: values.password || "" } : {}),
-    });
   };
-
+  if (role === "staff") {
+      result.group = values.group || "";
+    }
+    if (role === "admin") {
+      result.password = values.password || "";
+    }
+    onSubmit?.(result);
+  };
   // モバイルの幅とPCの幅でgapを分ける定義
   const baseGapRem = isSmallMobile ? 5 : isMobile ? 7 :3;
-  // staffのページは入力フィールドが１個足りないので、その分のgapを追加する
-  const gapRem = role === "staff" ? baseGapRem + 5 :baseGapRem;
-  const formGap = `${gapRem}rem`;
+  const formGap = `${baseGapRem}rem`;
   // モバイルとPCでmarginTopを分ける定義
   const baseMtRem = isSmallMobile ? -5 : 0;
-  //staffのページは入力フィールドが１個足りないので、その分のmarginTopを追加する,staffのmobileとpcでmarginTopの追加数を分けている。
-  const gapMtRem =
-    baseMtRem +
-    (role === "staff" ? -5 : 1) +
-    //400px以下のmarginTop
-    (role === "staff" && (isSmallMobile) ? 2 :0) +
-    //400px-600pxのmarginTop
-    (role === "staff" && (isMobile) ? 7 :3);
+  const gapMtRem = baseMtRem + 4;
   const MtGap = `${gapMtRem}rem`;
 
   return (
@@ -138,7 +135,7 @@ const [showPassword, setShowPassword] = useState(false);
         ))}
 
         <AuthButton>
-        管理者ログイン
+        {role === "admin" ? "管理者ログイン" : "スタッフログイン"}
         </AuthButton>
         <Box
         sx={{
