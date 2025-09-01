@@ -4,6 +4,7 @@ import type { Dayjs } from "dayjs";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import { palette } from "../../styles/palette";
+import type { PickerView } from "./types";
 
 type Props = {
   isHandset: boolean;
@@ -14,8 +15,8 @@ type Props = {
   onOpen: () => void;
   onClose: () => void;
   onAccept: () => void;
-  view: any;
-  onViewChange: (v: any) => void;
+  view: PickerView;
+  onViewChange: (v: PickerView) => void;
 };
 
 const BulkTimePicker: React.FC<Props> = ({
