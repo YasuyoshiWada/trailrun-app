@@ -1,10 +1,20 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { useParams } from "react-router-dom";
+import ChatRoom from "./ChatRoom";
 
-const ChatPage: React.FC = () => (
-  <Box sx={{ p: "1.6rem" }}>
-    <Typography variant="h4">チャットページ</Typography>
-  </Box>
-);
+
+const ChatPage: React.FC = () => {
+  const { roomId } = useParams<{ roomId: string}>();
+  if (!roomId) {
+    return null;
+  }
+
+  return (
+    <Box role="main" sx={{ p: "0.8rem" }}>
+      <ChatRoom roomId={roomId} />
+    </Box>
+  );
+};
 
 export default ChatPage;
