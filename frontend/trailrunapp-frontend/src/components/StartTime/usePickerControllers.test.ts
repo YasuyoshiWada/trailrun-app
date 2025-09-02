@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useRowPickerController, useSinglePickerController } from './usePickerControllers';
 
 describe('usePickerControllers onViewChange', () => {
-  it('returns to day view when calendar icon clicked in row controller', () => {
+  it('row: 時間->日付に戻れる', () => {
     const { result } = renderHook(() => useRowPickerController());
     act(() => {
       result.current.onViewChange('hours');
@@ -14,7 +14,7 @@ describe('usePickerControllers onViewChange', () => {
     expect(result.current.view).toBe('day');
   });
 
-  it('returns to day view when calendar icon clicked in single controller', () => {
+  it('single: 時間->日付に戻れる', () => {
     const { result } = renderHook(() => useSinglePickerController());
     act(() => {
       result.current.onViewChange('minutes');
