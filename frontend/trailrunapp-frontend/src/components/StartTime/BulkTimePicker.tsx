@@ -1,7 +1,8 @@
 // src/components/startTime/BulkTimePicker.tsx
 import React from "react";
-import type { Dayjs } from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
+import SingleLineToolbar from "./SingleLineToolbar"; //pickerの左上の2025 MM/DDの横一列表示のコンポーネント
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import { palette } from "../../styles/palette";
 import type { PickerView } from "./types";
@@ -26,7 +27,7 @@ const BulkTimePicker: React.FC<Props> = ({
 }) => (
   <ResponsiveDateTimePicker
     isHandset={isHandset}
-    disablePast
+    minDate={dayjs().startOf("day")}
     open={open}
     onOpen={onOpen}
     onClose={onClose}
@@ -41,6 +42,7 @@ const BulkTimePicker: React.FC<Props> = ({
     format="YYYY/MM/DD HH:mm:ss"
     closeOnSelect={false}
     timeSteps={{ hours:1, minutes:1, seconds:1 }}
+    slots={{ toolbar: SingleLineToolbar }}
     slotProps={{
       textField: {
         size: "medium",
@@ -56,6 +58,7 @@ const BulkTimePicker: React.FC<Props> = ({
         actions: ["cancel","accept"],
         sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue }},
       },
+      toolbar: { toolbarFormat: "YYYY M/D" },
     }}
   />
 );

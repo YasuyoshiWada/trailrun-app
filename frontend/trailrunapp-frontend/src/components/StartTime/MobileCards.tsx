@@ -6,6 +6,7 @@ import { palette } from "../../styles/palette";
 import { pickerLayoutSx, makeTextFieldSx } from "./styles";
 import ResponsiveDateTimePicker from "./ResponsiveDateTimePicker";
 import type { Category, OnTimeChange, PickerView } from "./types";
+import SingleLineToolbar from "./SingleLineToolbar"; //pickerの左上の2025 MM/DDの横一列表示のコンポーネント
 
 type Props = {
   items: Category[];
@@ -52,7 +53,7 @@ const MobileCards: React.FC<Props> = ({
 
         <ResponsiveDateTimePicker
           isHandset={isHandset}
-          disablePast
+          minDate={dayjs().startOf("day")}
           open={isOpen(cat.id)}
           onOpen={() => open(cat.id)}
           onClose={close}
@@ -67,7 +68,9 @@ const MobileCards: React.FC<Props> = ({
           format="YYYY/MM/DD HH:mm:ss"
           timeSteps={{ hours:1, minutes:1, seconds:1 }}
           closeOnSelect={false}
+          slots={{ toolbar: SingleLineToolbar }}
           slotProps={{
+            toolbar: { toolbarFormat: "YYYY M/D" },
             textField: {
               size: "medium",
               fullWidth: true,
