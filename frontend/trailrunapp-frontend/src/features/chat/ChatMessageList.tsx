@@ -14,7 +14,7 @@ interface Props {
 
 const ChatMessageList: React.FC<Props> = ({ messages }) => (
   <List role="list" sx={{ height: "300px", overflowY: "auto" }}>
-    {messages.map ((message) => (
+    {messages.map((message) => (
       <ListItem key={message.id} role="listitem" sx={{ display: "block"}}>
         <Typography component="p" sx={{ fontWeight: "bold" }}>
           {message.user}

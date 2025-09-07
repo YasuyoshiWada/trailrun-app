@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Box,Button,TextField } from "@mui/material";
+import { Box,Button, TextField } from "@mui/material";
 
 interface Props {
   onSend: (text: string) => void;
 }
 
-const ChatInput: React.FC<Props> =  ({onSend}) => {
+const ChatInput: React.FC<Props> =  ({ onSend }) => {
   const [text, setText] = useState("");
 
   // 入力の変更で useState の text に保持された値を、submit 時に onSend で親へ渡す
