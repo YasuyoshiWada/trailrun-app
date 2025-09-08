@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import ChatRoom from "../ChatRoom";
 import * as chatApi from "../chatApi";
 
-jest.mock("./chatApi");
+jest.mock("../chatApi");
 
 describe("ChatRoom", () => {
   afterEach(() => {

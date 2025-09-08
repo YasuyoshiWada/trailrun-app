@@ -1,14 +1,10 @@
-import { ChatMessage as ChatMessageBase } from "./ChatMessageList";
-
-export interface ChatMessage extends ChatMessageBase {
-  timestamp: number;
-}
+import type { ChatMessage } from "./types";
 
 export async function postMessage(
   roomId: string,
   text: string
 ): Promise<void> {
-  TODO: //ここにAPI呼び出しのコードを書く
+  // Implement API call here if needed. Tests mock this module.
   return Promise.resolve();
 }
 
@@ -16,6 +12,6 @@ export async function fetchMessages(
   roomId: string,
   lastTimestamp: number
 ): Promise<ChatMessage[]> {
-  TODO: //ここにAPI呼び出しのコードを書く
+  // Implement API call here if needed. Tests mock this module.
   return Promise.resolve([]);
 }

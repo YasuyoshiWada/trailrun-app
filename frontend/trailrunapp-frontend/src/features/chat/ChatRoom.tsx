@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
-import {fetchMessages, postMessage, ChatMessage } from "./chatApi";
+import { fetchMessages, postMessage } from "./chatApi";
+import type { ChatMessage } from "./types";
 
 interface Props {
   roomId: string;
