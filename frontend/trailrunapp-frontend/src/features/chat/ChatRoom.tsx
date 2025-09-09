@@ -13,6 +13,12 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
   const lastTimestamp = useRef<number>(0);
 
+  // roomIdが変わったらメッセージとタイムスタンプをリセット
+  useEffect(() => {
+    setMessages([]);
+    lastTimestamp.current = 0;
+  }, [roomId]);
+
   const handleSend = async (text: string) => {
     await postMessage(roomId, text);
     const timestamp = Date.now();

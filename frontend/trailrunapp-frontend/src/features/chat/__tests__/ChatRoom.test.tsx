@@ -2,6 +2,7 @@ import { render, screen, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ChatRoom from "../ChatRoom";
 import * as chatApi from "../chatApi";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 jest.mock("../chatApi");
 
@@ -41,5 +42,20 @@ describe("ChatRoom", () => {
     });
     expect(screen.getByText("Hi")).toBeInTheDocument();
     jest.useRealTimers();
+  });
+
+  it("clears messages when roomId changes", async () => {
+    (chatApi.postMessage as jest.Mock).mockResolvedValue(undefined);
+    const { rerender } = render(<ChatRoom roomId="room1" />);
+
+    await userEvent.type(screen.getByLabelText("Message"), "Hello");
+    await userEvent.click(screen.getByRole("button", { name: "送信" }));
+    expect(await screen.findByText("Hello")).toBeInTheDocument();
+
+    render(<ChatRoom roomId="room2" />);
+
+    await waitFor(() => {
+      expect(screen.queryByText("Hello")).not.toBeInTheDocument();
+    });
   });
 });
