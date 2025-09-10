@@ -1,0 +1,11 @@
+{
+  "name": "minamieru",
+  "private": true,
+  "scripts": {
+    "mock:chat": "ts-node --project tsconfig.server.json server/mockChatServer.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "ts-node": "^10.9.1"
+  }
+}

@@ -1,12 +1,8 @@
 import React from "react";
 import { List, ListItem, Typography } from "@mui/material";
+import { ChatMessage } from "./types";
 
 
-export interface ChatMessage {
-  id: string;
-  user: string;
-  text: string;
-}
 
 interface Props {
   messages: ChatMessage[];
