@@ -14,6 +14,8 @@ interface Props {
 const ChatPage: React.FC<Props> = ( {rooms }) => {
   // 現在のルームIDをURLパラメータから取得
   const { roomId } = useParams<{ roomId: string }>();
+  // roomIdに基づいて選択されたルームを取得
+  const selectedRoom = rooms.find(room => room.id === roomId);
   const navigate = useNavigate();
 
   //レスポンシブ対応
@@ -44,7 +46,6 @@ const ChatPage: React.FC<Props> = ( {rooms }) => {
               minWidth: (isSmallMobile || isMobile) ? "120px" : "auto",
               px: "1.2rem",
               py: "0.6rem",
-              borderRadius: "9999px",
               border: "1px solid",
               borderColor: room.color,
               background: isActive ? room.color : palette.white,
@@ -63,7 +64,10 @@ const ChatPage: React.FC<Props> = ( {rooms }) => {
           </Box>
         </HorizontalScroller>
       {roomId ? (
-        <ChatRoom roomId={roomId} />
+        <ChatRoom
+        roomId={roomId}
+        roomName={selectedRoom ?.name??""}//該当したルームの名前を渡す、無ければ空文字  
+        />
       ) : (
         <Typography component="p">ルームを選択してください。</Typography>
       )}

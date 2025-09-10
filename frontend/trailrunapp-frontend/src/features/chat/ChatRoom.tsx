@@ -7,9 +7,10 @@ import type { ChatMessage } from "./types";
 
 interface Props {
   roomId: string;
+  roomName?: string;
 }
 
-const ChatRoom: React.FC<Props> = ({ roomId }) => {
+const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
   const lastTimestamp = useRef<number>(0);
 
@@ -50,9 +51,9 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => {
   }, [roomId]);
 
   return (
-    <Box sx={{ p: "0.8rem" }}>
+    <Box sx={{ p: "0.8rem"}}>
       <Typography component="h2" variant="h6" sx={{ mb: "0.8rem"}}>
-        Room: {roomId}
+        現在地:{roomName}
       </Typography>
       <ChatMessageList messages={messages} />
       <ChatInput onSend={handleSend} />
