@@ -2,13 +2,14 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import ChatPage from "../ChatPage";
+import { rooms } from "../../../data/rooms";
 
 describe("ChatPage", () => {
     it("renders Chat room with route param", () => {
         render(
             <MemoryRouter initialEntries={["/chat/room1"]}>
                 <Routes>
-                    <Route path="/chat/:roomId" element={<ChatPage />} />
+                    <Route path="/chat/:roomId" element={<ChatPage rooms={rooms}/>} />
                 </Routes>
             </MemoryRouter>
         );
@@ -19,7 +20,7 @@ describe("ChatPage", () => {
         render(
             <MemoryRouter initialEntries={["/chat/room1"]}>
                 <Routes>
-                    <Route path="/chat/:roomId" element={<ChatPage />} />
+                    <Route path="/chat/:roomId" element={<ChatPage rooms={rooms}/>} />
                 </Routes>
             </MemoryRouter>
         );
@@ -30,5 +31,18 @@ describe("ChatPage", () => {
 
         expect(await screen.findByText("Hello")).toBeInTheDocument();
         expect((input as HTMLInputElement).value).toBe("");
+    });
+
+    it("switches room when tab clicked", async () => {
+        render(
+            <MemoryRouter initialEntries={["/chat/room1"]}>
+                <Routes>
+                    <Route path="/chat/:roomId?" element={<ChatPage rooms={rooms} />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        await userEvent.click(screen.getByRole("tab", { name: "ルーム2" }));
+        expect(await screen.findByText("Room: room2")).toBeInTheDocument();
     });
 });

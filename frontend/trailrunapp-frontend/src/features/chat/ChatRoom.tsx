@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
-import {fetchMessages, postMessage, ChatMessage } from "./chatApi";
+import { fetchMessages, postMessage } from "./chatApi";
+import type { ChatMessage } from "./types";
 
 interface Props {
   roomId: string;
@@ -11,6 +12,12 @@ interface Props {
 const ChatRoom: React.FC<Props> = ({ roomId }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
   const lastTimestamp = useRef<number>(0);
+
+  // roomIdが変わったらメッセージとタイムスタンプをリセット
+  useEffect(() => {
+    setMessages([]);
+    lastTimestamp.current = 0;
+  }, [roomId]);
 
   const handleSend = async (text: string) => {
     await postMessage(roomId, text);

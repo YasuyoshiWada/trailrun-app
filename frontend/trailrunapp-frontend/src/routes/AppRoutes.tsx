@@ -7,6 +7,7 @@ import TotalCategoryRacePage from '../features/category_race/TotalCategoryRacePa
 import AdminLogin from '../features/Auth/AdminLogin';
 import StaffLogin from '../features/Auth/StaffLogin';
 import ChatPage from '../features/chat/ChatPage';
+import { rooms } from '../data/rooms';
 
 
 
@@ -66,10 +67,10 @@ export const AppRoutes = () => (
     }
     />
     <Route
-    path="/chat"
+    path="/chat/:roomId"
     element={
       <SidebarLayoutPage>
-        <ChatPage />
+        <ChatPage rooms={rooms} />
       </SidebarLayoutPage>
     }
     />
