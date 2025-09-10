@@ -61,7 +61,7 @@ const DesktopTable: React.FC<Props> = ({
               closeOnSelect={false}
               slots={{ toolbar: SingleLineToolbar }}
               slotProps={{
-                toolbar: { toolbarFormat: "YYYY M/D" },
+                toolbar: { toolbarFormat: "YYYY/M/D" },
                 textField: {
                   size: "medium",
                   fullWidth: true,

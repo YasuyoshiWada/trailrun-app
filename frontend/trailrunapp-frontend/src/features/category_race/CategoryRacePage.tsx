@@ -313,7 +313,6 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
         open={timeDialogOpen}
         runner={selectedRunner}
         onCancel={handleTimeDialogCancel}
-        allRunners={runnersState}
         />
         <RunnerTimeDetailMobilePopup
         open={timeMobileDialogOpen}
