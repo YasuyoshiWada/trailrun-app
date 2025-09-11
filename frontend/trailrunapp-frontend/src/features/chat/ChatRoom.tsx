@@ -51,12 +51,23 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   }, [roomId]);
 
   return (
-    <Box sx={{ p: "0.8rem"}}>
-      <Typography component="h2" variant="h6" sx={{ mb: "0.8rem"}}>
-        現在地:{roomName}
+    <Box sx={{
+      p: "0.8rem",
+      display: "flex",
+      flexDirection: "column",
+      height: "calc(100vh - 5rem)", //ヘッダーとフッターを除いた高さ
+      }}>
+      <Typography
+      component="h2"
+      variant="h3"
+      sx={{ mb: "0.8rem"}}>
+        RoomName: {roomName}
       </Typography>
-      <ChatMessageList messages={messages} />
-      <ChatInput onSend={handleSend} />
+      <Box
+      sx={{ alignItems: "end" }}>
+        <ChatMessageList messages={messages} currentUser="You"/>
+        <ChatInput onSend={handleSend} />
+      </Box>
     </Box>
   );
 };
