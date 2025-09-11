@@ -2,6 +2,8 @@ import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { parse } from 'url';
 
 interface ChatMessage {
+  id: string;
+  user: string;
   message: string;
   timestamp: number;
 }
@@ -51,11 +53,13 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         //受け取ったbodyをJSON.parseしてmessageを取得
         const { message } = JSON.parse(body);
         const timestamp = Date.now();
+        const id = timestamp.toString();
+        const user = 'mock-user'; //固定のユーザー名
         rooms[roomId] = rooms[roomId] || [];
          //messageとtimestampをroomsに保存
-        rooms[roomId].push({ message, timestamp });
-        //保存したmessageとtimestampをレスポンスとして返す
-        sendJson(res, 200, {timestamp });
+        rooms[roomId].push({id, user, message, timestamp });
+        //保存したmessageのidとtimestampをレスポンスとして返す
+        sendJson(res, 200, { id, timestamp });
       } catch {
         //JSON.parseに失敗した場合は400エラーを返す
         sendJson(res, 400, { error: 'Invalid JSON' });

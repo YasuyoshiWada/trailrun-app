@@ -21,10 +21,9 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   }, [roomId]);
 
   const handleSend = async (text: string) => {
-    await postMessage(roomId, text);
-    const timestamp = Date.now();
+    const { id, timestamp } = await postMessage(roomId, text);
     const newMessage: ChatMessage = {
-      id: timestamp.toString(),
+      id,
       user: "You",
       text,
       timestamp,
