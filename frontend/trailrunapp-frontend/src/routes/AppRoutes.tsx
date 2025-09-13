@@ -67,7 +67,7 @@ export const AppRoutes = () => (
     }
     />
     <Route
-    path="/chat/:roomId"
+    path="/chat/:roomId?"
     element={
       <SidebarLayoutPage>
         <ChatPage rooms={rooms} />

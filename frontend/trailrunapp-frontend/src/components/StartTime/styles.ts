@@ -8,11 +8,12 @@ export const makeTableCellSx = (isHandset: boolean): SxProps<Theme> => ({
 });
 //Picker内の様々なUIを変更している関数
 export const pickerLayoutSx: SxProps<Theme> ={
-   /* ツールバー（上部の「8月 19」や「00:00:00」） */
+   /* ツールバー（スタート時刻設定） */
   "& .MuiPickersToolbar-title": {
-    fontSize: "2.4rem",           // ← ここで大きく
+    fontSize: "3rem",           // ← ここで大きく
     fontWeight: 600,
-    lineHeight: 1,
+    color: palette.navyBlue,
+    ml: "4.5rem",
   },
   /* カレンダーヘッダの「8月 2025」 */
   "& .MuiPickersCalendarHeader-label": {
