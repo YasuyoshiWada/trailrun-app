@@ -4,6 +4,7 @@ import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
 import { fetchMessages, postMessage } from "./chatApi";
 import type { ChatMessage } from "./types";
+import { clear } from "console";
 
 interface Props {
   roomId: string;
@@ -31,19 +32,34 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  //useEffectで３秒に１回サーバーからメッセージを取得
+   //useEffectで３秒に１回サーバーからメッセージを取得し、
+  //空配列またはエラー時にポーリングを停止
   useEffect(() => {
     const IntervalId = setInterval(async () => {
-      const newMessages = await fetchMessages(roomId, lastTimestamp.current);//サーバーアクセス時に最新のtimestampを渡す
-      if (!newMessages.length) return;//新しいメッセージがなければ何もしない
+      try {
+        ;//サーバーアクセス時に最新のtimestampを渡す
+          const newMessages = await fetchMessages
+          (roomId,
+            lastTimestamp.current
+          );
+          if(!newMessages.length) {
+            clearInterval(IntervalId);
+            return;
+          }
 
       // 最新のメッセージをlastで取得-1とすることで１つでも新しいメッセージがあればstateを更新する
-      const last = newMessages[newMessages.length - 1];
-        if(!last) return;
+    const last = newMessages[newMessages.length - 1];
+        if(!last) {
+          clearInterval(IntervalId);
+          return;
+        }
       //新しいメッセージがあればstateを更新
         lastTimestamp.current = last.timestamp;
         setMessages((prev) => [...prev, ...newMessages]);
-    }, 3000);//3秒ごとにfetchMessagesを実行
+    } catch (e) {
+      clearInterval(IntervalId);
+    }
+  }, 3000);//3秒ごとにfetchMessagesを実行
 
     //クリーンアップ関数でインターバルをクリア
     return () => clearInterval(IntervalId);
