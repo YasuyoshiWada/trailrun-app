@@ -7,9 +7,10 @@ import type { ChatMessage } from "./types";
 
 interface Props {
   roomId: string;
+  roomName?: string;
 }
 
-const ChatRoom: React.FC<Props> = ({ roomId }) => {
+const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
   const lastTimestamp = useRef<number>(0);
 
@@ -19,43 +20,68 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => {
     lastTimestamp.current = 0;
   }, [roomId]);
 
-  const handleSend = async (text: string) => {
-    await postMessage(roomId, text);
-    const timestamp = Date.now();
-    const newMessage: ChatMessage = {
-      id: timestamp.toString(),
-      user: "You",
-      text,
-      timestamp,
-    };
-    setMessages((prev) => [...prev, newMessage]);
-  };
+const handleSend = async (text: string) => {
+  try {
+    const { id, timestamp } = await postMessage(roomId, text);
+    const newMessage: ChatMessage = { id, user: "You", text, timestamp };
+    lastTimestamp.current = timestamp;            // ← 送信直後に更新
+    setMessages(prev => [...prev, newMessage]);
+  } catch (err) {
+    console.error("Failed to post message", err); // ← エラーハンドリング
+  }
+};
 
-  //useEffectで３秒に１回サーバーからメッセージを取得
+   //useEffectで３秒に１回サーバーからメッセージを取得し、
+  //空配列またはエラー時にポーリングを停止
   useEffect(() => {
     const IntervalId = setInterval(async () => {
-      const newMessages = await fetchMessages(roomId, lastTimestamp.current);//サーバーアクセス時に最新のtimestampを渡す
-      if (!newMessages.length) return;//新しいメッセージがなければ何もしない
+      try {
+        ;//サーバーアクセス時に最新のtimestampを渡す
+          const newMessages = await fetchMessages
+          (roomId,
+            lastTimestamp.current
+          );
+          if(!newMessages.length) {
+            clearInterval(IntervalId);
+            return;
+          }
 
       // 最新のメッセージをlastで取得-1とすることで１つでも新しいメッセージがあればstateを更新する
-      const last = newMessages[newMessages.length - 1];
-        if(!last) return;
+    const last = newMessages[newMessages.length - 1];
+        if(!last) {
+          clearInterval(IntervalId);
+          return;
+        }
       //新しいメッセージがあればstateを更新
         lastTimestamp.current = last.timestamp;
         setMessages((prev) => [...prev, ...newMessages]);
-    }, 3000);//3秒ごとにfetchMessagesを実行
+    } catch (e) {
+      clearInterval(IntervalId);
+    }
+  }, 3000);//3秒ごとにfetchMessagesを実行
 
     //クリーンアップ関数でインターバルをクリア
     return () => clearInterval(IntervalId);
   }, [roomId]);
 
   return (
-    <Box sx={{ p: "0.8rem" }}>
-      <Typography component="h2" variant="h6" sx={{ mb: "0.8rem"}}>
-        Room: {roomId}
+    <Box sx={{
+      p: "0.8rem",
+      display: "flex",
+      flexDirection: "column",
+      height: "calc(100vh - 5rem)", //ヘッダーとフッターを除いた高さ
+      }}>
+      <Typography
+      component="h2"
+      variant="h3"
+      sx={{ mb: "0.8rem"}}>
+        RoomName: {roomName}
       </Typography>
-      <ChatMessageList messages={messages} />
-      <ChatInput onSend={handleSend} />
+      <Box
+      sx={{ alignItems: "end" }}>
+        <ChatMessageList messages={messages} currentUser="You"/>
+        <ChatInput onSend={handleSend} />
+      </Box>
     </Box>
   );
 };

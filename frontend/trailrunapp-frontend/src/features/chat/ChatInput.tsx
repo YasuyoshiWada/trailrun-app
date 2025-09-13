@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Box,Button, TextField } from "@mui/material";
+import { Box,IconButton, TextField } from "@mui/material";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { palette } from "../../styles/palette";
 
 interface Props {
   onSend: (text: string) => void;
@@ -24,18 +26,34 @@ const ChatInput: React.FC<Props> =  ({ onSend }) => {
       component="form"
       onSubmit={handleSubmit}
       role="form"
-      sx={{ display: "flex", mt: "0.8rem"}}
+      sx={{ display: "flex",
+          alignItems: "center",
+          mt: "0.8rem",
+          p: 0
+        }}
       >
+        <IconButton
+        component="button"
+        type="submit"
+        aria-label="送信"
+        sx={{
+          fontSize: "5rem",
+          }}>
+            <ArrowRightIcon
+            sx={{
+              fontSize: "5rem",
+            }} />
+        </IconButton>
         <TextField
         value={text}//メッセージtext
         onChange={(e) => setText(e.target.value)}
         label="Message"
         aria-label="message-input"
-        sx={{ flexGrow: 1 }}
+        size="medium"
+        sx={{
+          width: "50%",
+        }}
         />
-        <Button type="submit" variant="contained" sx={{ml: "0.4rem"}}>
-          送信
-        </Button>
       </Box>
   );
 };
