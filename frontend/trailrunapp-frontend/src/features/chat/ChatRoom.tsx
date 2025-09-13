@@ -4,7 +4,6 @@ import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
 import { fetchMessages, postMessage } from "./chatApi";
 import type { ChatMessage } from "./types";
-import { clear } from "console";
 
 interface Props {
   roomId: string;
@@ -21,16 +20,16 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
     lastTimestamp.current = 0;
   }, [roomId]);
 
-  const handleSend = async (text: string) => {
+const handleSend = async (text: string) => {
+  try {
     const { id, timestamp } = await postMessage(roomId, text);
-    const newMessage: ChatMessage = {
-      id,
-      user: "You",
-      text,
-      timestamp,
-    };
-    setMessages((prev) => [...prev, newMessage]);
-  };
+    const newMessage: ChatMessage = { id, user: "You", text, timestamp };
+    lastTimestamp.current = timestamp;            // ← 送信直後に更新
+    setMessages(prev => [...prev, newMessage]);
+  } catch (err) {
+    console.error("Failed to post message", err); // ← エラーハンドリング
+  }
+};
 
    //useEffectで３秒に１回サーバーからメッセージを取得し、
   //空配列またはエラー時にポーリングを停止
