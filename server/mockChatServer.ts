@@ -7,8 +7,8 @@ interface ChatMessage {
   message: string;
   timestamp: number;
 }
-//送られてきたmessageをroomsに保存する
-const rooms: Record<string, ChatMessage[]> = {};
+//送られてきたmessageをroomsに保存するroomId -> sessionId -> messages
+const rooms: Record<string, Record<string, ChatMessage[]>> = {};
 //レスポンスをJSON形式で返す関数
 function sendJson(res:ServerResponse, status:number, data: unknown) {
   res.writeHead(status, {
@@ -30,8 +30,8 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   if (method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET, POST,DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Session-Id',
     });
     res.end();
     return;
@@ -40,6 +40,13 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   const url = parse(req.url || '', true);
   //送信されたurlを/で分割してpartsに格納
   const parts = url.pathname ? url.pathname.split('/').filter(Boolean) : [];
+
+  const sessionId = req.headers['x-session-id'] as string | undefined;
+  if (!sessionId) {
+    sendJson(res, 400, { error: 'Missing session ID' });
+    return;
+  }
+
 //parts[0]がroomsでparts[2]がmessagesでmethodがPOSTのとき
   if (parts[0] === 'rooms' && parts[2] === 'messages' && method === 'POST') {
     //rooms/roomId/messagesのroomIdを取得
@@ -56,8 +63,10 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         const id = timestamp.toString();
         const user = 'mock-user'; //固定のユーザー名
         rooms[roomId] = rooms[roomId] || [];
-         //messageとtimestampをroomsに保存
-        rooms[roomId].push({id, user, message, timestamp });
+        const sessionRooms = rooms[roomId] [sessionId] || [];
+         //sessionRoomsにmessageを追加
+        sessionRooms.push({id, user, message, timestamp });
+        rooms[roomId][sessionId] = sessionRooms;
         //保存したmessageのidとtimestampをレスポンスとして返す
         sendJson(res, 200, { id, timestamp });
       } catch {
@@ -71,13 +80,27 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   if (parts[0] === 'rooms' && parts[2] === 'messages' && method === 'GET') {
     const roomId = parts[1];
     //クエリパラメータのsinceを取得。なければ0をデフォルト値とする
+    //URLに ?since=xxx がついていれば、その文字列を10進数の整数に変換して since
     const since = parseInt(url.query.since as string || '0', 10);
     //roomsからroomIdに対応するメッセージを取得し、timestampがsinceより大きいものだけをフィルタリング
-    const messages = (rooms[roomId] || []).filter(msg => msg.timestamp > since);
+    const messages =
+    (rooms[roomId]?. [sessionId] || []).filter(
+      msg => msg.timestamp > since
+    );
     sendJson(res, 200, { messages });
     return;
   }
 
+  if (parts[0] === 'rooms' && parts[2] === 'message' && method === 'DELETE ') {
+    const roomId = parts[1];
+    //roomsからroomIdに対応するメッセージを削除
+    if (rooms[roomId]?. [sessionId]) {
+      delete rooms[roomId][sessionId];
+    }
+    sendJson(res, 200, { success: true });
+    return;
+  }
+  
   notFound(res);
 });
 //環境変数PORTが設定されていればその値を、設定されていなければ4000をポート番号として使用
