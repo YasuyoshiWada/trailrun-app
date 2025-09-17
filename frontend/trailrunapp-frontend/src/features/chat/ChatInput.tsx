@@ -52,6 +52,10 @@ const ChatInput: React.FC<Props> =  ({ onSend }) => {
         size="medium"
         sx={{
           width: "50%",
+          //inputfieldのフォントサイズ
+          "& .MuiInputBase-input": {
+          fontSize: "1.8rem",
+        }
         }}
         />
       </Box>

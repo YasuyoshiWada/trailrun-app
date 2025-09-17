@@ -23,6 +23,7 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
 const handleSend = async (text: string) => {
   try {
     const { id, timestamp } = await postMessage(roomId, text);
+    //ここのuserをChatMessageListのprops currentUserと合わせる
     const newMessage: ChatMessage = { id, user: "You", text, timestamp };
     lastTimestamp.current = timestamp;            // ← 送信直後に更新
     setMessages(prev => [...prev, newMessage]);
@@ -79,6 +80,7 @@ const handleSend = async (text: string) => {
       </Typography>
       <Box
       sx={{ alignItems: "end" }}>
+        {/* 送信直後にローカルへ追加するメッセージは user: "You" を付与。上のconst newMassageのuserとcurrentUserを一致させてChatMessageListでメッセージを右側に表示する判定を加えている */}
         <ChatMessageList messages={messages} currentUser="You"/>
         <ChatInput onSend={handleSend} />
       </Box>
