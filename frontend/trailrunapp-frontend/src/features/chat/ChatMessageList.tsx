@@ -18,6 +18,7 @@ const ChatMessageList: React.FC<Props> = ({ messages, currentUser }) => (
     }}
     >
     {messages.map((m) => {
+      //メッセージが自分のものかどうかでスタイルを変える
       const isMine = m.user === currentUser;
       return (
       <ListItem
@@ -38,10 +39,17 @@ const ChatMessageList: React.FC<Props> = ({ messages, currentUser }) => (
           color: palette.textPrimary,
           textAlign: isMine ? "right" : "left",
         }}>
-          {/* <Typography component="p">
+          <Typography
+          component="p"
+          sx={{
+            //このstyle通常は単語単位で折り返すが、収まりきらない時だけ途中で切る。
+            overflowWrap: "break-word",
+            fontSize: "1.6rem"
+          }}
+          >{m.text}</Typography>
+          <Typography component="p">
             {m.user}
-          </Typography> */}
-          <Typography component="p">{m.text}</Typography>
+          </Typography>
         </Box>
       </ListItem>
       );

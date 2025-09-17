@@ -78,7 +78,8 @@ interface ServerChatMessage {
  * - Method: POST
  * - URL: `${BASE_URL}/rooms/${roomId}/messages`
  * - Headers:
- *   - `Content-Type: application/json`
+
+*   - `Content-Type: application/json`
  *   - `X-Session-Id: <getSessionId()>`
  * - Body(JSON): `{ message: string }`
  */
