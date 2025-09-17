@@ -70,7 +70,8 @@ const handleSend = async (text: string) => {
       p: "0.8rem",
       display: "flex",
       flexDirection: "column",
-      height: "calc(100vh - 5rem)", //ヘッダーとフッターを除いた高さ
+      height: "calc(100% - 5rem)", //ヘッダーとフッターを除いた高さ
+      
       }}>
       <Typography
       component="h2"
@@ -79,10 +80,25 @@ const handleSend = async (text: string) => {
         RoomName: {roomName}
       </Typography>
       <Box
-      sx={{ alignItems: "end" }}>
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        minHeight: 0, //子要素の高さが親要素を超えた場合にスクロールバーを表示するために必要
+        }}>
         {/* 送信直後にローカルへ追加するメッセージは user: "You" を付与。上のconst newMassageのuserとcurrentUserを一致させてChatMessageListでメッセージを右側に表示する判定を加えている */}
-        <ChatMessageList messages={messages} currentUser="You"/>
-        <ChatInput onSend={handleSend} />
+        <ChatMessageList
+        messages={messages}
+        currentUser="You"
+        />
+        <Box
+        sx={{
+          borderTop: "1px solid",
+          borderColor: "divider",
+          pt: "0.8rem",
+        }}>
+          <ChatInput onSend={handleSend} />
+        </Box>
       </Box>
     </Box>
   );
