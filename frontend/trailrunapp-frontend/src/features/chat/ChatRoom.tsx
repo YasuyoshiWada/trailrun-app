@@ -70,8 +70,9 @@ const handleSend = async (text: string) => {
       p: "0.8rem",
       display: "flex",
       flexDirection: "column",
-      height: "calc(100% - 5rem)", //ヘッダーとフッターを除いた高さ
-      
+      flex: 1,
+      minHeight: 0, //親要素の高さを超えた場合にスクロールバーを表示するために必要
+
       }}>
       <Typography
       component="h2"
@@ -96,6 +97,7 @@ const handleSend = async (text: string) => {
           borderTop: "1px solid",
           borderColor: "divider",
           pt: "0.8rem",
+          flexShrink: 0,
         }}>
           <ChatInput onSend={handleSend} />
         </Box>
