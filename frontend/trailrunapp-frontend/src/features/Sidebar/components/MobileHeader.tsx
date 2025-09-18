@@ -72,7 +72,7 @@ const MobileHeader: React.FC = () => {
             top: 0,
             left: 0,
             width: "100%",
-            height: "37vh",
+            height: "52vh",//AppBarの下から画面の下までの高さ
             backgroundColor: palette.cyan,
             zIndex: 1200,
             color: palette.textPrimary,

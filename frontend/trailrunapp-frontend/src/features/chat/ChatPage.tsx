@@ -77,7 +77,7 @@ const ChatPage: React.FC<Props> = ( {rooms }) => {
               {roomId ? (
                 <ChatRoom
                 roomId={roomId}
-                roomName={selectedRoom ?.name??""}//該当したルームの名前を渡す、無ければ空文字
+                roomName={selectedRoom ?.name ??""}//該当したルームの名前を渡す、無ければ空文字
                 />
               ) : (
                 <Typography component="p">ルームを選択してください。</Typography>

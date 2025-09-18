@@ -16,7 +16,6 @@ const ChatMessageList: React.FC<Props> = ({ messages, currentUser, timestamp }) 
   <List role="list"
   sx={{
     flex: 1,
-    overflowY: "auto"
     }}
     >
     {messages.map((m) => {

@@ -4,6 +4,8 @@ import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
 import { fetchMessages, postMessage } from "./chatApi";
 import type { ChatMessage } from "./types";
+import {palette} from "../../styles/palette";
+import useResponsive from "../../hooks/useResponsive";
 
 interface Props {
   roomId: string;
@@ -13,7 +15,8 @@ interface Props {
 const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
   const lastTimestamp = useRef<number>(0);
-
+//レスポンシブ対応
+  const { isSmallMobile, isMobile } = useResponsive();
   // roomIdが変わったらメッセージとタイムスタンプをリセット
   useEffect(() => {
     setMessages([]);
@@ -72,7 +75,7 @@ const handleSend = async (text: string) => {
       flexDirection: "column",
       flex: 1,
       minHeight: 0, //親要素の高さを超えた場合にスクロールバーを表示するために必要
-
+      height: "100%",
       }}>
       <Typography
       component="h2"
@@ -85,19 +88,33 @@ const handleSend = async (text: string) => {
         display: "flex",
         flexDirection: "column",
         flex: 1,
+        overflowY: "auto",
         minHeight: 0, //子要素の高さが親要素を超えた場合にスクロールバーを表示するために必要
         }}>
         {/* 送信直後にローカルへ追加するメッセージは user: "You" を付与。上のconst newMassageのuserとcurrentUserを一致させてChatMessageListでメッセージを右側に表示する判定を加えている */}
-        <ChatMessageList
-        messages={messages}
-        currentUser="You"
-        />
         <Box
         sx={{
-          borderTop: "1px solid",
-          borderColor: "divider",
-          pt: "0.8rem",
-          flexShrink: 0,
+        flex: 1,
+        minHeight: 0, //親要素の高さを超えた場合にスクロールバーを表示するために必要
+        height: "100%",
+        overflowY: "auto",
+        }}
+        >
+          <ChatMessageList
+          messages={messages}
+          currentUser="You"
+        />
+        </Box>
+        <Box
+        sx={{
+        position: "sticky",
+        bottom: 0,
+        zIndex: 1,
+        backgroundColor: "background.paper",
+        borderTop: "1px solid",
+        borderColor: palette.lightGray,
+        pt: "0.8rem",
+        pb: isSmallMobile || isMobile ? "6.8rem" : "0.4rem", //モバイル時はホームバー分の余白を追加
         }}>
           <ChatInput onSend={handleSend} />
         </Box>
