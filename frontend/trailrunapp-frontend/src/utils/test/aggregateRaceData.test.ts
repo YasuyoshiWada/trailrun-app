@@ -1,7 +1,7 @@
-import { countStatusByCategory, getTotalStatusList } from "./aggregateRaceData";
-import { statusColorMap } from "../styles/palette";
+import { countStatusByCategory, getTotalStatusList } from "../aggregateRaceData";
+import { statusColorMap } from "../../styles/palette";
 
-const createRunner = (id, overrides = {}) => ({
+const createRunner = (id: number, overrides = {}) => ({
   id,
   rank: 0,
   raceNumber: id,
@@ -28,14 +28,15 @@ describe("aggregateRaceData", () => {
 
       const [category] = countStatusByCategory(runners, legendStatusOrder);
 
-      expect(category.categoryName).toBe("Category A");
-      expect(category.statusList.map(item => item.label)).toEqual([
+      expect(category).toBeDefined();
+      expect(category?.categoryName).toBe("Category A");
+      expect(category?.statusList.map(item => item.label)).toEqual([
         "DNS",
         "DNF",
         "フィニッシュ",
         "未受付",
       ]);
-      expect(category.statusList.map(item => item.value)).toEqual([1, 1, 1, 1]);
+      expect(category?.statusList.map(item => item.value)).toEqual([1, 1, 1, 1]);
     });
   });
 
