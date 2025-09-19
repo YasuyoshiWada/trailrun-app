@@ -14,7 +14,10 @@ interface Props {
 
 const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
   const [messages, setMessages ] = useState<ChatMessage[]>([]);
+  //最新のメッセージのtimestampを保持するref
   const lastTimestamp = useRef<number>(0);
+  //HTMLDivElement型またはnullを初期値に持つrefこれをBoxコンポーネントに渡す
+  const messageListRef = useRef<HTMLDivElement | null>(null);
 //レスポンシブ対応
   const { isSmallMobile, isMobile } = useResponsive();
   // roomIdが変わったらメッセージとタイムスタンプをリセット
@@ -22,6 +25,27 @@ const ChatRoom: React.FC<Props> = ({ roomId, roomName }) => {
     setMessages([]);
     lastTimestamp.current = 0;
   }, [roomId]);
+
+  useEffect(() => {
+    const container = messageListRef.current;
+
+    if(!container) {
+      return;
+    }
+
+    let frameId: number | null = null;
+    //メッセージが追加されたらスクロールを一番下に移動させる
+    frameId = window.requestAnimationFrame(() => {
+      //scrollHeight はブラウザが DOM の再描画・レイアウト計算を行った結果、要素内に収まらない部分も含む「コンテンツ全体の高さ」を自動的に更新するプロパティです。新しいメッセージが追加されると ChatMessageList の出力が増え、要素全体の高さが伸びるため、そのタイミングで scrollHeight も大きくなります。その値を scrollTop に代入するとブラウザがスクロール位置をコンテンツ末尾にクランプするので、常に最新メッセージが下端に表示される仕組みになります
+      container.scrollTop = container.scrollHeight;
+    });
+
+    return () => {
+      if(frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, [messages, roomId]);
 
 const handleSend = async (text: string) => {
   try {
@@ -93,6 +117,7 @@ const handleSend = async (text: string) => {
         }}>
         {/* 送信直後にローカルへ追加するメッセージは user: "You" を付与。上のconst newMassageのuserとcurrentUserを一致させてChatMessageListでメッセージを右側に表示する判定を加えている */}
         <Box
+        ref={messageListRef}//これがあることで最新メッセージに自動でスクロールできる
         sx={{
         flex: 1,
         minHeight: 0, //親要素の高さを超えた場合にスクロールバーを表示するために必要
@@ -107,10 +132,8 @@ const handleSend = async (text: string) => {
         </Box>
         <Box
         sx={{
-        position: "sticky",
         bottom: 0,
         zIndex: 1,
-        backgroundColor: "background.paper",
         borderTop: "1px solid",
         borderColor: palette.lightGray,
         pt: "0.8rem",
