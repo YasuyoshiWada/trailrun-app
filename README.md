@@ -60,24 +60,33 @@
 ---
 
 ## 画面イメージ
-| 画面 | 説明 |
-|------|------|
-| ダッシュボード | カテゴリ別ステータスバーと合計バーを提供し、全体進行状況を直感的に把握可能。モバイル環境においては画面幅の制約を考慮し、地点一覧（ステータス凡例）を横スクロールで閲覧できる設計とすることで、操作性を維持。 |
-![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
-| カテゴリ詳細 |
-| ランナー一覧テーブル |
-![ランナー一覧テーブル](frontend/docs/screenshots/category/categoryRunners.png)
-| 検索 |
-![検索](frontend/docs/screenshots/category/searchCriteria.png)
-| 並び替え |
-![並び替え](frontend/docs/screenshots/category/sortSelect.png)
-| DNS/DNF/DQ 登録 |
-| タイム詳細ポップアップ。|
+<table>
+  <tr>
+    <th>ダッシュボード</th>
+    <th>カテゴリ詳細（ランナー一覧）</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/dashboard/dashboard.png" alt="ダッシュボード" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/categoryRunners.png" alt="ランナー一覧" width="100%"></td>
+  </tr>
+  <tr>
+    <td>カテゴリ別ステータスバーと合計バーで全体進捗を俯瞰。モバイルでは地点一覧を横スクロールで閲覧できる設計。</td>
+    <td>カテゴリごとのランナー一覧／検索／並び替え／DNS/DNF/DQ 登録／タイム詳細ポップアップに対応。</td>
+  </tr>
 
-| スタート時刻設定 | モーダル内でカテゴリごとに日時ピッカーを起動。一括設定と端末別レイアウトに対応。 |
-
-| チャット | ルームタブを切り替え、モックサーバーに接続してメッセージ送受信を行う。 |
-
+  <tr>
+    <th>検索</th>
+    <th>並び替え</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/searchCriteria.png" alt="検索" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/sortSelect.png" alt="並び替え" width="100%"></td>
+  </tr>
+  <tr>
+    <td>モーダル内でカテゴリごとに日時ピッカーなど条件指定。</td>
+    <td>端末幅に合わせた UI で昇順／降順切替などを提供。</td>
+  </tr>
+</table>
 
 
 ---
