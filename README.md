@@ -46,16 +46,16 @@ Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部�
 ---
 
 ## 主な機能
-| カテゴリ | 機能 | 詳細 |
-|----------|------|------|
-| ダッシュボード | カテゴリ別ステータスバー / 合計バー | `countStatusByCategory` と `getTotalStatusList` で未受付〜フィニッシュを集計し、MUIカスタムバーで可視化 |
+| カテゴリ         | 機能 | 詳細 |
+|------------------------------|------|------|
+| ダッシュボード      | カテゴリ別ステータスバー / 合計バー | `countStatusByCategory` と `getTotalStatusList` で未受付〜フィニッシュを集計し、MUIカスタムバーで可視化 |
 | 選手管理 | ランナー一覧（PC / モバイル） | `RaceEntryTableDesktop` / `RaceEntryTableMobile` を状況別に出し分け、検索・並び替え・レスポンシブ対応を実装 |
 | 異常系ハンドリング | DNS/DNF/DQ 登録・解除ダイアログ | `RunnerStatusPopupDialog` で登録理由を必須化し、`palette` に基づいた色分けで状態を強調 |
 | タイム詳細 | 地点通過記録の可視化 | `RunnerTimeDetailPopup` / `RunnerTimeDetailMobilePopup` で地点ごとの到達時刻・区間ラップ・順位（`rankingByLocation`）を表示 |
 | スタート時刻設定 | モバイル/デスクトップ対応ピッカー | `StartTimeSettingDialog` と MUI DateTimePicker を拡張し、大型フォント・一括適用など大会現場での UX を最適化 |
 | チャット | ルーム別コミュニケーション | `ChatPage` / `ChatRoom` + `server/mockChatServer.ts` により、場所ごとにスタッフチャネルを分割。送信・ポーリング・セッション管理を実装 |
 | レイアウト | サイドバー + モバイルヘッダー | `SidebarLayoutPage` と `useResponsive` でブレイクポイントごとに UI/UX を切り替え、現場端末（タブレット/スマホ）でも操作しやすい設計 |
-| ログイン | 管理者 / スタッフ用フォーム | `AuthForm` で入力項目をロールごとに出し分け、視認性を高めた MUI テーマで実装 |
+|  ログイン  | 管理者 / スタッフ用フォーム | `AuthForm` で入力項目をロールごとに出し分け、視認性を高めた MUI テーマで実装 |
 
 ---
 
@@ -76,29 +76,30 @@ Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部�
 
 ## アーキテクチャ
 
-frontend/trailrunapp-frontend (React 19 + TypeScript + MUI)
+```plaintext
+frontend/trailrunapp-frontend   (React 19 + TypeScript + MUI)
+├─ features/                    
+│   ├─ dashboard/              # レース全体のステータス集計 UI
+│   ├─ category_race/          # カテゴリ別詳細、DNS/DNF/DQ 管理
+│   ├─ Sidebar/                # PC/モバイル共通のレイアウト制御
+│   ├─ chat/                   # チャットルーム UI + API 呼び出し
+│   └─ Auth/                   # 管理者/スタッフログイン画面
 │
-├─ features
-│ ├─ dashboard … レース全体のステータス集計 UI
-│ ├─ category_race … カテゴリ別詳細、DNS/DNF/DQ 管理
-│ ├─ Sidebar … PC/モバイル共通のレイアウト制御
-│ ├─ chat … チャットルーム UI + API 呼び出し
-│ └─ Auth … 管理者/スタッフログイン画面
+├─ components/                 
+│   ├─ RaceEntryTable/         # レスポンシブなランナー表 (Desktop/Mobile)
+│   ├─ StartTime/              # MUI DateTimePicker カスタマイズ群
+│   └─ button(popup)/          # ボタン & ポップアップ共通パーツ
 │
-├─ components
-│ ├─ RaceEntryTable(Desktop/Mobile) … レスポンシブなランナー表
-│ ├─ StartTime … MUI DateTimePicker カスタマイズ群
-│ └─ button(popup) … ボタン & ポップアップ共通パーツ
+├─ data/                       
+│   ├─ runners*.ts             # ダミー選手データ
+│   └─ rooms.ts                # チャットルーム定義
 │
-├─ data
-│ ├─ runners*.ts … ダミー選手データ
-│ └─ rooms.ts … チャットルーム定義
+├─ hooks/                      # useResponsive, useRunnersData
+├─ utils/                      # 集計 / 配色 / ランキング / チャットAPI クライアント
 │
-├─ hooks … useResponsive, useRunnersData
-└─ utils … 集計 / 配色 / ランキング / チャットAPI クライアントなど
-
-server/mockChatServer.ts (Node.js + http)
-└─ ルームID・セッションID単位でメッセージを保持するメモリモック
+server/                        
+└─ mockChatServer.ts           # Node.js + http ルームID・セッションID単位でメッセージを保持するモック
+```
 
 
 - **依存関係**: フロントエンドは `react-scripts` を利用した CRA ベース。バックエンドは Node.js 純正 HTTP サーバーでモックのみを提供し、データベースは未使用です。
