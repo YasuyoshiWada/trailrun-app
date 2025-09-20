@@ -1,5 +1,6 @@
-# Minamieru Trailrun Ops Dashboard 🏃‍♀️
+# みなみえるトレイルラン位置情報計測システム 🏃‍♀️
 > トレイルラン大会現場の「いま」を可視化し、運営チームの意思決定を支援する監視アプリケーション
+
 ![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
 
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&style=flat-square)](https://ja.react.dev/)
@@ -28,7 +29,7 @@
 ---
 
 ## プロダクト概要
-Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部・計測スタッフ向けに設計した監視アプリです。
+みなみえるトレイルラン位置情報計測システム は、トレイルラン大会の運営本部・計測スタッフ向けに設計した監視アプリです。
 カテゴリ別の進行状況やランナー個別の通過データをリアルタイムで把握し、DNS/DNF/DQ などの異常系ハンドリング、現場スタッフ間のコミュニケーションを支援します。
 
 - **対象ユーザー**: システム設計者、大会運営責任者、ボランティアスタッフ
@@ -62,11 +63,17 @@ Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部�
 | 画面 | 説明 |
 |------|------|
 | ダッシュボード | カテゴリ別ステータスバーと合計バーを提供し、全体進行状況を直感的に把握可能。モバイル環境においては画面幅の制約を考慮し、地点一覧（ステータス凡例）を横スクロールで閲覧できる設計とすることで、操作性を維持。 |
-(frontend/docs/screenshots/dashboard/dashboard.png)
-| カテゴリ詳細 | ランナー一覧テーブル・検索・並び替え・DNS/DNF/DQ 登録・タイム詳細ポップアップ。 |
+![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
+| カテゴリ詳細 |
+| ランナー一覧テーブル |
 ![ランナー一覧テーブル](frontend/docs/screenshots/category/categoryRunners.png)
+| 検索 |
 ![検索](frontend/docs/screenshots/category/searchCriteria.png)
+| 並び替え |
 ![並び替え](frontend/docs/screenshots/category/sortSelect.png)
+| DNS/DNF/DQ 登録 |
+| タイム詳細ポップアップ。|
+
 | スタート時刻設定 | モーダル内でカテゴリごとに日時ピッカーを起動。一括設定と端末別レイアウトに対応。 |
 
 | チャット | ルームタブを切り替え、モックサーバーに接続してメッセージ送受信を行う。 |
