@@ -1,7 +1,6 @@
-# Minamieru Trailrun Ops Dashboard 🏃‍♀️  
+# Minamieru Trailrun Ops Dashboard 🏃‍♀️
 > トレイルラン大会現場の「いま」を可視化し、運営チームの意思決定を支援する監視アプリケーション
-
-![Dashboard Overview](docs/screenshots/dashboard.png) <!-- 任意: スクリーンショットを追加してください -->
+![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
 
 [![React](https://img.shields.io/badge/React-19-61dafb?logo=react&style=flat-square)](https://ja.react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9-3178c6?logo=typescript&style=flat-square)](https://www.typescriptlang.org/)
@@ -29,13 +28,13 @@
 ---
 
 ## プロダクト概要
-Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部・計測スタッフ向けに設計した監視アプリです。  
+Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部・計測スタッフ向けに設計した監視アプリです。
 カテゴリ別の進行状況やランナー個別の通過データをリアルタイムで把握し、DNS/DNF/DQ などの異常系ハンドリング、現場スタッフ間のコミュニケーションを支援します。
 
 - **対象ユーザー**: システム設計者、大会運営責任者、ボランティアスタッフ
 - **解決したい課題**: 現状ではシステム設計者（クライアント）が大会運営に常時関与せざるを得ない状況にあり、運営負荷が集中している。本プロジェクトでは、運営者やボランティアスタッフでも容易に利用可能な UI/UX を提供することで、クライアントの作業を大幅に削減するとともに、情報管理の一元化、ステータス把握の迅速化、スタッフ間の円滑な連携を実現する。
 - **価値**: 状況の即時可視化と意思決定プロセスの標準化により、運営上のリスクを低減し、判断スピードを向上。これにより、年間約20大会のサポート実績を、将来的には50大会規模へと拡大可能な体制を目指します。
-- 
+-
 ---
 
 ## 背景と狙い
@@ -63,14 +62,16 @@ Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部�
 | 画面 | 説明 |
 |------|------|
 | ダッシュボード | カテゴリ別ステータスバーと合計バーを提供し、全体進行状況を直感的に把握可能。モバイル環境においては画面幅の制約を考慮し、地点一覧（ステータス凡例）を横スクロールで閲覧できる設計とすることで、操作性を維持。 |
-
+(frontend/docs/screenshots/dashboard/dashboard.png)
 | カテゴリ詳細 | ランナー一覧テーブル・検索・並び替え・DNS/DNF/DQ 登録・タイム詳細ポップアップ。 |
-
+![ランナー一覧テーブル](frontend/docs/screenshots/category/categoryRunners.png)
+![検索](frontend/docs/screenshots/category/searchCriteria.png)
+![並び替え](frontend/docs/screenshots/category/sortSelect.png)
 | スタート時刻設定 | モーダル内でカテゴリごとに日時ピッカーを起動。一括設定と端末別レイアウトに対応。 |
 
 | チャット | ルームタブを切り替え、モックサーバーに接続してメッセージ送受信を行う。 |
 
-※ ご自身のスクリーンショットを `docs/screenshots/` 配下に追加し、上記テーブルの画像と差し替えてください。
+
 
 ---
 
@@ -78,26 +79,26 @@ Minamieru Trailrun Ops Dashboard は、トレイルラン大会の運営本部�
 
 ```plaintext
 frontend/trailrunapp-frontend   (React 19 + TypeScript + MUI)
-├─ features/                    
+├─ features/
 │   ├─ dashboard/              # レース全体のステータス集計 UI
 │   ├─ category_race/          # カテゴリ別詳細、DNS/DNF/DQ 管理
 │   ├─ Sidebar/                # PC/モバイル共通のレイアウト制御
 │   ├─ chat/                   # チャットルーム UI + API 呼び出し
 │   └─ Auth/                   # 管理者/スタッフログイン画面
 │
-├─ components/                 
+├─ components/
 │   ├─ RaceEntryTable/         # レスポンシブなランナー表 (Desktop/Mobile)
 │   ├─ StartTime/              # MUI DateTimePicker カスタマイズ群
 │   └─ button(popup)/          # ボタン & ポップアップ共通パーツ
 │
-├─ data/                       
+├─ data/
 │   ├─ runners*.ts             # ダミー選手データ
 │   └─ rooms.ts                # チャットルーム定義
 │
 ├─ hooks/                      # useResponsive, useRunnersData
 ├─ utils/                      # 集計 / 配色 / ランキング / チャットAPI クライアント
 │
-server/                        
+server/
 └─ mockChatServer.ts           # Node.js + http ルームID・セッションID単位でメッセージを保持するモック
 ```
 
@@ -268,4 +269,3 @@ ChatRoom 現状はルームを切り替えると、自分の送信したメッ�
 大会固有のデータや画像を追加する際は、各権利元のポリシーに従ってください。
 
 大会運営に関わるすべてのメンバーが安心して挑戦できる環境を整えるため、このダッシュボードが力になれば嬉しいです。ご意見・ご要望はお気軽にお寄せください。
-
