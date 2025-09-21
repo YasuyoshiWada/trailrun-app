@@ -50,7 +50,7 @@
 <table>
   <thead>
     <tr>
-      <th style="min-width:200px; white-space:nowrap;">カテゴリ</th>
+      <th style="min-width:220px; white-space:nowrap;">カテゴリ</th>
       <th style="width:220px;">機能</th>
       <th style="width:500px;">詳細</th>
     </tr>
@@ -83,10 +83,8 @@
       <td>タイム詳細</td>
       <td>地点通過記録の可視化</td>
       <td>
-        <code>RunnerTimeDetailPopup</code> /<br>
-        <code>RunnerTimeDetailMobilePopup</code><br>
-        で地点ごとの到達時刻・区間ラップ・<br>
-        順位（<code>rankingByLocation</code>）を表示
+        <code>RunnerTimeDetailPopup</code> / <code>RunnerTimeDetailMobilePopup</code><br>
+        で地点ごとの到達時刻・区間ラップ・順位（<code>rankingByLocation</code>）を表示
       </td>
     </tr>
     <tr>
