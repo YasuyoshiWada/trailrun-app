@@ -50,51 +50,86 @@
 <table>
   <thead>
     <tr>
-      <th style="min-width:180px; white-space:nowrap;">カテゴリ</th>
+      <th style="min-width:200px; white-space:nowrap;">カテゴリ</th>
       <th style="width:220px;">機能</th>
-      <th style="width:500px; word-wrap:break-word; white-space:normal;">詳細</th>
+      <th style="width:500px;">詳細</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><nobr>ダッシュボード</nobr></td>
+      <td>ダッシュボード</td>
       <td>カテゴリ別ステータスバー / 合計バー</td>
-      <td><code>countStatusByCategory</code> と <code>getTotalStatusList</code> で未受付〜フィニッシュを集計し、MUI カスタムバーで可視化</td>
+      <td>
+        <code>countStatusByCategory</code> と<br>
+        <code>getTotalStatusList</code> で<br>
+        未受付〜フィニッシュを集計し、<br>
+        MUI カスタムバーで可視化
+      </td>
     </tr>
     <tr>
-      <td><nobr>選手管理</nobr></td>
+      <td>選手管理</td>
       <td>ランナー一覧（PC / モバイル）</td>
-      <td><code>RaceEntryTableDesktop</code> / <code>RaceEntryTableMobile</code> を状況別に出し分け、検索・並び替え・レスポンシブ対応を実装</td>
+      <td>
+        <code>RaceEntryTableDesktop</code> /<br>
+        <code>RaceEntryTableMobile</code><br>
+        を状況別に出し分け、検索・並び替え・<br>
+        レスポンシブ対応を実装
+      </td>
     </tr>
     <tr>
-      <td><nobr>異常系ハンドリング</nobr></td>
+      <td>異常系ハンドリング</td>
       <td>DNS/DNF/DQ 登録・解除ダイアログ</td>
-      <td><code>RunnerStatusPopupDialog</code> で登録理由を必須化し、<code>palette</code> に基づいた色分けで状態を強調</td>
+      <td>
+        <code>RunnerStatusPopupDialog</code><br>
+        で登録理由を必須化し、<br>
+        <code>palette</code> に基づいた色分けで状態を強調
+      </td>
     </tr>
     <tr>
-      <td><nobr>タイム詳細</nobr></td>
+      <td>タイム詳細</td>
       <td>地点通過記録の可視化</td>
-      <td><code>RunnerTimeDetailPopup</code> / <code>RunnerTimeDetailMobilePopup</code> で地点ごとの到達時刻・区間ラップ・順位（<code>rankingByLocation</code>）を表示</td>
+      <td>
+        <code>RunnerTimeDetailPopup</code> /<br>
+        <code>RunnerTimeDetailMobilePopup</code><br>
+        で地点ごとの到達時刻・区間ラップ・<br>
+        順位（<code>rankingByLocation</code>）を表示
+      </td>
     </tr>
     <tr>
-      <td><nobr>スタート時刻設定</nobr></td>
+      <td>スタート時刻設定</td>
       <td>モバイル/デスクトップ対応ピッカー</td>
-      <td><code>StartTimeSettingDialog</code> と MUI <code>DateTimePicker</code> を拡張し、大型フォント・一括適用など大会現場での UX を最適化</td>
+      <td>
+        <code>StartTimeSettingDialog</code> と<br>
+        MUI <code>DateTimePicker</code> を拡張し、<br>
+        大型フォント・一括適用など大会現場での UX を最適化
+      </td>
     </tr>
     <tr>
-      <td><nobr>チャット</nobr></td>
+      <td>チャット</td>
       <td>ルーム別コミュニケーション</td>
-      <td><code>ChatPage</code> / <code>ChatRoom</code> + <code>server/mockChatServer.ts</code> により、場所ごとにスタッフチャネルを分割。送信・ポーリング・セッション管理を実装</td>
+      <td>
+        <code>ChatPage</code> / <code>ChatRoom</code><br>
+        + <code>server/mockChatServer.ts</code><br>
+        により、場所ごとにスタッフチャネルを分割。<br>
+        送信・ポーリング・セッション管理を実装
+      </td>
     </tr>
     <tr>
-      <td><nobr>レイアウト</nobr></td>
+      <td>レイアウト</td>
       <td>サイドバー + モバイルヘッダー</td>
-      <td><code>SidebarLayoutPage</code> と <code>useResponsive</code> でブレイクポイントごとに UI/UX を切り替え、現場端末（スマホ）でも操作しやすい設計</td>
+      <td>
+        <code>SidebarLayoutPage</code> と<br>
+        <code>useResponsive</code> でブレイクポイントごとに UI/UX を切り替え、<br>
+        現場端末（スマホ）でも操作しやすい設計
+      </td>
     </tr>
     <tr>
       <td>ログイン</td>
       <td>管理者 / スタッフ用フォーム</td>
-      <td><code>AuthForm</code> で入力項目をロールごとに出し分け、視認性を高めた MUI テーマで実装</td>
+      <td>
+        <code>AuthForm</code> で入力項目をロールごとに出し分け、<br>
+        視認性を高めた MUI テーマで実装
+      </td>
     </tr>
   </tbody>
 </table>
