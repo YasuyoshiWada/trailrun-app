@@ -210,9 +210,11 @@
 
   <tr>
     <th>チャットROOM</th>
+    <th>チャットROOM2</th>
   </tr>
   <tr>
     <td><img src="frontend/docs/screenshots/chat/chatRoom.png" alt="チャットROOM" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatRoom-2.png" alt="チャットROOM" width="100%"></td>
   </tr>
   <tr>
     <td>各地点で選手の通過情報を記録し、その地点専用のチャットルームでスタッフ間の情報共有を実現。これにより、リアルタイムでの状況把握と迅速な意思決定を可能にします。</td>
