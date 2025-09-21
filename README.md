@@ -232,8 +232,8 @@
     <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
   </tr>
   <tr>
-    <td>大会スタッフ用ログインページでは、運営現場に携わるボランティアやスタッフが、自身の担当業務に応じて必要な機能へアクセスできます。認証を通じて利用者ごとに操作範囲を制御し、データ入力や状況確認を効率化。これにより、現場での作業が属人的にならず、誰でもスムーズに対応可能な環境を実現します。</td>
-    <td>アドミンログインページは、大会全体を統括する管理者向けの専用画面です。カテゴリ設定や権限管理、データ集計などの上位機能にアクセスでき、スタッフログインよりも広範囲の操作権限を持ちます。これにより、運営全体の統制を一元化し、異常系ハンドリングやレース進行の全体最適化を迅速に実現します。</td>
+    <td>スタッフログイン:担当業務に応じた機能へアクセス。認証で権限を制御。</td>
+    <td>管理者ログイン:カテゴリ設定・権限管理・集計など上位機能を一元管理。</td>
   </tr>
 
 
@@ -242,80 +242,107 @@
 ## モバイル版：スマートフォン向けレイアウト（片手操作・視認性を最優先）
 
 <table>
-  <colgroup>
-    <col width="50%">
-    <col width="50%">
-  </colgroup>
+  <tr><th>ダッシュボード</th><th>カテゴリ詳細（ランナー一覧）</th></tr>
   <tr>
-    <th>ダッシュボード</th>
-    <th>カテゴリ詳細（ランナー一覧）</th>
+    <td><img src="frontend/docs/screenshots/dashboard/dashboardMobile.png" alt="ダッシュボード" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/categoryRunnersMobile.png" alt="ランナー一覧" width="100%"></td>
   </tr>
   <tr>
-    <td valign="top">
-      <img src="frontend/docs/screenshots/dashboard/dashboardMobile.png" alt="ダッシュボード" width="100%">
-    </td>
-    <td valign="top">
-      <img src="frontend/docs/screenshots/category/categoryRunnersMobile.png" alt="ランナー一覧" width="100%">
-    </td>
+    <td>カテゴリ別ステータスと合計バーで全体進捗を把握。小さな画面でも視認性を確保。</td>
+    <td>一覧／検索／並び替え／DNS・DNF・DQ 登録／タイム詳細に対応。</td>
   </tr>
-  <tr>
-    <td>カテゴリ別ステータスと合計バーで全体進捗を素早く把握。小さな画面でも指標を大きく表示し視認性を確保。</td>
-    <td>ランナー一覧・検索・並び替え・DNS/DNF/DQ・タイム詳細に対応。</td>
-  </tr>
-
-  <tr><th>検索</th><th>並び替え</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/category/searchCriteriaMobile.png" alt="検索" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/category/sortSelectMobile.png" alt="並び替え" width="100%"></td>
-  </tr>
-  <tr>
-    <td>曖昧検索で素早く到達。</td>
-    <td>昇順／降順切替などを片手で操作。</td>
-  </tr>
-
-  <tr><th>並び替え結果</th><th>DNS 登録</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/category/sortResultMobile.png" alt="並び替え結果" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/category/DNS_Mobile.png" alt="DNS登録" width="100%"></td>
-  </tr>
-  <tr><td>並べ替え結果を一覧表示。</td><td>DNS（未出走）を登録。</td></tr>
-
-  <tr><th>DNF 登録</th><th>DQ 登録</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/category/DNF_Mobile.png" alt="DNF登録" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/category/DQ_Mobile.png" alt="DQ登録" width="100%"></td>
-  </tr>
-  <tr><td>DNF（途中リタイア）を登録。</td><td>DQ（失格）を登録。</td></tr>
-
-  <tr><th>選手の地点通過記録ダイアログ</th><th>スタート時刻設定</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/category/CheckpointPassageRecordMobile.png" alt="地点通過記録" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/starttime/StartTimeSettingMobile.png" alt="スタート時刻設定" width="100%"></td>
-  </tr>
-  <tr><td>到達時刻・区間ラップ・順位を確認。</td><td>大会のスタート時刻を設定。</td></tr>
-
-  <tr><th>カテゴリ別スタート時刻設定</th><th>スタート時刻一括設定</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/starttime/categorySpecificStartTimeSettingMobile.png" alt="カテゴリ別スタート" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingDialogMobile.png" alt="一括設定" width="100%"></td>
-  </tr>
-  <tr><td>カテゴリ単位で個別設定。</td><td>チェック済みカテゴリへ一括適用。</td></tr>
-
-  <tr><th>チャットページ</th><th>チャット ROOM</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/chat/chatPageMobile.png" alt="チャットページ" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/chat/chatRoomMobile.png" alt="チャットROOM" width="100%"></td>
-  </tr>
-  <tr><td>運営・スタッフ間の連絡。</td><td>地点別ルームで情報共有。</td></tr>
-
-  <tr><th>大会スタッフログイン</th><th>大会管理者ログイン</th></tr>
-  <tr>
-    <td valign="top"><img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="スタッフログイン" width="100%"></td>
-    <td valign="top"><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="管理者ログイン" width="100%"></td>
-  </tr>
-  <tr><td>権限に応じた機能へアクセス。</td><td>上位機能を一元管理。</td></tr>
 </table>
 
+<!-- 2. 検索／並び替え -->
+<table>
+  <tr><th>検索</th><th>並び替え</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/searchCriteriaMobile.png" alt="検索" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/sortSelectMobile.png" alt="並び替え" width="100%"></td>
+  </tr>
+  <tr>
+    <td>曖昧検索で選手名やカテゴリ名から素早く到達。</td>
+    <td>昇順／降順切替などを片手操作で完結。</td>
+  </tr>
+</table>
+
+<!-- 3. 並び替え結果／DNS登録 -->
+<table>
+  <tr><th>並び替え結果</th><th>DNS 登録</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/sortResultMobile.png" alt="並び替え結果" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DNS_Mobile.png" alt="DNS登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>ゼッケン番号などのキーで並び替えた結果を一覧表示。</td>
+    <td>DNS（Did Not Start：未出走）を簡潔なダイアログで登録。</td>
+  </tr>
+</table>
+
+<!-- 4. DNF／DQ -->
+<table>
+  <tr><th>DNF 登録</th><th>DQ 登録</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/DNF_Mobile.png" alt="DNF登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DQ_Mobile.png" alt="DQ登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>DNF（Did Not Finish：途中リタイア）を登録。</td>
+    <td>DQ（Disqualified：失格）を登録。</td>
+  </tr>
+</table>
+
+<!-- 5. 位置：PC版と同様に「スタート時刻設定」の前に地点通過記録を挿入 -->
+<table>
+  <tr><th>選手の地点通過記録ダイアログ</th><th>スタート時刻設定</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/CheckpointPassageRecordMobile.png" alt="地点通過記録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSettingMobile.png" alt="スタート時刻設定" width="100%"></td>
+  </tr>
+  <tr>
+    <td>地点到達時刻・区間ラップ・順位をポップアップで確認。</td>
+    <td>大会のスタート時刻を設定するページ。</td>
+  </tr>
+</table>
+
+<!-- 6. カテゴリ別スタート／一括設定 -->
+<table>
+  <tr><th>カテゴリ別スタート時刻設定</th><th>スタート時刻一括設定</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/starttime/categorySpecificStartTimeSettingMobile.png" alt="カテゴリ別スタート時刻設定" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingDialogMobile.png" alt="スタート時刻一括設定" width="100%"></td>
+  </tr>
+  <tr>
+    <td>カテゴリ単位で個別設定。</td>
+    <td>チェック済みカテゴリへ同一時刻を一括適用。</td>
+  </tr>
+</table>
+
+<!-- 7. チャット -->
+<table>
+  <tr><th>チャットページ</th><th>チャット ROOM</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/chat/chatPageMobile.png" alt="チャットページ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatRoomMobile.png" alt="チャットROOM" width="100%"></td>
+  </tr>
+  <tr>
+    <td>運営・スタッフ間の連絡をモバイルでもスムーズに。</td>
+    <td>地点別ルームで最新情報を共有。</td>
+  </tr>
+</table>
+
+<!-- 8. ログイン -->
+<table>
+  <tr><th>大会スタッフログイン</th><th>大会管理者ログイン</th></tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="大会スタッフログイン" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
+  </tr>
+  <tr>
+    <td>スタッフログイン:担当業務に応じた機能へアクセス。認証で権限を制御。</td>
+    <td>管理者ログイン:カテゴリ設定・権限管理・集計など上位機能を一元管理。</td>
+  </tr>
+</table>
 
 ---
 
