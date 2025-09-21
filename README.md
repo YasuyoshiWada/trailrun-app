@@ -239,184 +239,144 @@
 
 </table>
 
-## Mobile版：スマートフォン向けに最適化された画面レイアウト
 ## モバイル版：スマートフォン向けレイアウト（片手操作・視認性を最優先）
 
-<table style="table-layout:fixed; width:100%;">
-  <!-- ダッシュボード & ランナー一覧 -->
+<table style="width:100%; table-layout:fixed;">
   <tr>
     <th style="width:50%;">ダッシュボード</th>
     <th style="width:50%;">カテゴリ詳細（ランナー一覧）</th>
   </tr>
   <tr>
-    <td style="width:50%; vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/dashboard/dashboardMobile.png"
-           alt="ダッシュボード"
-           style="width:100%; height:auto; display:block;">
+    <td style="width:50%; vertical-align:top;">
+      <img src="frontend/docs/screenshots/dashboard/dashboardMobile.png" alt="ダッシュボード" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="width:50%; vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/categoryRunnersMobile.png"
-           alt="ランナー一覧"
-           style="width:100%; height:auto; display:block;">
+    <td style="width:50%; vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/categoryRunnersMobile.png" alt="ランナー一覧" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">親指操作前提の縦レイアウト。主要指標を上部に集約し、地点一覧は横スワイプで素早く切替。</td>
-    <td style="padding:8px;">スクロール最小化の縦テーブル。検索／並び替え／DNS・DNF・DQ 操作を親指導線に集約。</td>
+    <td>カテゴリ別ステータスと合計バーで全体進捗を素早く把握。小さな画面でも指標を大きく表示し視認性を確保。</td>
+    <td>ランナー情報の一覧に加え、検索・並び替え、ステータス管理（DNS/DNF/DQ）やタイム詳細の確認に対応。</td>
   </tr>
 
-  <!-- 検索 & 並び替え -->
   <tr>
     <th style="width:50%;">検索</th>
     <th style="width:50%;">並び替え</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/searchCriteriaMobile.png"
-           alt="検索"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/searchCriteriaMobile.png" alt="検索" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/sortSelectMobile.png"
-           alt="並び替え"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/sortSelectMobile.png" alt="並び替え" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">曖昧検索で選手名・カテゴリ名などを素早く絞込。入力領域は拡大して誤タップを抑制。</td>
-    <td style="padding:8px;">ソートはメニューからワンタップで昇順／降順を切替。片手操作でもストレスなく操作可能。</td>
+    <td>曖昧検索に対応し、選手名やカテゴリ名などから素早く対象へ到達。</td>
+    <td>端末幅でも操作しやすいメニューで昇順／降順切替やキー選択が可能。</td>
   </tr>
 
-  <!-- 並び替え結果 & DNS -->
   <tr>
-    <th style="width:50%;">並び替え結果</th>
-    <th style="width:50%;">DNS 登録</th>
+    <th>並び替え結果</th>
+    <th>DNS 登録</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/sortResultMobile.png"
-           alt="並び替え結果"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/sortResultMobile.png" alt="並び替え結果" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/DNS_Mobile.png"
-           alt="DNS 登録"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/DNS_Mobile.png" alt="DNS登録" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">ゼッケン番号を昇順に並べた例。列幅はモバイル向けに最適化。</td>
-    <td style="padding:8px;">DNS（<em>Did Not Start</em>：未出走）をモーダルから登録。</td>
+    <td>ゼッケン番号などのキーで並べ替えた結果を一覧表示。</td>
+    <td>DNS（Did Not Start：未出走）の登録を、モバイル向けの簡潔なダイアログで実行。</td>
   </tr>
 
-  <!-- DNF & DQ -->
   <tr>
-    <th style="width:50%;">DNF 登録</th>
-    <th style="width:50%;">DQ 登録</th>
+    <th>DNF 登録</th>
+    <th>DQ 登録</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/DNF_Mobile.png"
-           alt="DNF 登録"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/DNF_Mobile.png" alt="DNF登録" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/DQ_Mobile.png"
-           alt="DQ 登録"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/DQ_Mobile.png" alt="DQ登録" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">DNF（<em>Did Not Finish</em>：途中棄権）を登録。</td>
-    <td style="padding:8px;">DQ（<em>Disqualified</em>：失格）を登録するモーダル。</td>
+    <td>DNF（Did Not Finish：途中リタイア）の登録に対応。</td>
+    <td>DQ（Disqualified：失格）の登録を正確かつ迅速に実行。</td>
   </tr>
 
-  <!-- ここから：スタート時刻設定の位置に「地点通過記録」を挿入し、以降を一段後ろへ -->
+  <!-- ここから：スタート時刻設定の位置に地点通過ダイアログを挿入（以降を1つずつ後ろへ） -->
   <tr>
-    <th style="width:50%;">地点通過詳細（ポップアップ）</th>
-    <th style="width:50%;">スタート時刻設定</th>
+    <th>選手の地点通過記録ダイアログ</th>
+    <th>スタート時刻設定</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/category/CheckpointPassageRecordMobile.png"
-           alt="地点通過詳細ポップアップ"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/category/CheckpointPassageRecordMobile.png" alt="選手の地点通過記録ダイアログ" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/starttime/StartTimeSettingMobile.png"
-           alt="スタート時刻設定"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/starttime/StartTimeSettingMobile.png" alt="スタート時刻設定" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">地点ごとの到達時刻・区間ラップ・順位をモーダルで即時確認。戻る操作なしで連続参照が可能。</td>
-    <td style="padding:8px;">カテゴリ横断のスタート時刻を設定するページ。</td>
+    <td>地点到達時刻・区間ラップ・順位などをポップアップで確認。</td>
+    <td>大会のスタート時刻を設定するページ。</td>
   </tr>
 
-  <!-- カテゴリ別設定 & 一括設定 -->
   <tr>
-    <th style="width:50%;">カテゴリ別スタート時刻設定</th>
-    <th style="width:50%;">スタート時刻の一括適用</th>
+    <th>カテゴリ別スタート時刻設定</th>
+    <th>スタート時刻一括設定</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/starttime/categorySpecificStartTimeSettingMobile.png"
-           alt="カテゴリ別スタート時刻設定"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/starttime/categorySpecificStartTimeSettingMobile.png" alt="カテゴリ別スタート時刻設定ダイアログ" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingDialogMobile.png"
-           alt="スタート時刻一括設定"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingDialogMobile.png" alt="スタート時刻一括設定" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">カテゴリごとに個別設定。大規模大会でも運用しやすい構成。</td>
-    <td style="padding:8px;">チェック済みカテゴリへ同一時刻を一括適用し、設定時間を短縮。</td>
+    <td>カテゴリ単位で個別のスタート時刻を設定。</td>
+    <td>チェック済みカテゴリへ同一時刻を一括適用し、現場運用を効率化。</td>
   </tr>
 
-  <!-- チャット -->
   <tr>
-    <th style="width:50%;">チャットページ</th>
-    <th style="width:50%;">チャットルーム</th>
+    <th>チャットページ</th>
+    <th>チャット ROOM</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/chat/chatPageMobile.png"
-           alt="チャットページ"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/chat/chatPageMobile.png" alt="チャットページ" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/chat/chatRoomMobile.png"
-           alt="チャットルーム"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/chat/chatRoomMobile.png" alt="チャットROOM" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">フッター固定の入力・送信で片手操作に最適化。通知と未読管理で取りこぼしを防止。</td>
-    <td style="padding:8px;">地点別にルームを分割し、現場間の情報連携を高速化。ルーム切替はドロワーからワンタップ。</td>
+    <td>運営者・スタッフ間の連絡をモバイルでもスムーズに実施。</td>
+    <td>地点別の専用ルームで、現場の最新情報をリアルタイム共有。</td>
   </tr>
 
-  <!-- ログイン -->
   <tr>
-    <th style="width:50%;">大会スタッフログイン</th>
-    <th style="width:50%;">大会管理者ログイン</th>
+    <th>大会スタッフログイン</th>
+    <th>大会管理者ログイン</th>
   </tr>
   <tr>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/login/loginStaffMobile.png"
-           alt="大会スタッフログイン"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="大会スタッフログイン" style="display:block; width:100%; height:auto;">
     </td>
-    <td style="vertical-align:top; padding:8px;">
-      <img src="frontend/docs/screenshots/login/loginAdmin.png"
-           alt="大会管理者ログイン"
-           style="width:100%; height:auto; display:block;">
+    <td style="vertical-align:top;">
+      <img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" style="display:block; width:100%; height:auto;">
     </td>
   </tr>
   <tr>
-    <td style="padding:8px;">担当業務に応じた機能へアクセス範囲を制御。現場の入力・確認を効率化。</td>
-    <td style="padding:8px;">カテゴリ設定・権限管理・集計など上位機能にアクセス。運営全体の統制を一元化。</td>
+    <td>担当業務に応じた機能へアクセス可能。認証により権限を適切に制御。</td>
+    <td>カテゴリ設定・権限管理・集計など上位機能を一元管理。</td>
   </tr>
 </table>
 
