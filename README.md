@@ -411,12 +411,12 @@ cd frontend/trailrunapp-frontend<br>
 npm install
 
 # 3. モックチャットサーバーの起動
-cd frontend
+cd frontend<br>
 npm run mock:chat
 ## => http://localhost:4000 でモックAPIが起動
 
 # 4. フロントエンドの起動
-cd frontend/trailrunapp-frontend
+cd frontend/trailrunapp-frontend<br>
 npm start
 ## => http://localhost:3000 で開発サーバーを起動
 .env に REACT_APP_CHAT_API_BASE_URL を設定すると、チャットAPIの接続先を任意のエンドポイントに切り替え可能です。
