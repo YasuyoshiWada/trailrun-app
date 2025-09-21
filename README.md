@@ -50,9 +50,9 @@
 <table>
   <thead>
     <tr>
-      <th style="width:200px; white-space:nowrap;">カテゴリ</th>
+      <th style="width:220px; white-space:nowrap;">カテゴリ</th>
       <th style="width:220px;">機能</th>
-      <th style="width:600px;">詳細</th>
+      <th style="width:600px; word-wrap:break-word; white-space:normal;">詳細</th>
     </tr>
   </thead>
   <tbody>
@@ -98,6 +98,7 @@
     </tr>
   </tbody>
 </table>
+
 
 ---
 
