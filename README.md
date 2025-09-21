@@ -329,14 +329,12 @@
     <td>運営・スタッフ間の連絡をモバイルでもスムーズに。</td>
     <td>地点別ルームで最新情報を共有。</td>
   </tr>
-</table>
-
 <!-- 8. ログイン -->
-<table>
+
   <tr><th>大会スタッフログイン</th><th>大会管理者ログイン</th></tr>
   <tr>
     <td><img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="大会スタッフログイン" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="70%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
   </tr>
   <tr>
     <td>スタッフログイン:担当業務に応じた機能へアクセス。認証で権限を制御。</td>
