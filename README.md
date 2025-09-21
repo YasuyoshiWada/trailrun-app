@@ -1,5 +1,5 @@
 # トレイルランニング、位置情報計測システム 🏃‍♀️
-> トレイルラン大会現場の「いま」を可視化し、運営チームの意思決定を支援する監視アプリケーション
+> トレイルラン大会現場の「いま」を可視化し、運営チームの意思決定を支援するモニタリングアプリケーション
 
 ![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
 
@@ -29,12 +29,12 @@
 ---
 
 ## プロダクト概要
-みなみえるトレイルラン位置情報計測システム は、トレイルラン大会の運営本部・計測スタッフ向けに設計した監視アプリです。
+みなみえるトレイルラン位置情報計測システムは、トレイルラン大会の運営本部や計測スタッフ向けに設計されたモニタリングアプリケーションです。
 カテゴリ別の進行状況やランナー個別の通過データをリアルタイムで把握し、DNS/DNF/DQ などの異常系ハンドリング、現場スタッフ間のコミュニケーションを支援します。
 
 - **対象ユーザー**: システム設計者、大会運営責任者、ボランティアスタッフ
 - **解決したい課題**: 現状ではシステム設計者（クライアント）が大会運営に常時関与せざるを得ない状況にあり、運営負荷が集中している。本プロジェクトでは、運営者やボランティアスタッフでも容易に利用可能な UI/UX を提供することで、クライアントの作業を大幅に削減するとともに、情報管理の一元化、ステータス把握の迅速化、スタッフ間の円滑な連携を実現する。
-- **価値**: 状況の即時可視化と意思決定プロセスの標準化により、運営上のリスクを低減し、判断スピードを向上。これにより、年間約20大会のサポート実績を、将来的には50大会規模へと拡大可能な体制を目指します。
+- **価値**: 状況の即時可視化と意思決定プロセスの標準化により、運営上のリスクを低減し、意思決定の迅速化を実現します。これにより、年間約20大会のサポート実績を、将来的には50大会規模へと拡大可能な体制を目指します。
 -
 ---
 
@@ -152,6 +152,117 @@
     <td><img src="frontend/docs/screenshots/category/sortSelect.png" alt="並び替え" width="100%"></td>
   </tr>
   <tr>
+    <td>曖昧検索で選手名・カテゴリ名などで検索し、情報到達までの時間を短縮。</td>
+    <td>端末幅に合わせた UI で昇順／降順切替などを提供。</td>
+  </tr>
+
+  <tr>
+    <th>並び替え結果</th>
+    <th>DNS登録</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/sortResult.png" alt="並び替え結果" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DNS.png" alt="DNS登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>ゼッケン番号を昇順に並べた結果。</td>
+    <td>DNS（Don't Start: スタートしなかった選手）を登録するダイアログ。</td>
+  </tr>
+
+  <tr>
+    <th>DNF登録</th>
+    <th>DQ登録</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/DNF.png" alt="DNF登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DQ.png" alt="DQ登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>DNF（Did Not Finish：途中リタイア）を登録。</td>
+    <td>DQ（Disqualified：失格）を登録するダイアログ。</td>
+  </tr>
+
+  <!-- ここから：スタート時刻設定の位置に地点通過ダイアログを挿入 -->
+  <tr>
+    <th>選手の地点通過記録ダイアログ</th>
+    <th>スタート時刻設定</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/CheckpointPassageRecord.png" alt="選手の地点通過記録ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
+  </tr>
+  <tr>
+    <td>地点ごとの到達時刻・区間ラップ・順位などをポップアップで表示。</td>
+    <td>スタート時刻を設定するページ。</td>
+  </tr>
+  <!-- ここまで：挿入＆以降を1つずつ後ろへシフト -->
+
+  <tr>
+    <th>カテゴリ別スタート時刻設定ダイアログ</th>
+    <th>スタート時刻一括設定</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingsDialog.png" alt="スタート時刻一括設定" width="100%"></td>
+  </tr>
+  <tr>
+    <td>カテゴリ毎にスタート時刻を詳細に設定できるダイアログ。</td>
+    <td>チェック済みカテゴリへ同一の時刻を一括適用。</td>
+  </tr>
+
+  <tr>
+    <th>チャットページ</th>
+    <th>チャットROOM</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/chat/chatPage.png" alt="チャットページ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatRoom.png" alt="チャットROOM" width="100%"></td>
+  </tr>
+  <tr>
+    <td>大会ページにログインした運営者・スタッフがチャットでコミュニケーションを取るページ。</td>
+    <td>各地点に専用ルームを設置し、地点別の情報共有を実現。</td>
+  </tr>
+
+ <tr>
+    <th>大会スタッフログイン</th>
+    <th>大会管理者ログイン</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/login/loginStaff.png" alt="大会スタッフログイン" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
+  </tr>
+  <tr>
+    <td>大会スタッフ用ログインページでは、運営現場に携わるボランティアやスタッフが、自身の担当業務に応じて必要な機能へアクセスできます。認証を通じて利用者ごとに操作範囲を制御し、データ入力や状況確認を効率化。これにより、現場での作業が属人的にならず、誰でもスムーズに対応可能な環境を実現します。</td>
+    <td>アドミンログインページは、大会全体を統括する管理者向けの専用画面です。カテゴリ設定や権限管理、データ集計などの上位機能にアクセスでき、スタッフログインよりも広範囲の操作権限を持ちます。これにより、運営全体の統制を一元化し、異常系ハンドリングやレース進行の全体最適化を迅速に実現します。</td>
+  </tr>
+
+
+</table>
+
+## Mobile版：スマートフォン向けに最適化された画面レイアウト
+<table>
+  <tr>
+    <th>ダッシュボード</th>
+    <th>カテゴリ詳細（ランナー一覧）</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/dashboard/dashboard.png" alt="ダッシュボード" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/categoryRunners.png" alt="ランナー一覧" width="100%"></td>
+  </tr>
+  <tr>
+    <td>カテゴリ別ステータスバーと合計バーで全体進捗を俯瞰。モバイルでは地点一覧を横スクロールで閲覧できる設計。</td>
+    <td>カテゴリごとのランナー一覧／検索／並び替え／DNS/DNF/DQ 登録／タイム詳細ポップアップに対応。</td>
+  </tr>
+
+  <tr>
+    <th>検索</th>
+    <th>並び替え</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/searchCriteria.png" alt="検索" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/sortSelect.png" alt="並び替え" width="100%"></td>
+  </tr>
+  <tr>
     <td>曖昧検索で選手名,カテゴリ名などで検索し情報到達までの時間を最短に。</td>
     <td>端末幅に合わせた UI で昇順／降順切替などを提供。</td>
   </tr>
@@ -166,7 +277,7 @@
   </tr>
   <tr>
     <td>ゼッケン番号を昇順に並べた結果</td>
-    <td>DNS(Don't Start(スタートしなかった選手))を登録するpopup</td>
+    <td>DNS（Don't Start: スタートしなかった選手）を登録するダイアログ</td>
   </tr>
 
 <tr>
@@ -398,8 +509,7 @@ useResponsive でブレイクポイントを定義し、テーブル/カード/�
 
 運営現場での可読性向上
 
-クライアントからの要望に基づき、フォントサイズを大きめに設定しました。これは、ボランティアスタッフの中にスマートフォン操作に不慣れな高齢者が含まれることや、
-屋外の日光下・暗いテント内といった視認性に課題のある環境でも見やすく操作できるように配慮したものです。
+クライアントの要望に基づき、フォントサイズを大きめに設定しました。これにより、スマートフォン操作に不慣れな高齢スタッフや、屋外の日光下・暗いテント内といった視認性が低い環境でも見やすく操作しやすいUIを実現しています。
 
 カラーリングは palette / statusColorMap に集約し、DNS/DNF/DQ などの重要ステータスを瞬時に判別可能。
 
@@ -447,8 +557,7 @@ Playwright による E2E テストを導入し、主要フロー（認証 → �
 
 通信が不安定な山間部での利用を想定し、PWA 化によるオフラインキャッシュを検討。
 
-必要なデータを端末に保持し、ネットワーク断時にも最低限の情報表示・入力を可能にする方向でクライアントと協議予定。
-
+必要なデータを端末に保持し、ネットワーク断時にも最低限の情報表示・入力が可能となるよう、PWA 化についてクライアントと協議を進めていきます。
 ライセンス
 本リポジトリのソースコードは MIT License の下で公開しています。
 大会固有のデータや画像を追加する際は、各権利元のポリシーに従ってください。
