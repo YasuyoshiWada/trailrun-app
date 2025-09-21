@@ -50,7 +50,7 @@
 <table>
   <thead>
     <tr>
-      <th style="width:180px;">カテゴリ</th>
+      <th style="width:180px;">  カテゴリ  </th>
       <th style="width:220px;">機能</th>
       <th>詳細</th>
     </tr>
