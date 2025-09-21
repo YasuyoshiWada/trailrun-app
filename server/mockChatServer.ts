@@ -1,3 +1,4 @@
+import { statuses } from './statuses';
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { parse } from 'url';
 
@@ -7,6 +8,7 @@ interface ChatMessage {
   message: string;
   timestamp: number;
 }
+
 //送られてきたmessageをroomsに保存するroomId -> sessionId -> messages
 const rooms: Record<string, Record<string, ChatMessage[]>> = {};
 //レスポンスをJSON形式で返す関数
@@ -24,7 +26,7 @@ function notFound(res:ServerResponse) {
 }
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
-  //
+
   const method = req.method || 'GET';
 //ブラウザのプリフライトリクエストに対応
   if (method === 'OPTIONS') {
@@ -41,6 +43,11 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   //送信されたurlを/で分割してpartsに格納
   const parts = url.pathname ? url.pathname.split('/').filter(Boolean) : [];
 
+  //Public APIエンドポイント statusLegendの定義を返す
+  if (url.pathname === '/api/statuses' && method === 'GET' ) {
+    sendJson(res, 200, statuses);
+    return;
+  }
   const sessionId = req.headers['x-session-id'] as string | undefined;
   if (!sessionId) {
     sendJson(res, 400, { error: 'Missing session ID' });
@@ -91,7 +98,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     return;
   }
 
-  if (parts[0] === 'rooms' && parts[2] === 'message' && method === 'DELETE ') {
+  if (parts[0] === 'rooms' && parts[2] === 'message' && method === 'DELETE') {
     const roomId = parts[1];
     //roomsからroomIdに対応するメッセージを削除
     if (rooms[roomId]?. [sessionId]) {
@@ -100,7 +107,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     sendJson(res, 200, { success: true });
     return;
   }
-  
+
   notFound(res);
 });
 //環境変数PORTが設定されていればその値を、設定されていなければ4000をポート番号として使用
