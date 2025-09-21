@@ -127,6 +127,9 @@
 ---
 
 ## 画面イメージ
+
+## PC版：全体を俯瞰できるサイドバー付き画面
+
 <table>
   <tr>
     <th>ダッシュボード</th>
@@ -181,17 +184,44 @@
   </tr>
 
 <tr>
-    <th></th>
-    <th></th>
+    <th>スタート時刻設定</th>
+    <th>カテゴリ別スタート時刻設定ダイアログ</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/category/DNF.png" alt="DNF登録" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/category/DQ.png" alt="DQ登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
+    <td>スタート時刻を設定するページ</td>
+    <td>カテゴリ毎にスタート時刻を詳細に設定できるダイアログ</td>
   </tr>
+
+<tr>
+    <th>スタート時刻一括設定</th>
+    <th>チャットページ</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+  </tr>
+  <tr>
+    <td>一括時刻設定で時刻を設定し、チェックボックスの入ったカテゴリを一括適用ボタンで同じ時刻を同時に設定</td>
+    <td>大会ページにログインした大会運営者、スタッフがチャットでコミュニケーションを取るページ</td>
+  </tr>
+
+  <tr>
+    <th>チャットROOM</th>
+    <th>チャットページ</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+  </tr>
+  <tr>
+    <td>選手が各々のidが紐つけられた、リストバンドを位置情報システムにタッチし、現在地を共有する場所毎にチャット内でRoomを設置し場所毎の情報を共有する</td>
+    <td>選手が各々のidが紐つけられた、リストバンドを位置情報システムにタッチし、現在地を共有する場所毎にチャット内でRoomを設置</td>
+  </tr>
+
 
 </table>
 
@@ -372,7 +402,7 @@ StartTimeSettingDialog ではカテゴリ単位と一括適用の両方をサポ
 
 チャット機能は 3 秒間隔のポーリング + セッションIDで再取得時の重複送信を防止。
 
-ChatRoom 現状はルームを切り替えると、自分の送信したメッセージがサーバー側で保持され、モックサーバー経由で相手側のメッセージ欄に出力される実装となっています。これは暫定的な動作であり、今後はルーム切り替え時にもメッセージ履歴を保持し、大会中は常に全ての履歴を参照できる仕様へと拡張予定です。実際の運営現場では複数地点を切り替えて状況を把握する必要があるため、履歴の継続的な保持はオペレーション上不可欠と位置付けています。
+ChatRoom 現状はルームを切り替えると、自分の送信したメッセージがサーバー側で保持され、モックサーバー経由で相手側のメッセージ欄に出<br>力される実装となっています。これは暫定的な動作であり、今後はルーム切り替え時にもメッセージ履歴を保持し、大会中は常に全ての履<br>歴を参照できる仕様へと拡張予定です。実際の運営現場では複数地点を切り替えて状況を把握する必要があるため、履歴の継続的な保持は<br>オペレーション上不可欠と位置付けています。
 
 今後の展望
  StatusLegend 用 API / MSW ハンドラの整備
@@ -391,4 +421,6 @@ ChatRoom 現状はルームを切り替えると、自分の送信したメッ�
 本リポジトリのソースコードは MIT License の下で公開しています。
 大会固有のデータや画像を追加する際は、各権利元のポリシーに従ってください。
 
-大会運営に関わるすべてのメンバーが安心して挑戦できる環境を整えるため、このダッシュボードが力になれば嬉しいです。ご意見・ご要望はお気軽にお寄せください。
+大会運営に関わるすべてのメンバーが安心して挑戦できる環境を整えるため、<br>
+このダッシュボードが力になれば嬉しいです。<br>
+ご意見・ご要望はお気軽にお寄せください。
