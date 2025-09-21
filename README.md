@@ -336,7 +336,7 @@
   <tr><th>大会スタッフログイン</th><th>大会管理者ログイン</th></tr>
   <tr>
     <td><img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="大会スタッフログイン" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="70%"></td>
   </tr>
   <tr>
     <td>スタッフログイン:担当業務に応じた機能へアクセス。認証で権限を制御。</td>
