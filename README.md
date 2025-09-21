@@ -398,32 +398,35 @@ server/
 - npm または pnpm（このリポジトリでは npm スクリプトを定義）
 - `server/mockChatServer.ts` を動かすために TypeScript 実行環境（`ts-node` は devDependencies に同梱）
 
-### 2. 依存関係のインストール
-# ルートにいる場合
+# 2. 依存関係のインストール
+## ルートにいる場合
 npm install
 
-# フロントエンドのみをインストールしたい場合
+## フロントエンドのみをインストールしたい場合
 cd frontend/trailrunapp-frontend
 npm install
 
 3. モックチャットサーバーの起動
 npm run mock:chat
-# => http://localhost:4000 でモックAPIが起動
+## => http://localhost:4000 でモックAPIが起動
 4. フロントエンドの起動
 cd frontend/trailrunapp-frontend
 npm start
-# => http://localhost:3000 で開発サーバーを起動
+## => http://localhost:3000 で開発サーバーを起動
 .env に REACT_APP_CHAT_API_BASE_URL を設定すると、チャットAPIの接続先を任意のエンドポイントに切り替え可能です。
 
 proxy 設定により、開発時は /rooms/... のリクエストを自動的に localhost:4000 にフォワードします。
 
-コマンド一覧
-コマンド	目的
-npm start	CRA 開発サーバー起動
-npm test	Jest + React Testing Library によるテスト
-npm run build	本番ビルド
-npm run lint	ESLint（src/**/*.ts(x) を対象）
-npm run mock:chat	Node.js モックチャットサーバー起動（ルート直下）
+## コマンド一覧
+
+| コマンド            | 目的                                   |
+| ------------------- | -------------------------------------- |
+| `npm start`         | CRA 開発サーバー起動                   |
+| `npm test`          | Jest + React Testing Library によるテスト |
+| `npm run build`     | 本番ビルド                             |
+| `npm run lint`      | ESLint（`src/**/*.ts(x)` を対象）       |
+| `npm run mock:chat` | Node.js モックチャットサーバー起動（ルート直下） |
+
 テスト戦略
 ユニットテスト:
 
@@ -457,7 +460,8 @@ Chat の履歴保持と挙動改善
 検証: 期限切れリフレッシュ、権限別UI（登録/解除ボタンの表示）、保護ルート遷移
 完了条件: 認証必須画面が正しく保護され、権限に応じた操作のみ実行可能。最小限の監査ログ（誰が・いつ・何を）を記録
 
-ディレクトリ構成
+## ディレクトリ構成
+```
 minamieru/
 ├── README.md
 ├── package.json
@@ -484,6 +488,7 @@ minamieru/
         │   └── utils/
         └── public/
             └── index.html など
+```
 
 **データとモックAPI**
 
