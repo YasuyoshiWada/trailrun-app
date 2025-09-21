@@ -400,16 +400,22 @@ server/
 
 # 2. 依存関係のインストール
 ## ルートにいる場合
+
 npm install
+
+ルートで `npm install` を実行するとサーバー側（server/ 配下）のみ依存関係がインストールされます。
+フロントエンドの依存関係をインストールする場合は、以下の手順を追加してください。
 
 ## フロントエンドのみをインストールしたい場合
-cd frontend/trailrunapp-frontend
+cd frontend/trailrunapp-frontend<br>
 npm install
 
-3. モックチャットサーバーの起動
+# 3. モックチャットサーバーの起動
+cd frontend
 npm run mock:chat
 ## => http://localhost:4000 でモックAPIが起動
-4. フロントエンドの起動
+
+# 4. フロントエンドの起動
 cd frontend/trailrunapp-frontend
 npm start
 ## => http://localhost:3000 で開発サーバーを起動
