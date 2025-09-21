@@ -52,42 +52,42 @@
     <tr>
       <th style="min-width:180px; white-space:nowrap;">カテゴリ</th>
       <th style="width:220px;">機能</th>
-      <th style="width:600px; word-wrap:break-word; white-space:normal;">詳細</th>
+      <th style="width:500px; word-wrap:break-word; white-space:normal;">詳細</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>ダッシュボード</td>
+      <td><nobr>ダッシュボード</nobr></td>
       <td>カテゴリ別ステータスバー / 合計バー</td>
       <td><code>countStatusByCategory</code> と <code>getTotalStatusList</code> で未受付〜フィニッシュを集計し、MUI カスタムバーで可視化</td>
     </tr>
     <tr>
-      <td>選手管理</td>
+      <td><nobr>選手管理</nobr></td>
       <td>ランナー一覧（PC / モバイル）</td>
       <td><code>RaceEntryTableDesktop</code> / <code>RaceEntryTableMobile</code> を状況別に出し分け、検索・並び替え・レスポンシブ対応を実装</td>
     </tr>
     <tr>
-      <td>異常系ハンドリング</td>
+      <td><nobr>異常系ハンドリング</nobr></td>
       <td>DNS/DNF/DQ 登録・解除ダイアログ</td>
       <td><code>RunnerStatusPopupDialog</code> で登録理由を必須化し、<code>palette</code> に基づいた色分けで状態を強調</td>
     </tr>
     <tr>
-      <td>タイム詳細</td>
+      <td><nobr>タイム詳細</nobr></td>
       <td>地点通過記録の可視化</td>
       <td><code>RunnerTimeDetailPopup</code> / <code>RunnerTimeDetailMobilePopup</code> で地点ごとの到達時刻・区間ラップ・順位（<code>rankingByLocation</code>）を表示</td>
     </tr>
     <tr>
-      <td>スタート時刻設定</td>
+      <td><nobr>スタート時刻設定</nobr></td>
       <td>モバイル/デスクトップ対応ピッカー</td>
       <td><code>StartTimeSettingDialog</code> と MUI <code>DateTimePicker</code> を拡張し、大型フォント・一括適用など大会現場での UX を最適化</td>
     </tr>
     <tr>
-      <td>チャット</td>
+      <td><nobr>チャット</nobr></td>
       <td>ルーム別コミュニケーション</td>
       <td><code>ChatPage</code> / <code>ChatRoom</code> + <code>server/mockChatServer.ts</code> により、場所ごとにスタッフチャネルを分割。送信・ポーリング・セッション管理を実装</td>
     </tr>
     <tr>
-      <td>レイアウト</td>
+      <td><nobr>レイアウト</nobr></td>
       <td>サイドバー + モバイルヘッダー</td>
       <td><code>SidebarLayoutPage</code> と <code>useResponsive</code> でブレイクポイントごとに UI/UX を切り替え、現場端末（スマホ）でも操作しやすい設計</td>
     </tr>
