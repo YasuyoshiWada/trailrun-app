@@ -246,8 +246,8 @@
     <th>カテゴリ詳細（ランナー一覧）</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/dashboard/dashboard.png" alt="ダッシュボード" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/category/categoryRunners.png" alt="ランナー一覧" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/dashboard/dashboardMobile.png" alt="ダッシュボード" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/categoryRunnersMobile.png" alt="ランナー一覧" width="100%"></td>
   </tr>
   <tr>
     <td>カテゴリ別ステータスバーと合計バーで全体進捗を俯瞰。モバイルでは地点一覧を横スクロールで閲覧できる設計。</td>
@@ -259,11 +259,11 @@
     <th>並び替え</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/category/searchCriteria.png" alt="検索" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/category/sortSelect.png" alt="並び替え" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/searchCriteriaMobile.png" alt="検索" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/sortSelectMobile.png" alt="並び替え" width="100%"></td>
   </tr>
   <tr>
-    <td>曖昧検索で選手名,カテゴリ名などで検索し情報到達までの時間を最短に。</td>
+    <td>曖昧検索で選手名・カテゴリ名などで検索し、情報到達までの時間を短縮。</td>
     <td>端末幅に合わせた UI で昇順／降順切替などを提供。</td>
   </tr>
 
@@ -272,63 +272,65 @@
     <th>DNS登録</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/category/sortResult.png" alt="並び替え結果" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/category/DNS.png" alt="DNS登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/sortResultMobile.png" alt="並び替え結果" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DNS_Mobile.png" alt="DNS登録" width="100%"></td>
   </tr>
   <tr>
-    <td>ゼッケン番号を昇順に並べた結果</td>
-    <td>DNS（Don't Start: スタートしなかった選手）を登録するダイアログ</td>
+    <td>ゼッケン番号を昇順に並べた結果。</td>
+    <td>DNS（Don't Start: スタートしなかった選手）を登録するダイアログ。</td>
   </tr>
 
-<tr>
+  <tr>
     <th>DNF登録</th>
     <th>DQ登録</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/category/DNF.png" alt="DNF登録" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/category/DQ.png" alt="DQ登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DNF_Mobile.png" alt="DNF登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DQ_Mobile.png" alt="DQ登録" width="100%"></td>
   </tr>
   <tr>
-    <td>DNF(Don't Finish(最後まで走れず途中リタイアした選手を登録する))</td>
-    <td>DQ(Disqualified（失格）した選手を登録するpopup</td>
+    <td>DNF（Did Not Finish：途中リタイア）を登録。</td>
+    <td>DQ（Disqualified：失格）を登録するダイアログ。</td>
   </tr>
 
-<tr>
+  <!-- ここから：スタート時刻設定の位置に地点通過ダイアログを挿入 -->
+  <tr>
+    <th>選手の地点通過記録ダイアログ</th>
     <th>スタート時刻設定</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/CheckpointPassageRecordMobile.png" alt="選手の地点通過記録ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/StartTimeSettingMobile.png" alt="スタート時刻設定" width="100%"></td>
+  </tr>
+  <tr>
+    <td>地点ごとの到達時刻・区間ラップ・順位などをポップアップで表示。</td>
+    <td>スタート時刻を設定するページ。</td>
+  </tr>
+
+  <tr>
     <th>カテゴリ別スタート時刻設定ダイアログ</th>
-  </tr>
-  <tr>
-    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
-  </tr>
-  <tr>
-    <td>スタート時刻を設定するページ</td>
-    <td>カテゴリ毎にスタート時刻を詳細に設定できるダイアログ</td>
-  </tr>
-
-<tr>
     <th>スタート時刻一括設定</th>
-    <th>チャットページ</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingsDialog.png" alt="スタート時刻一括設定" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/chat/chatPage.png" alt="チャットページ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/categorySpecificStartTimeSettingMobile.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingDialogMobile.png" alt="スタート時刻一括設定" width="100%"></td>
   </tr>
   <tr>
-    <td>一括時刻設定で時刻を設定し、チェックボックスの入ったカテゴリを一括適用ボタンで同じ時刻を同時に設定</td>
-    <td>大会ページにログインした大会運営者、スタッフがチャットでコミュニケーションを取るページ</td>
+    <td>カテゴリ毎にスタート時刻を詳細に設定できるダイアログ。</td>
+    <td>チェック済みカテゴリへ同一の時刻を一括適用。</td>
   </tr>
 
   <tr>
+    <th>チャットページ</th>
     <th>チャットROOM</th>
-    <th>チャットROOM2</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/chat/chatRoom.png" alt="チャットROOM" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/chat/chatRoom-2.png" alt="チャットROOM" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatPageMobile.png" alt="チャットページ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatRoomMobile.png" alt="チャットROOM" width="100%"></td>
   </tr>
   <tr>
-    <td>各地点で選手の通過情報を記録し、その地点専用のチャットルームでスタッフ間の情報共有を実現。これにより、リアルタイムでの状況把握と迅速な意思決定を可能にします。</td>
+    <td>大会ページにログインした運営者・スタッフがチャットでコミュニケーションを取るページ。</td>
+    <td>各地点に専用ルームを設置し、地点別の情報共有を実現。</td>
   </tr>
 
  <tr>
@@ -336,7 +338,7 @@
     <th>大会管理者ログイン</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/login/loginStaff.png" alt="大会スタッフログイン" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginStaffMobile.png" alt="大会スタッフログイン" width="100%"></td>
     <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
   </tr>
   <tr>
