@@ -80,6 +80,8 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
         display: 'flex',
         width:(isSmallMobile || isMobile) ? '100%' : '70rem',
         height: '4rem',
+        borderRadius: '0.5rem',
+        overflow: 'hidden'
         }}>
         {statusList.map((status,idx) => (
           <Box

@@ -82,6 +82,8 @@ const RaceTotalStatusBar: React.FC<Props> = ({ totalParticipants, totalStatusLis
         display: 'flex',
         width:(isSmallMobile || isMobile) ? '100%' : '70rem',
         height: '4rem',
+        borderRadius: '0.5rem',
+        overflow: 'hidden'//'hiddenによってステータスバーの両端だけ丸まる'
         }}>
         {totalStatusList.map((status,idx) => (
           <Box

@@ -1,14 +1,7 @@
-import React, { JSX,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from '@mui/material';
 import { palette } from "../styles/palette";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';       // 未受付
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';   // 受付済み
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'; // DNS
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';   // スタート
-import LocationOnIcon from '@mui/icons-material/LocationOn';         // 地点1,2
-import NotInterestedIcon from '@mui/icons-material/NotInterested';   //DNF
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';     //  DQ
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';       // フィニッシュ
+import { getStatusIcon } from "../utils/getStatusIcon";
 
 type StatusLegendProps = {
   isSmallMobile?: boolean,
@@ -17,23 +10,11 @@ type StatusLegendProps = {
   selectedStatus?: string | undefined;
 }
 
-type statusList ={
+type StatusListItem ={
   label: string;
   color: string;
-  icon: JSX.Element;
+  iconName: string
 }
-
-const statusList : statusList[] = [
-  { label: '未受付', color: palette.gray, icon: <HelpOutlineIcon />},
-  { label: '受付済み', color: palette.aquaLight, icon: <PersonAddAlt1Icon />},
-  { label: 'スタート', color: palette.navyBlue, icon: <DirectionsRunIcon />},
-  { label: '地点1', color: palette.darkGray, icon: <LocationOnIcon />},
-  { label: '地点2', color: palette.cyan, icon: < LocationOnIcon />},
-  { label: 'フィニッシュ', color: palette.limeGreen, icon: <EmojiEventsIcon />},
-  { label: 'DNS', color: palette.orange, icon: <RemoveCircleOutlineIcon />},
-  { label: 'DNF', color: palette.mustardYellow, icon: <NotInterestedIcon />},
-  { label: 'DQ', color: palette.coralRed, icon: <HighlightOffIcon />}
-];
 
 const StatusLegend: React.FC< StatusLegendProps> = ({
   isSmallMobile,
@@ -43,23 +24,88 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
 }) => {
    // hover中のstatus labelを記憶
   const [ hovered, setHovered ] = useState<string | null>(null);
+  const [statusList, setStatusList] = useState<StatusListItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true; // アンマウント後の setState を防ぐためのフラグ
+
+    // ステータスデータをAPIから取得する非同期関数
+
+    const fetchStatuses = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch('/api/statuses');
+        if (!response.ok) {
+          throw new Error(response.statusText || 'Failed to fetch statuses');
+        }
+        //fetchのレスポンスをjson形式でパース
+        const data = await response.json();
+        if(!isValidStatusList(data)){
+          throw new Error('Invalid status response');
+        }
+
+        if (isMounted) {
+          setStatusList(data);//データをセット,状態更新
+        }
+        //promiseのエラーをキャッチ(例外処理)fetchが失敗した場合,通信エラー、ステータスエラーなど
+      } catch (err) {
+        if (isMounted) {
+          console.error(err);
+          setError('ステータスの取得に失敗しました');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchStatuses();
+
+    return () => {
+      isMounted = false; // クリーンアップ関数でマウント状態を更新、画面遷移などでコンポーネントがアンマウントされた場合にsetStateを防ぐ
+    };
+  }, []);
+
+  const isResponsive = isSmallMobile || isMobile;
+  const statusCount = statusList.length > 0 ? statusList.length : 1;
 
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: (isSmallMobile || isMobile) ? 'nowrap' : 'wrap',
+        flexWrap: isResponsive ? 'nowrap' : 'wrap',
         gap: '2.4rem',
         mb: '2.4rem',
-        justifyContent:(isSmallMobile || isMobile) ? 'flex-start' :'left',
+        justifyContent:'flex-start',
         width:"100%",
-        minWidth: (isSmallMobile || isMobile) ? `${statusList.length * 120}px` : '0',
+        minWidth: isResponsive ? `${statusList.length * 120}px` : '0',
       }}
       >
-        {/* mapでstatusListの中身を順番に取得、親要素のboxの中にcolorとlabelを挟む */}
-        {statusList.map((status) => {
+        {loading && (
+          <Typography sx={{ fontSize: '1.6rem', color: palette.textPrimary }}>
+            ステータスを読み込み中...
+          </Typography>
+        )}
+        {!loading && error && (
+          <Typography sx={{ fontSize: '1.6rem', color: palette.coralRed }}>
+            {error}
+          </Typography>
+        )}
+        {!loading && !error && statusList.length === 0 && (
+          <Typography sx={{ fontSize: '1.6rem', color: palette.textPrimary }}>
+            ステータスが存在しません
+          </Typography>
+        )}
+        {!loading && !error &&
+        statusList.map((status) => {
           const isActive = status.label === selectedStatus;
+          const IconComponent = getStatusIcon(status.iconName);
 
 
       return (
@@ -70,29 +116,25 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
               alignItems: 'center',
               gap: '0.8rem',
               flex: '0 0 auto',
-              minWidth: (isSmallMobile || isMobile) ? '120px' : 'undefined',
+              minWidth: isResponsive ? '120px' : 'undefined',
               whiteSpace: 'nowrap',
               background: isActive ? status.color : palette.white,
               color: isActive ? palette.white : status.color,
               fontWeight: isActive ? "bold" : "normal",
-            opacity: hovered ===status.label ? 0.5 :1,//現在どのlabelにhoveredしているかstatus.labelで判定
+            opacity: hovered === status.label ? 0.5 :1,//現在どのlabelにhoveredしているかstatus.labelで判定
+            cursor: onStatusClick ? "pointer" : "default",
             }}
-            onClick={() => onStatusClick?. (status.label)}//labelをクリック
-            style={{ cursor: onStatusClick ? "pointer" : "default"}}
+            onClick={() => onStatusClick?.(status.label)}//labelをクリック
             onMouseEnter={() => setHovered(status.label)}
             onMouseLeave={() => setHovered(null)}
           >
-          <Box
-          sx={{
-            Color: status.color,
-          }}
-          >
-            {React.cloneElement(status.icon, {
-              sx: {
-                fontSize: 28,
-                color: isActive ? palette.white : status.color,
-                }
-                })}
+          <Box>
+            <IconComponent
+            sx={{
+              fontSize: 28,
+              color: isActive ? palette.white : status.color,
+            }}
+            />
           </Box>
           <Typography
           sx={{
@@ -108,7 +150,25 @@ const StatusLegend: React.FC< StatusLegendProps> = ({
       );
     })}
   </Box>
-  )
+  );
+};
+
+// ステータスリストのバリデーション関数
+  function isValidStatusList  (data: unknown): data is StatusListItem[]  {
+    if (!Array.isArray(data)) {
+      return false;
+    }
+
+    return data.every((item) =>
+    item !== null &&
+    typeof item === 'object' &&
+    'label' in item &&
+    'color' in item &&
+    'iconName' in item &&
+    typeof (item as Record<string, unknown>).label === 'string' &&
+    typeof (item as Record<string, unknown>).color === 'string' &&
+    typeof (item as Record<string, unknown>).iconName === 'string'
+  );
 }
 
 export default StatusLegend;

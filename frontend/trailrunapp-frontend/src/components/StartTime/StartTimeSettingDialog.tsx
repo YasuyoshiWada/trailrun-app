@@ -59,7 +59,14 @@ const StartTimeSettingDialog: React.FC<Props> = ({ open, categories, onClose, on
         スタート時刻設定
       </DialogTitle>
 
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ja" localeText={{ okButtonLabel: "次へ", cancelButtonLabel: "キャンセル" }}>
+      <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale="ja"
+      localeText={{
+        okButtonLabel: "次へ",
+        cancelButtonLabel: "キャンセル",
+        dateTimePickerToolbarTitle: "スタート時刻選択",
+        }}>
         <DialogContent>
           {isHandset ? (
             <MobileCards

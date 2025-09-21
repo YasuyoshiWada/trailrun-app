@@ -1,12 +1,15 @@
 import { palette, statusColorMap } from "../styles/palette";
+import type { StatusItem } from "./aggregateRaceData";
+import { sortByStatusOrder } from "./statusOrder";
 
-type StatusItem = {
-  label: string;
-  value: number;
-}
+
 //ステータスバーのlabelにmatchした色を渡す関数
-export const mapStatusWithColor = (statusList:StatusItem[]) =>
-  statusList.map(status => ({
+export const mapStatusWithColor = (
+  statusList:StatusItem[],
+  statusOrder?: string[],
+) =>
+  sortByStatusOrder(
+  statusList, statusOrder).map(status => ({
     ...status,
     color: statusColorMap[status.label] || palette.darkGray,
   }));

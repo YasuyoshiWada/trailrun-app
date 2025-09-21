@@ -58,7 +58,7 @@ const BulkTimePicker: React.FC<Props> = ({
         actions: ["cancel","accept"],
         sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue }},
       },
-      toolbar: { toolbarFormat: "YYYY M/D" },
+      toolbar: { toolbarFormat: "YYYY/M/D" },
     }}
   />
 );

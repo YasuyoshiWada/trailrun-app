@@ -1,18 +1,16 @@
 import React from "react";
 import { RunnersData } from "../../data/runnersTypes";
-import { Dialog, DialogContent, DialogActions} from "@mui/material";
+import { Dialog, DialogContent} from "@mui/material";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { palette, statusColorMap } from "../../styles/palette";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import { getElapsed } from"../../utils/getElapsed";
-import { rankingByLocation } from "../../utils/rankingByLocation";
 
 type RunnerTimeDetailPopupProps = {
   open: boolean;
   runner: RunnersData | undefined;
   onCancel: () => void;
-  allRunners: RunnersData[];
 };
 
 const  TableHeaderSx = {
@@ -33,9 +31,8 @@ const RunnerTimeDetailPopup: React.FC<RunnerTimeDetailPopupProps> = ({
   open,
   runner,
   onCancel,
-  allRunners,
 }) => {
-
+// openがfalseならnullを返す->閉じている間は一切レンダーしない（DOMにも載せない）」というガードです。親コンポーネントが open を true にしたときだけ描画されます
 if (!open) return null;
 
 return (
@@ -84,14 +81,12 @@ return (
           </TableRow>
         </TableHead>
         <TableBody>
-          {runner?.arrivals.map(a => {
-            //IGNORE_PLACESなら常に "-"
-            const IGNORE_PLACES = ["未受付", "受付済み", "スタート"];
-            let myRank: number | string = "-";
-            if (!IGNORE_PLACES.includes(a.place)) {
-            const ranking = rankingByLocation(allRunners, a.place);
-            myRank = ranking.find(r=> r.runnerId === runner.id)?.rank ?? "-";
-            }
+          {runner?.arrivals.map(a =>
+          {
+            // クライアント側での順位計算は廃止。
+            // サーバーから地点ごとの順位が提供される前提に変更。
+            // 現状はプレースホルダーとして "-" を表示する。
+            const myRank: number | string = "-";
             return (
             <TableRow
             key={a.place}

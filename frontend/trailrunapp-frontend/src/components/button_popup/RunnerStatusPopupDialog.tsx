@@ -54,7 +54,7 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
             gap: "2rem",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: "2rem"
+            marginBottom: "2rem",
           }}>
             <div style={{
               display: "flex",
@@ -78,15 +78,25 @@ const RunnerStatusPopupDialog: React.FC<RunnerStatusPopupProps> =({
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              minWidth: "16rem"
+              minWidth: "18rem",
               }}>
               <span style={{fontSize:"1.4rem"}}>{reasonLabel}</span>
               <TextField
               placeholder="要因を記入してください"
               value={reason}
               onChange={e => setReason(e.target.value)}
-              sx={{ mt: "1rem", width: "14rem" }}
               size="small"
+              sx={{
+                mt: "1rem",
+                width: "18rem",
+                // 入力文字のフォントサイズ
+                "& .MuiInputBase-input": {
+                  fontSize: "1.5rem",     // 例：18px相当
+                  lineHeight: 1.4,
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                },
+              }}
             />
             </div>
 

@@ -21,7 +21,7 @@ const SidebarLayoutPage: React.FC<Props> = ({ children, outerScroll = false }) =
       sx={{
         display:"flex",
         width:'100vw',
-        height: '100vh',
+        height: '100dvh',//dvh（Device Viewport Height）は、CSSにおいてデバイスのビューポートの高さを取得するための単位です。
         maxWidth:'100vw',
         overflowY:outerScroll ? 'auto' : 'hidden',//外側のスクロールバーを隠す、ページ毎にスクロールが必要ならoverflow: autoで対応する
         overflowX: 'hidden',
@@ -31,17 +31,17 @@ const SidebarLayoutPage: React.FC<Props> = ({ children, outerScroll = false }) =
 
         <Box component="main"
               sx={{
-                  flexGrow: 1,
                   p: {xs :1,sm:3},
                   width:'100%',
                   maxWidth:'100vw',
-                  height: "100vh",
                   boxSizing:'border-box',
                   minHeight: 0,
+                  height: '100%',
+                  pb: 'env(safe-area-inset-bottom)', //iPhoneのホームバーに被らないようにする
                    ...( !(isSmallMobile || isMobile) && { marginLeft: '20rem' } ), // ← サイドバー分のスペース確保
                   }}>
 
-          {(isSmallMobile || isMobile) && <Toolbar />} {/* AppBar の高さ分スペースを確保 */}
+          {(isSmallMobile || isMobile) && <Toolbar sx={{ flexShrink: 0 }}/>} {/* AppBar の高さ分スペースを確保 */}
           {children}
         </Box>
       </Box>

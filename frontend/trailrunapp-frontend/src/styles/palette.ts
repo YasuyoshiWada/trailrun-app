@@ -16,11 +16,11 @@ export const palette = {
 export const statusColorMap: Record<string, string> = {
 "未受付": palette.gray,
 "受付済み": palette.aquaLight,
-"DNS": palette.orange,
 "スタート": palette.navyBlue,
 "地点1": palette.darkGray,
 "地点2": palette.cyan,
-"DNF": palette.mustardYellow,
 "フィニッシュ": palette.limeGreen,
+"DNS": palette.orange,
+"DNF": palette.mustardYellow,
 "DQ": palette.coralRed,
 };

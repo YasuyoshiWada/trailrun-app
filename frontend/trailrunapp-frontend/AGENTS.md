@@ -1,7 +1,7 @@
 # How to work (for AI agents)
 - Work ONLY on `origin` (YasuyoshiWada/minamieru). NEVER push to `upstream`.
-- Default branch: main (mirrors upstream/main).
-- Development branch: feature/frontend-int-v2 (and other feature/*).
+- Active development branch: feature/frontend-int-v2
+- `main` branches (origin/main, upstream/main) are protected; AI MUST NOT target them.
 
 # Commands
 - install: pnpm install
@@ -18,6 +18,6 @@
 - Accessibility (a11y) must be checked (role, aria-*).
 
 # Output
-- Create PRs against origin/main (draft OK).
-- Include summary: why the change, test results, risks.
-- Do not touch `upstream` remote.
+- Create PRs from `origin/feature/frontend-int-v2` to `upstream/feature/frontend-int-v2` (draft OK).
+- Do NOT create PRs to any `main` branch.
+- Include summary (motivation, changes, tests, risks) and ensure CI passes.
