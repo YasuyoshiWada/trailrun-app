@@ -399,7 +399,6 @@ server/
 - `server/mockChatServer.ts` を動かすために TypeScript 実行環境（`ts-node` は devDependencies に同梱）
 
 ### 2. 依存関係のインストール
-```bash
 # ルートにいる場合
 npm install
 
