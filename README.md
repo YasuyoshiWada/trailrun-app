@@ -60,8 +60,7 @@
       <td>ダッシュボード</td>
       <td>カテゴリ別ステータスバー / 合計バー</td>
       <td>
-        <code>countStatusByCategory</code> と<br>
-        <code>getTotalStatusList</code> で<br>
+        <code>countStatusByCategory</code> と<code>getTotalStatusList</code> で<br>
         未受付〜フィニッシュを集計し、MUI カスタムバーで可視化
       </td>
     </tr>
@@ -69,8 +68,7 @@
       <td>選手管理</td>
       <td>ランナー一覧（PC / モバイル）</td>
       <td>
-        <code>RaceEntryTableDesktop</code> /<br>
-        <code>RaceEntryTableMobile</code><br>
+        <code>RaceEntryTableDesktop</code> / <code>RaceEntryTableMobile</code><br>
         を状況別に出し分け、検索・並び替え・レスポンシブ対応を実装
       </td>
     </tr>
@@ -78,8 +76,7 @@
       <td>異常系ハンドリング</td>
       <td>DNS/DNF/DQ 登録・解除ダイアログ</td>
       <td>
-        <code>RunnerStatusPopupDialog</code><br>
-        で登録理由を必須化し、<code>palette</code> に基づいた色分けで状態を強調
+        <code>RunnerStatusPopupDialog</code>で登録理由を必須化し、<code>palette</code> に基づいた色分けで状態を強調
       </td>
     </tr>
     <tr>
@@ -96,8 +93,7 @@
       <td>スタート時刻設定</td>
       <td>モバイル/デスクトップ対応ピッカー</td>
       <td>
-        <code>StartTimeSettingDialog</code> と<br>
-        MUI <code>DateTimePicker</code> を拡張し、<br>
+        <code>StartTimeSettingDialog</code> とMUI <code>DateTimePicker</code> を拡張し、<br>
         大型フォント・一括適用など大会現場での UX を最適化
       </td>
     </tr>
@@ -105,8 +101,7 @@
       <td>チャット</td>
       <td>ルーム別コミュニケーション</td>
       <td>
-        <code>ChatPage</code> / <code>ChatRoom</code><br>
-        + <code>server/mockChatServer.ts</code><br>
+        <code>ChatPage</code> / <code>ChatRoom</code> + <code>server/mockChatServer.ts</code><br>
         により、場所ごとにスタッフチャネルを分割。<br>
         送信・ポーリング・セッション管理を実装
       </td>
@@ -116,8 +111,7 @@
       <td>サイドバー + モバイルヘッダー</td>
       <td>
         <code>SidebarLayoutPage</code> と<br>
-        <code>useResponsive</code> でブレイクポイントごとに UI/UX を切り替え、<br>
-        現場端末（スマホ）でも操作しやすい設計
+        <code>useResponsive</code> でブレイクポイントごとに UI/UX を切り替え、現場端末（スマホ）でも操作しやすい設計
       </td>
     </tr>
     <tr>
