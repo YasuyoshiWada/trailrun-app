@@ -62,8 +62,7 @@
       <td>
         <code>countStatusByCategory</code> と<br>
         <code>getTotalStatusList</code> で<br>
-        未受付〜フィニッシュを集計し、<br>
-        MUI カスタムバーで可視化
+        未受付〜フィニッシュを集計し、MUI カスタムバーで可視化
       </td>
     </tr>
     <tr>
@@ -72,8 +71,7 @@
       <td>
         <code>RaceEntryTableDesktop</code> /<br>
         <code>RaceEntryTableMobile</code><br>
-        を状況別に出し分け、検索・並び替え・<br>
-        レスポンシブ対応を実装
+        を状況別に出し分け、検索・並び替え・レスポンシブ対応を実装
       </td>
     </tr>
     <tr>
@@ -81,8 +79,7 @@
       <td>DNS/DNF/DQ 登録・解除ダイアログ</td>
       <td>
         <code>RunnerStatusPopupDialog</code><br>
-        で登録理由を必須化し、<br>
-        <code>palette</code> に基づいた色分けで状態を強調
+        で登録理由を必須化し、<code>palette</code> に基づいた色分けで状態を強調
       </td>
     </tr>
     <tr>
