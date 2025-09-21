@@ -200,8 +200,8 @@
     <th>チャットページ</th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/starttime/BulkStartTimeSettingsDialog.png" alt="スタート時刻一括設定" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatPage.png" alt="チャットページ" width="100%"></td>
   </tr>
   <tr>
     <td>一括時刻設定で時刻を設定し、チェックボックスの入ったカテゴリを一括適用ボタンで同じ時刻を同時に設定</td>
@@ -210,15 +210,25 @@
 
   <tr>
     <th>チャットROOM</th>
-    <th></th>
   </tr>
   <tr>
-    <td><img src="frontend/docs/screenshots/starttime/StartTimeSetting.png" alt="スタート時刻設定" width="100%"></td>
-    <td><img src="frontend/docs/screenshots/starttime/Category-SpecificStartTimeSettingsDialog.png" alt="カテゴリ別スタート時刻設定ダイアログ" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/chat/chatRoom.png" alt="チャットROOM" width="100%"></td>
   </tr>
   <tr>
-    <td>選手が各々のidが紐つけられた、リストバンドを位置情報システムにタッチし、現在地を共有する場所毎にチャット内でRoomを設置し場所毎の情報を共有する</td>
-    <td>選手が各々のidが紐つけられた、リストバンドを位置情報システムにタッチし、現在地を共有する場所毎にチャット内でRoomを設置</td>
+    <td>各地点で選手の通過情報を記録し、その地点専用のチャットルームでスタッフ間の情報共有を実現。これにより、リアルタイムでの状況把握と迅速な意思決定を可能にします。</td>
+  </tr>
+
+ <tr>
+    <th>大会スタッフログイン</th>
+    <th>大会管理者ログイン</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/login/loginStaff.png" alt="大会スタッフログイン" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/login/loginAdmin.png" alt="大会管理者ログイン" width="100%"></td>
+  </tr>
+  <tr>
+    <td>大会スタッフ用ログインページでは、運営現場に携わるボランティアやスタッフが、自身の担当業務に応じて必要な機能へアクセスできます。認証を通じて利用者ごとに操作範囲を制御し、データ入力や状況確認を効率化。これにより、現場での作業が属人的にならず、誰でもスムーズに対応可能な環境を実現します。</td>
+    <td>アドミンログインページは、大会全体を統括する管理者向けの専用画面です。カテゴリ設定や権限管理、データ集計などの上位機能にアクセスでき、スタッフログインよりも広範囲の操作権限を持ちます。これにより、運営全体の統制を一元化し、異常系ハンドリングやレース進行の全体最適化を迅速に実現します。</td>
   </tr>
 
 
