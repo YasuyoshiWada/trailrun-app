@@ -1,4 +1,4 @@
-# みなみえるトレイルラン位置情報計測システム 🏃‍♀️
+# トレイルランニング、位置情報計測システム 🏃‍♀️
 > トレイルラン大会現場の「いま」を可視化し、運営チームの意思決定を支援する監視アプリケーション
 
 ![ダッシュボード](frontend/docs/screenshots/dashboard/dashboard.png)
@@ -83,9 +83,49 @@
     <td><img src="frontend/docs/screenshots/category/sortSelect.png" alt="並び替え" width="100%"></td>
   </tr>
   <tr>
-    <td>モーダル内でカテゴリごとに日時ピッカーなど条件指定。</td>
+    <td>曖昧検索で選手名,カテゴリ名などで検索し情報到達までの時間を最短に。</td>
     <td>端末幅に合わせた UI で昇順／降順切替などを提供。</td>
   </tr>
+
+  <tr>
+    <th>並び替え結果</th>
+    <th>DNS登録</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/sortResult.png" alt="並び替え結果" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DNS.png" alt="DNS登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>ゼッケン番号を昇順に並べた結果</td>
+    <td>DNS(Don't Start(スタートしなかった選手))を登録するpopup</td>
+  </tr>
+
+<tr>
+    <th>DNF登録</th>
+    <th>DQ登録</th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/DNF.png" alt="DNF登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DQ.png" alt="DQ登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td>DNF(Don't Finish(最後まで走れず途中リタイアした選手を登録する))</td>
+    <td>DQ(Disqualified（失格）した選手を登録するpopup</td>
+  </tr>
+
+<tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><img src="frontend/docs/screenshots/category/DNF.png" alt="DNF登録" width="100%"></td>
+    <td><img src="frontend/docs/screenshots/category/DQ.png" alt="DQ登録" width="100%"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+
 </table>
 
 
