@@ -10,9 +10,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 type Role = "admin" | "staff";
 
-type FieldType = "text" | "password";
+type FieldType = "text" | "tel" | "password";
 type FieldConfig = {
-  name: "name" | "group" | "password";
+  name: "name" | "telnumber" | "group" | "password";
   label: string;
   type: FieldType;
   required?: boolean;
@@ -21,18 +21,19 @@ type FieldConfig = {
 
 type Props = {
   role: Role;
-  onSubmit?: (values: { name: string;  password?: string; group?: string}) => void;
+  onSubmit?: (values: { name: string; telnumber: string;  password?: string; group?: string}) => void;
 };
 
 
 
 const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
-  //mobile対応
+  //mobile対応,画面幅に応じてコンポーネントサイズと余白を調整
   const {isSmallMobile, isMobile} = useResponsive();
-  //役割に応じて表示フィールドを決定
+  // ログイン役割ごとに表示するフィールドセットを生成
   const fields: FieldConfig[] = useMemo(() => {
     const base: FieldConfig[] = [
       {name: "name", label: "名前", type: "text", required: true, autoComplete: "name" },
+      {name: "telnumber", label: "電話番号", type: "tel", required: true, autoComplete: "tel" },
     ];
     if ( role === "staff") {
       base.push({ name: "group", label: "所属", type: "text", autoComplete: "organization" });
@@ -43,17 +44,18 @@ const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
     return base;
   }, [role] );
 
-  //簡易的なローカル state (hook-form へ差し替え可能)
+  //入力値をシンプルなローカル state で管理
 const [values, setValues] = useState<{ [k in FieldConfig["name"]]?: string }>({});
 const [showPassword, setShowPassword] = useState(false);
-
+//フィールド名を受け取り、TextField の onChange から渡される React.ChangeEvent<HTMLInputElement> を受けたときに setValues で対応するキーの値を更新しています。つまり values[name] に入力内容を都度書き込む役割です。
   const handleChange = (name: FieldConfig["name"]) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues(v => ({...v, [name]: e.target.value }));
-
+// 現在のフォーム値を整形して親コンポーネントへ渡す
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result: { name: string; password?: string; group?: string} = {
+    const result: { name: string; telnumber: string; password?: string; group?: string} = {
       name: values.name || "",
+      telnumber: values.telnumber || "",
   };
   if (role === "staff") {
       result.group = values.group || "";
@@ -64,7 +66,7 @@ const [showPassword, setShowPassword] = useState(false);
     onSubmit?.(result);
   };
   // モバイルの幅とPCの幅でgapを分ける定義
-  const baseGapRem = isSmallMobile ? 5 : isMobile ? 7 :3;
+  const baseGapRem = isSmallMobile ? 5 : isMobile ? 4 :3;
   const formGap = `${baseGapRem}rem`;
   // モバイルとPCでmarginTopを分ける定義
   const baseMtRem = isSmallMobile ? -5 : 0;
@@ -89,7 +91,8 @@ const [showPassword, setShowPassword] = useState(false);
         name={f.name}
         fullWidth
         {...(f.required ? { required: true } : {})}
-        type={f.type === "password" ?( showPassword ? "text" : "password") : "text"}
+        // f.type が "password" の場合だけ「目アイコン」で showPassword をチェックし、true ならマスクを外すために "text"、false なら "password" に戻します。f.type が "password" 以外なら三項演算子の最後の f.type がそのまま返り、元々の型（例: "text" や "tel"）を TextField に渡します。
+        type={f.type === "password" ? (showPassword ? "text" : "password") : f.type}
         value={values[f.name] ?? ""}
         onChange={handleChange(f.name)}
         {...(f.autoComplete ? { autoComplete: f.autoComplete } : {})}
