@@ -44,7 +44,7 @@ const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
     return base;
   }, [role] );
 
-  //入力値をシンプルなローカル state で管理
+  //入力値をシンプルなローカル state で管理valuesにはstringかundefinedを取るようになる
 const [values, setValues] = useState<{ [k in FieldConfig["name"]]?: string }>({});
 const [showPassword, setShowPassword] = useState(false);
 //フィールド名を受け取り、TextField の onChange から渡される React.ChangeEvent<HTMLInputElement> を受けたときに setValues で対応するキーの値を更新しています。つまり values[name] に入力内容を都度書き込む役割です。
