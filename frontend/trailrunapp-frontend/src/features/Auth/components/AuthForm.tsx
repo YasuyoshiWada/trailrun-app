@@ -15,7 +15,7 @@ type FieldConfig = {
   name: "name" | "telnumber" | "group" | "password";
   label: string;
   type: FieldType;
-  required?: boolean;
+  // required?: boolean;
   autoComplete?: string;
 };
 
@@ -32,19 +32,19 @@ const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
   // ログイン役割ごとに表示するフィールドセットを生成
   const fields: FieldConfig[] = useMemo(() => {
     const base: FieldConfig[] = [
-      {name: "name", label: "名前", type: "text", required: true, autoComplete: "name" },
-      {name: "telnumber", label: "電話番号", type: "tel", required: true, autoComplete: "tel" },
+      {name: "name", label: "名前", type: "text", autoComplete: "name" },
+      {name: "telnumber", label: "電話番号", type: "tel",  autoComplete: "tel" },
     ];
     if ( role === "staff") {
       base.push({ name: "group", label: "所属", type: "text", autoComplete: "organization" });
     }
     if (role === "admin") {
-      base.push({ name: "password", label: "パスワード",type: "password", required: true, autoComplete: "current-password"});
+      base.push({ name: "password", label: "パスワード",type: "password",  autoComplete: "current-password"});
     }
     return base;
   }, [role] );
 
-  //入力値をシンプルなローカル state で管理
+  //入力値をシンプルなローカル state で管理valuesにはstringかundefinedを取るようになる
 const [values, setValues] = useState<{ [k in FieldConfig["name"]]?: string }>({});
 const [showPassword, setShowPassword] = useState(false);
 //フィールド名を受け取り、TextField の onChange から渡される React.ChangeEvent<HTMLInputElement> を受けたときに setValues で対応するキーの値を更新しています。つまり values[name] に入力内容を都度書き込む役割です。
@@ -90,7 +90,7 @@ const [showPassword, setShowPassword] = useState(false);
         label={f.label}
         name={f.name}
         fullWidth
-        {...(f.required ? { required: true } : {})}
+        // {...(f.required ? { required: true } : {})}
         // f.type が "password" の場合だけ「目アイコン」で showPassword をチェックし、true ならマスクを外すために "text"、false なら "password" に戻します。f.type が "password" 以外なら三項演算子の最後の f.type がそのまま返り、元々の型（例: "text" や "tel"）を TextField に渡します。
         type={f.type === "password" ? (showPassword ? "text" : "password") : f.type}
         value={values[f.name] ?? ""}
