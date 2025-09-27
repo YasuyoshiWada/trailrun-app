@@ -13,13 +13,11 @@ import type { ChatMessage } from "./types";
  */
 
 /**
- * APIのベースURL。
- * - `process.env.REACT_APP_CHAT_API_BASE_URL` が定義されていればそれを使用。
- * - 未設定の場合はローカル開発用の `http://localhost:4000` にフォールバック。
- *
- * CRA系のフロントエンドではクライアント側から参照する環境変数に `REACT_APP_` 接頭辞が必要です。
+ * API のベース URL は CRA のプロキシ経由で解決するため空文字を指定します。
+ * すべてのリクエストは `/api/...` の相対パスで記述し、開発サーバーが
+ * `src/setupProxy.js` で設定したモックサーバー (例: localhost:4000) へ転送します。
  */
-const BASE_URL = process.env.REACT_APP_CHAT_API_BASE_URL ?? "http://localhost:4000";
+const BASE_URL = ""; // CRA のプロキシ経由で /api を叩く
 
 /**
  * セッションIDを `localStorage` に保持する際のキー名。
@@ -76,7 +74,7 @@ interface ServerChatMessage {
  *
  * リクエスト仕様:
  * - Method: POST
- * - URL: `${BASE_URL}/rooms/${roomId}/messages`
+ * - URL: `${BASE_URL}/api/rooms/${roomId}/messages`
  * - Headers:
 
 *   - `Content-Type: application/json`
@@ -88,7 +86,7 @@ export async function postMessage(
   text: string
 ): Promise<PostMessageResponse> {
   try {
-    const res = await fetch(`${BASE_URL}/rooms/${roomId}/messages`, {
+    const res = await fetch(`${BASE_URL}/api/rooms/${roomId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +114,7 @@ export async function postMessage(
  *
  * リクエスト仕様:
  * - Method: GET
- * - URL: `${BASE_URL}/rooms/${roomId}/messages?since=${lastTimestamp}`
+ * - URL: `${BASE_URL}/api/rooms/${roomId}/messages?since=${lastTimestamp}`
  * - Headers:
  *   - `X-Session-Id: <getSessionId()>`
  *
@@ -129,7 +127,7 @@ export async function fetchMessages(
 ): Promise<ChatMessage[]> {
   try {
     const res = await fetch(
-      `${BASE_URL}/rooms/${roomId}/messages?since=${lastTimestamp}`,
+      `${BASE_URL}/api/rooms/${roomId}/messages?since=${lastTimestamp}`,
       {
         headers: {
           "X-Session-Id": getSessionId(),

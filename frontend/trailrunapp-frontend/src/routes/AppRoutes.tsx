@@ -8,6 +8,7 @@ import AdminLogin from '../features/Auth/AdminLogin';
 import StaffLogin from '../features/Auth/StaffLogin';
 import ChatPage from '../features/chat/ChatPage';
 import { rooms } from '../data/rooms';
+import ProtectedRoute from './ProtectedRoute';
 
 
 
@@ -28,58 +29,72 @@ export const AppRoutes = () => (
     <Route
     path="/"
     element={
-      //outerScrollはSidebarLayoutPageで定義している、overflowYの事
-    <SidebarLayoutPage outerScroll={true}>
-      <DashboardPage />
-    </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage outerScroll={true}> {/* //outerScrollはSidebarLayoutPageで定義している、overflowYの事 */}
+          <DashboardPage />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
+
     }
     />
     <Route
     path="/category/:categoryName"
     element={
-    <SidebarLayoutPage>
-      <CategoryRacePage />
-    </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
+          <CategoryRacePage />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
     <Route
     path="/category/:categoryName/status/:label"
     element={
-    <SidebarLayoutPage>
-      <CategoryRacePage />
-    </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
+          <CategoryRacePage />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
     <Route
     path="/total_category"
     element={
-      <SidebarLayoutPage>
-        <TotalCategoryRacePage />
-      </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
+          <TotalCategoryRacePage />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
     <Route
     path="/total_category/status/:label"
     element={
-      <SidebarLayoutPage>
-        <TotalCategoryRacePage />
-      </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
+          <TotalCategoryRacePage />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
     <Route
     path="/chat/:roomId?"
     element={
-      <SidebarLayoutPage>
-        <ChatPage rooms={rooms} />
-      </SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
+          <ChatPage rooms={rooms} />
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
     <Route
     path="/start-time"
     element={
-      <SidebarLayoutPage>
+      <ProtectedRoute>
+        <SidebarLayoutPage>
 
-      </SidebarLayoutPage>
+        </SidebarLayoutPage>
+      </ProtectedRoute>
     }
     />
   </Routes>
