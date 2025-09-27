@@ -2,7 +2,7 @@
   "name": "minamieru",
   "private": true,
   "scripts": {
-    "mock:chat": "ts-node --project tsconfig.server.json server/mockChatServer.ts",
+    "mock:chat": "ts-node --project tsconfig.server.json server/mockChatServer.ts --host 0.0.0.0",
     "test": "TS_NODE_PROJECT=tsconfig.server.json node --test --require ts-node/register \"server/**/*.test.ts\""
   },
   "devDependencies": {
