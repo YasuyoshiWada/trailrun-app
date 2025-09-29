@@ -35,7 +35,7 @@ const CategoryRacePage:React.FC =() => {
   const navigate = useNavigate();
   //URLパラメータを取得
   const { categoryName } =useParams<{categoryName: string}>();
-//DNS,DNF,DQ popupのopen
+  //DNS,DNF,DQ popupのopen
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<"DNS" | "DNF" | "DQ">("DNS");
 
@@ -246,6 +246,7 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
+                gap: "1rem",
               }}>
                 <RefreshButton onClick={refresh} loading={loading} />
                 <Link to={`/category/${encodeURIComponent(categoryStatus?.categoryName ?? "")}`}
@@ -280,7 +281,7 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
           overflowY: 'auto',
           mt: '1.4rem',
         }}
-      >
+        >
           {/* Dns,Dnf,Dq,TimeのボタンがRaceEntryTableでクリックされた時に渡ってくる値で開くdialogを決定している。onDnsClickなどが渡ってくる。それに対応したhandleDnsClick関数が反応して指定したpopupが開く仕組み */}
           {isSmallMobile || isMobile ? (
             <RaceEntryTableMobile
@@ -297,32 +298,32 @@ const getDialogProps = (type: "DNS" | "DNF" | "DQ", mode: "register" | "remove")
           />
           )}
           {/* DNS,DNF,DQダイアログ表示 */}
-        <RunnerStatusPopupDialog
-        open={dialogOpen}
-        runner={selectedRunner}
-        type={dialogType}
-        reasonLabel={dialogProps.reasonLabel}
-        onConfirm={handleConfirm}
-        onCancel={handleDialogCancel}
-        onExited={() => setSelectedRunnerId(null)}
-        confirmColor={dialogProps.confirmColor}
-        cancelColor={dialogProps.cancelColor}
-        mode={dialogMode}
-        />
-        <RunnerTimeDetailPopup
-        open={timeDialogOpen}
-        runner={selectedRunner}
-        onCancel={handleTimeDialogCancel}
-        />
-        <RunnerTimeDetailMobilePopup
-        open={timeMobileDialogOpen}
-        runner={selectedRunner}
-        onDnsClick={handleDnsClick}
-        onDnfClick={handleDnfClick}
-        onDqClick={handleDqClick}
-        onCancel={handleTimeMobileDialogCancel}
-        allRunners={runnersState}
-        />
+          <RunnerStatusPopupDialog
+          open={dialogOpen}
+          runner={selectedRunner}
+          type={dialogType}
+          reasonLabel={dialogProps.reasonLabel}
+          onConfirm={handleConfirm}
+          onCancel={handleDialogCancel}
+          onExited={() => setSelectedRunnerId(null)}
+          confirmColor={dialogProps.confirmColor}
+          cancelColor={dialogProps.cancelColor}
+          mode={dialogMode}
+          />
+          <RunnerTimeDetailPopup
+          open={timeDialogOpen}
+          runner={selectedRunner}
+          onCancel={handleTimeDialogCancel}
+          />
+          <RunnerTimeDetailMobilePopup
+          open={timeMobileDialogOpen}
+          runner={selectedRunner}
+          onDnsClick={handleDnsClick}
+          onDnfClick={handleDnfClick}
+          onDqClick={handleDqClick}
+          onCancel={handleTimeMobileDialogCancel}
+          allRunners={runnersState}
+          />
         </Box>
       </Box>
     )

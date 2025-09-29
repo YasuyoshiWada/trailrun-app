@@ -30,7 +30,7 @@ export const AppRoutes = () => (
     path="/"
     element={
       <ProtectedRoute>
-        <SidebarLayoutPage outerScroll={true}> {/* //outerScrollはSidebarLayoutPageで定義している、overflowYの事 */}
+        <SidebarLayoutPage> {/* //outerScrollはSidebarLayoutPageで定義している、overflowYの事 */}
           <DashboardPage />
         </SidebarLayoutPage>
       </ProtectedRoute>
