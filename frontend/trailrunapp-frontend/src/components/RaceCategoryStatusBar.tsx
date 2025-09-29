@@ -33,7 +33,8 @@ const RaceCategoryStatusBar: React.FC<Props> = ({ categoryName, totalParticipant
     display: 'flex',
     flexDirection: (isSmallMobile || isMobile ) ? 'column' : 'row',
     alignItems:'center',
-    width: isSmallMobile ? '40rem' : isMobile ? '45rem' : '80rem',
+    //ブレークポイント毎のステータスバーの長さい
+    width: isSmallMobile ? '35rem' : isMobile ? '45rem' : '80rem',
     height:'auto',
     mb: '1.2rem',
     opacity: hovered ? 0.5 :1,
