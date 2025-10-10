@@ -1,10 +1,9 @@
-import React, { useState }from "react";
+import React, { useCallback, useEffect, useMemo, useState }from "react";
 import StatusLegend from "../../components/StatusLegend";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { useParams } from "react-router-dom";
-import { allRunners } from "../../data/all_Runners";
 import { countStatusByCategory, getTotalStatusList } from "../../utils/aggregateRaceData";
 import { RunnersData } from "../../data/runnersTypes"
 import RaceEntryTableDesktop from "../../components/RaceEntryTableDesktop";
@@ -49,15 +48,32 @@ const TotalCategoryRacePage:React.FC =() => {
 
   const [selectedRunnerId, setSelectedRunnerId] = useState<number | null>(null);
 
-  //カテゴリの選手データ取得
-  const runners = allRunners;
-  //全体のステータスバー
-  const raceCategoryData = countStatusByCategory(allRunners);
-  const totalStatusList = getTotalStatusList(raceCategoryData);
-  const totalParticipants = raceCategoryData.reduce((sum,cat) => sum + cat
-  .totalParticipants, 0);
+  const { data, loading, error, refresh } = useRunnersData();
+  const handleRefresh = useCallback(() => {
+    void refresh();
+  }, [refresh]);
 
-  const [runnersState, setRunners] = useState<RunnersData[]>(runners);
+  //全体のステータスバー
+  const raceCategoryData = useMemo(
+    () => (data.length > 0 ?  countStatusByCategory(data) : []),
+    [data],
+  );
+
+  const totalStatusList = useMemo(
+    () => getTotalStatusList(raceCategoryData),
+    [raceCategoryData],
+  );
+
+  const totalParticipants = useMemo(
+    () => raceCategoryData.reduce((sum,cat) => sum + cat.totalParticipants, 0),
+    [raceCategoryData]
+  );
+
+  const [runnersState, setRunners] = useState<RunnersData[]>(data);
+
+  useEffect(() => {
+    setRunners(data);
+  }, [data]);
 
   //検索ワード
   const [searchText, setSearchText] = useState("");
@@ -94,7 +110,7 @@ const TotalCategoryRacePage:React.FC =() => {
 
 
 //昇順、降順検索
-const sortedRunners = React.useMemo(() => {
+const sortedRunners = useMemo(() => {
   const copied = [...filteredRunners];
   switch (sortType) {
     case "rankAsc":
@@ -111,7 +127,7 @@ const sortedRunners = React.useMemo(() => {
 }, [filteredRunners, sortType]);
 
   //runner取得
-  const selectedRunner = runners.find(r => r.id === selectedRunnerId);
+  const selectedRunner = runnersState.find(r => r.id === selectedRunnerId);
 
 // ボタンクリック時どのpopupを開くかクリックするボタンの場所と連動させる。
   const handleDnsClick = (runnerId: number) => {
@@ -195,7 +211,7 @@ const handleTimeMobileDialogCancel = () => {
   setTimeMobileDialogOpen(false);
   setSelectedRunnerId(null);
 }
-
+//dialogPropsはdialogType がどの文字列かによって対応する設定だけを取り出す仕組みになっています。
 const dialogProps = {
   DNS: {
     reasonLabel: "DNS要因",
@@ -214,9 +230,6 @@ const dialogProps = {
   },
 }[dialogType];
 
-  //リフレッシュボタン用ダミーデータ
-  const { data, loading, refresh } = useRunnersData();
-
   const {isSmallMobile, isMobile} = useResponsive();
   //6km男子の定数での定義
   const responsive = {isSmallMobile, isMobile}
@@ -225,6 +238,27 @@ const dialogProps = {
   const boxHeight = isSmallMobile || isMobile
   ? 'calc(100vh - 36rem)'
   : 'calc(100vh - 26rem)';
+  const isInitialLoading = loading && data.length === 0;
+
+  if (isInitialLoading) {
+    return (
+      <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        px: "2rem",
+      }}
+      >
+        <Typography component="p" variant="body1">
+          ランナーデータを読み込み中です...
+        </Typography>
+      </Box>
+    );
+  }
+
   return(
       <Box
       sx={{
@@ -250,7 +284,12 @@ const dialogProps = {
                 alignItems: "center",
                 gap: "1rem"
               }}>
-                <RefreshButton onClick={refresh} loading={loading} />
+                <RefreshButton onClick={handleRefresh} loading={loading} />
+                {error ? (
+                  <Typography component="p" sx={{ fontSize: "1.2rem", color: palette.coralRed}}>
+                    データの取得に失敗したためバックアップデータを表示しています。
+                  </Typography>
+                ) : null}
                 <Link to="/total_category"
                 style={{textDecoration: "none"}}
                 >
