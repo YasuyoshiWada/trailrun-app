@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, useTheme } from '@mui/material';
+import React, { useCallback, useMemo } from "react";
+import { Box, Typography, useTheme } from '@mui/material';
 import DashboardTitle from "./components/DashboardTitle";
 import StatusLegend from "../../components/StatusLegend";
 import RaceCategoryStatusBar from "../../components/RaceCategoryStatusBar";
@@ -7,7 +7,6 @@ import RaceTotalStatusBar from "../../components/RaceTotalStatusBar";
 import useResponsive from "../../hooks/useResponsive";
 import HorizontalScroller from "../../components/HorizontalScroller";
 import { mapStatusWithColor } from "../../utils/mapStatusWithColor";
-import { allRunners } from "../../data/all_Runners";
 import { countStatusByCategory,  getTotalStatusList} from "../../utils/aggregateRaceData";
 import { Link } from "react-router-dom";
 import { useRunnersData } from "../../hooks/useRunnersData";
@@ -23,12 +22,27 @@ const DashboardPage: React.FC = () => {
 
   const theme = useTheme();
   const {isSmallMobile,isMobile} = useResponsive();
-  //リフレッシュボタン用ダミーデータ
-  const { data, loading, refresh } = useRunnersData();
+  //importとしたhook,useRunnerDataで定義してある、apiから選手情報を取得したりする定数の宣言
+  const { data, loading, error, refresh } = useRunnersData();
+  const handleRefresh = useCallback(() => {
+    void refresh();
+  }, [refresh])
 
-const raceCategoryData = countStatusByCategory(allRunners);
-const totalStatusList = getTotalStatusList(raceCategoryData);
-const totalParticipants = raceCategoryData.reduce((sum, cat) => sum + cat.totalParticipants, 0);
+const raceCategoryData = useMemo(
+  () => (data.length > 0 ? countStatusByCategory(data) : []),
+  [data],
+);
+
+const totalStatusList = useMemo(
+  () => getTotalStatusList(raceCategoryData),
+  [raceCategoryData]
+);
+
+const totalParticipants = useMemo(
+  () => raceCategoryData.reduce((sum, cat) => sum + cat.totalParticipants, 0),
+  [raceCategoryData]
+);
+  const isInitialLoading = loading && data.length === 0;
 const responsive = {isSmallMobile, isMobile}
 
 // toolbarHeight関数の狙い
@@ -64,6 +78,25 @@ return raw;
   const pagePaddingBottom = (isSmallMobile || isMobile ? "3.2rem" : "2rem");
   const horizontalPadding = (isSmallMobile || isMobile ? "2.6rem" : "3.2rem");
   const statusListMaxHeight = `calc(100vh - ${toolbarHeightRem} - ${headerOffset} - ${listSpacing} - ${pagePaddingBottom})`;
+
+  if (isInitialLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+          px: "2rem",
+        }}
+      >
+        <Typography component="p" variant="body1">
+          ランナーデータを読み込み中です…
+        </Typography>
+      </Box>
+    );
+  }
 
 
   return (
@@ -113,9 +146,14 @@ return raw;
             }}
           >
           <RefreshButton
-          onClick={refresh}
+          onClick={handleRefresh}
           loading={loading}
           />
+          {error ? (
+            <Typography component="p" color="error" variant="body2">
+              データの取得に失敗したためバックアップデータを表示しています。
+            </Typography>
+          ) : null}
           <DashboardTitle />
         </Box>
       </Box>

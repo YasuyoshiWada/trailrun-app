@@ -96,6 +96,19 @@ const [showPassword, setShowPassword] = useState(false);
         value={values[f.name] ?? ""}
         onChange={handleChange(f.name)}
         {...(f.autoComplete ? { autoComplete: f.autoComplete } : {})}
+        //telnumberフィールドのときだけ、inputProps に inputMode と pattern を追加して、モバイルで数字キーボードを出したり、数字以外の入力を受け付けないようにしています
+      {...(f.name === "telnumber"
+      ? {
+          slotProps: {
+            input: {
+              inputProps: {
+                inputMode: "numeric",
+                pattern: "\\d*",
+              },
+            },
+          },
+        }
+      : {})}
         // 共通スタイル(枠線色など)をここで統一
         sx={{
           "& .MuiOutlinedInput-root": {

@@ -1,0 +1,685 @@
+// src/components/button_popup/StartTimeSettingDialog.tsx
+import React, { useEffect, useState, useRef } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Checkbox,
+  FormControlLabel,
+  Box,
+  Stack,
+  Divider,
+  Typography,
+} from "@mui/material";
+import {
+  DateTimePicker,
+  MobileDateTimePicker,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { type Dayjs } from "dayjs";
+import "dayjs/locale/ja";
+import useResponsive from "../../hooks/useResponsive";
+import { palette } from "../../styles/palette";
+import  { SxProps, Theme } from "@mui/material/styles";
+import type { DateTimePickerProps } from "@mui/x-date-pickers/DateTimePicker"
+
+
+type PickerOnChange = NonNullable<DateTimePickerProps<false>['onChange']>;
+type PickerOnClose  = NonNullable<DateTimePickerProps<false>['onClose']>;
+type PickerOnAccept = NonNullable<DateTimePickerProps<false>['onAccept']>;
+
+
+type Category = {
+  id: string;
+  name: string;
+  startTime: string | null; // ISO文字列
+};
+
+type Props = {
+  open: boolean;
+  categories: Category[];
+  onClose: () => void;
+  onSave: (categories: Category[]) => void;
+};
+
+
+
+const StartTimeSettingDialog: React.FC<Props> = ({
+  open,
+  categories,
+  onClose,
+  onSave,
+}) => {
+  const [edited, setEdited] = useState<Category[]>([]);
+  const [checked, setChecked] = useState<string[]>([]);
+  //一括設定用
+  const [bulkTime, setBulkTime] = useState<Dayjs | null>(null);
+  //カテゴリのdatePicker,open,closeを明確に
+  const [openPickerId, setOpenPickerId] = useState<string | null>(null);
+
+  // レスポンシブ判定
+  const { isSmallMobile, isMobile } = useResponsive();
+  const isHandset = isSmallMobile || isMobile;
+
+  // ピッカー切替（型が強いので any キャストで素直に）
+  // const Picker = useMemo(
+  //   () => (isHandset ? (MobileDateTimePicker as any) : (DateTimePicker as any)),
+  //   [isHandset]
+  // );
+
+  useEffect(() => {
+    dayjs.locale("ja");
+    setEdited(categories);
+    setChecked([]);
+  }, [categories, open]);
+
+  const handleTimeChange = (catId: string, value: Dayjs | null) => {
+    setEdited((prev) =>
+      prev.map((cat) =>
+        cat.id === catId
+        // カテゴリーidがあればstartTimeにvalue?.toISOString() を入れてます。
+          ? { ...cat, startTime: value ? value.toISOString() : null }
+          : cat
+      )
+    );
+  };
+
+  const handleCheck = (catId: string) => {
+    setChecked((prev) =>
+      prev.includes(catId) ? prev.filter((id) => id !== catId) : [...prev, catId]
+    );
+  };
+
+  const handleBulkApply = () => {
+    if (!bulkTime) return;
+    setEdited((prev) =>
+      prev.map((cat) =>
+        checked.includes(cat.id)
+          ? { ...cat, startTime: bulkTime.toISOString() }
+          : cat
+      )
+    );
+  };
+
+  const tableCellSx: SxProps<Theme> = {
+    fontSize: isHandset ? "1.6rem" : "2rem",
+    textAlign: "center" as const,
+    color: palette.textPrimary,
+  };
+  //ここから下、pickerの日時指定で１回１回閉じないようにする
+
+  //一括Picker識別子
+  const BULK_ID = "__bulk__";
+  //一括picker開く時用
+  const openBulkPicker = () => {
+    acceptedRef.current = false;
+    clockClickRef.current = false;
+    prevValueRef.current = bulkTime;
+    setOpenPickerId(BULK_ID)
+  };
+// 今回のオープンで「確定（accept）したか」
+const acceptedRef = useRef(false);
+// 開いた瞬間の元値（キャンセル時に戻す）
+const prevValueRef = useRef<Dayjs | null>(null);
+
+type PickerCloseReason =
+  | "selectingValue"
+  | "accept"
+  | "cancel"
+  | "backdropClick"
+  | "escapeKeyDown"
+  | undefined;
+// H/M/S のリストを直近でクリックしたか（モバイルで reason が undefined 対策）
+  const clockClickRef = useRef(false);
+
+const isClockEl = (node: HTMLElement | null) =>
+!!node?.closest(
+  '.MuiMultiSectionDigitalClockSection-item,' +       // 分割3カラム(H/M/S)
+  ' .MuiDigitalClockItem-root,' +                     // 単一縦リスト
+  ' [data-mui-test="digital-clock-item"],' +          // v7以降のテストID
+  ' [data-mui-test="digital-clock-section-item"]'
+);
+
+// カテゴリごとの onChange を生成（selectionState を見る）
+const makeChangeHandler = (catId: string): PickerOnChange =>
+  (value) => {
+    handleTimeChange(catId, value as Dayjs | null);
+  };
+
+// 開くとき：フラグ初期化＋元値保存＋open
+const makeOpenHandler = (cat: Category) => () => {
+  acceptedRef.current = false;
+  clockClickRef.current = false;
+  prevValueRef.current = cat.startTime ? dayjs(cat.startTime) : null;
+  setOpenPickerId(cat.id);
+};
+// onClose: モバイルが分/秒などの途中選択で勝手に閉じるのを無視する
+const handlePickerClose = ((event?: any, reason?: PickerCloseReason) => {
+  // 時/分/秒リスト直後の onClose(undefined) は無視
+  if (reason === 'selectingValue' || (reason === undefined && clockClickRef.current)) {
+    clockClickRef.current = false;
+    return;
+  }
+
+  if (reason === 'accept') {
+    // H/M/S 由来 → 開いたまま
+    if (clockClickRef.current) {
+      clockClickRef.current = false;
+      return;
+    }
+    // ActionBar の「次へ」由来 → 閉じる（ロールバックしない）
+    acceptedRef.current = true;
+    setOpenPickerId(null);
+    return;
+  }
+
+  // キャンセルや外側クリック等 → 未確定なら元値に戻す
+  if (!acceptedRef.current && openPickerId) {
+    setEdited(prev =>
+      prev.map(c =>
+        c.id === openPickerId
+          ? { ...c, startTime: prevValueRef.current?.toISOString() ?? null }
+          : c
+      )
+    );
+  }
+  setOpenPickerId(null);
+}) as PickerOnClose;
+
+
+const handleAccept: PickerOnAccept = () => {
+  if (clockClickRef.current) {
+    clockClickRef.current = false;
+    return;
+  }
+  acceptedRef.current = true;
+  setOpenPickerId(null);
+};
+
+  // DateTimePicker の props をそのまま受け取り、isHandset だけを追加して
+  // Mobile/Desktop のどちらを使うか切り替える薄いラッパー。
+  type RProps = DateTimePickerProps<false> & {
+    isHandset: boolean;
+    };
+
+  //年月日、時間指定のpopupの大きさを決める
+    const pickerSizeSlotProps = (isHandset: boolean) =>
+    isHandset
+    ? {
+        // ★モバイル：Dialog→Paper
+        dialog: {
+          sx: {
+            '& .MuiPaper-root': {
+              width: 380,
+              maxWidth: 'none',     // ← これを外さないと幅が 100%/600px で頭打ちになることあり
+            },
+          },
+        },
+        layout: { sx: { width: 360, height: 420 } },
+      }
+    : {
+        // ★デスクトップ：Popper→Paper
+        popper: {
+          sx: {
+            '& .MuiPaper-root': {
+              width: 600,
+              maxWidth: 'none',
+            },
+          },
+        },
+        layout: { sx: { width: 580, height: 560 } },
+      };
+
+  const ResponsiveDateTimePicker: React.FC<RProps> = ({ isHandset, ...props }) => {
+    return isHandset ? (
+    <MobileDateTimePicker {...props} />
+    ) : ( <DateTimePicker {...props} />
+    )
+  };
+
+  // ResponsiveDateTimePicker内のスタイリング一括まとめ
+  // 共通で使い回すと楽
+    const pickerLayoutSx: SxProps<Theme> = {
+      /* ツールバー（上部の「8月 19」や「00:00:00」） */
+      "& .MuiPickersToolbar-title": {
+        fontSize: "2.4rem",           // ← ここで大きく
+        fontWeight: 600,
+        lineHeight: 1,
+      },
+      /* カレンダーヘッダの「8月 2025」 */
+      "& .MuiPickersCalendarHeader-label": {
+        fontSize: "3rem",           // ← 見出しを大きく
+        fontWeight: 600,
+      },
+        /* ===== 年／月ビューのフォントを大きく ===== */
+      /* 年選択（2017/2018/… のグリッド） */
+      "& .MuiYearCalendar-root .MuiYearCalendar-button": {
+        fontSize: "3rem",             // ← 西暦ボタンを大きく
+        minWidth: 64,
+        minHeight: 40,
+        lineHeight: "1.2rem"
+      },
+      /* 選択時も同サイズで維持 */
+      "& .MuiYearCalendar-root .MuiPickersYear-yearButton.Mui-selected": {
+        fontSize: "2.2rem",
+      },
+      /* 月選択（1月〜12月のボタン） */
+      "& .MuiMonthCalendar-root .MuiMonthCalendar-button": {
+        fontSize: "3rem",             // ← 月ボタンを大きく
+        minWidth: 80,
+        minHeight: 40,
+      },
+          /* ===== 上部のカレンダー／時計アイコンを大きく ===== */
+      /* v6: レイアウト内タブのアイコン */
+      "& .MuiPickersLayout-tabs .MuiTab-root .MuiSvgIcon-root": {
+        fontSize: "3.6rem",
+      },
+      /* ついでにタブ自体の高さも少し大きく */
+      "& .MuiPickersLayout-tabs .MuiTab-root": {
+        minHeight: 48,
+        padding: "6px 16px",
+      },
+      // 日付選択の曜日の文字を変更している
+      "& .MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel": {
+        fontSize: "3rem",
+        fontWeight: 600,
+        mx:"0.6rem"
+      },
+      // カレンダーの左上に出る月日の表示のフォントを変更している
+      "& .MuiTypography-root.MuiTypography-h4.MuiPickersToolbarText-root": {
+        fontSize: "3rem"
+      },
+      "& .MuiTypography-root.MuiTypography-subtitle1.MuiPickersToolbarText-root": {
+        fontSize: "3rem"
+      },
+      //カレンダー内の日にちのフォントを変更している
+      "& .MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin": {
+        fontSize: "3rem"
+      },
+       /* カレンダー／時間リスト側（ポータル内） */
+      "& .MuiPickersDay-root": { fontSize: "1.8rem", width: 48, height: 48 },
+      "& .MuiPickersArrowSwitcher-button .MuiSvgIcon-root": { fontSize: "2rem" },
+      /* 時刻ビュー（分割リスト） */
+      "& .MuiMultiSectionDigitalClockSection-item": { fontSize: "3.5rem", minHeight: 40 },
+       /* 時刻ビュー（単一縦リスト） */
+      "& .MuiDigitalClock-item": { fontSize: "1.8rem", minHeight: 40 },
+      /* フッターのボタン */
+      "& .MuiPickersActionBar-root .MuiButton-root": { fontSize: "1.6rem" },
+    };
+
+
+  // --- デスクトップ: 従来どおりテーブル表示 ---
+  const DesktopTable = () => (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell sx={tableCellSx}>カテゴリ</TableCell>
+          <TableCell sx={tableCellSx}>スタート時刻</TableCell>
+          <TableCell sx={tableCellSx}>一括設定</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {edited.map((cat) => (
+          <TableRow key={cat.id}>
+            <TableCell sx={tableCellSx}>{cat.name}</TableCell>
+            <TableCell>
+              <ResponsiveDateTimePicker
+              isHandset={isHandset}
+              open={openPickerId === cat.id}
+              onOpen={makeOpenHandler(cat)}
+              onClose={handlePickerClose}
+              onAccept={handleAccept}
+              onChange={makeChangeHandler(cat.id)}
+              value={cat.startTime ? dayjs(cat.startTime) : null}
+              ampm={false}
+              views={["year", "month", "day", "hours", "minutes", "seconds"]}
+              format="YYYY/MM/DD HH:mm:ss"
+              closeOnSelect={false}
+              //  reduceAnimationsはモバイルでの体感を良くする
+              reduceAnimations
+              slotProps={{
+                //日時指定popupのサイズ指定
+                ...pickerSizeSlotProps(isHandset),
+                  textField: {
+                    size: "medium",
+                    fullWidth: true,
+                    // フィールドクリックでポップアップを開かせたくない場合
+                    onClick: (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation(),
+
+                    // 手入力を許可（readOnlyになってしまう版への対策）
+                    inputProps: {
+                      readOnly: false,
+                      inputMode: "numeric",
+                      placeholder: "YYYY/MM/DD HH:mm:ss",
+                      onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+                        e.currentTarget.select();
+                      },
+                    },
+
+                    // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
+                    sx: {
+                      /* 右側アイコン */
+                      "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "2.2rem" },
+
+                      /* v8 のセクション表示（年/月/日など） */
+                      "& .MuiPickersSectionList-root": { fontSize: "2.2rem" },
+                      "& .MuiPickersSection-root": { fontSize: "2.2rem" },
+                    },
+                  },
+
+                   /* カレンダー／時間リスト側（ポータル内） */
+                  layout: { sx: pickerLayoutSx },
+                  // アイコン（右側ボタン）経由では開けるようにする
+                  openPickerButton: {
+                    onClick: () => setOpenPickerId(cat.id),
+                  },
+                  dialog: { keepMounted: true }, // ← 内部 Dialog を保持
+                  // カレンダーの下のキャンセル、次へボタン
+                  // ↓ キャンセル時はロールバックして閉じる（型差回避のため as any）
+                  actionBar: {
+                    actions: ["cancel", "accept"],
+                    sx: { "& .MuiButton-root": { fontSize: "2.6rem", color: palette.navyBlue } },
+                  } as any,
+                }}
+              />
+            </TableCell>
+            <TableCell sx={tableCellSx}>
+              <Checkbox
+                sx={{
+                  ...tableCellSx,
+                  "& .MuiSvgIcon-root": { fontSize: 28 },
+                }}
+                checked={checked.includes(cat.id)}
+                onChange={() => handleCheck(cat.id)}
+              />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+
+  // --- モバイル: 1カテゴリ = 2段（上段: ラベル+チェック、下段: ピッカー） ---
+  const MobileList = () => (
+    <Stack spacing={2}>
+      {edited.map((cat) => (
+        <Box
+          key={cat.id}
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 2,
+            p: 1.2,
+            bgcolor: "background.paper",
+            ...tableCellSx,
+          }}
+        >
+          {/* 上段: カテゴリ名 + 一括チェック */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 1,
+              mb: 0.6,
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "3rem",
+                fontWeight: 600,
+                color: palette.textPrimary,
+              }}
+            >
+              {cat.name}
+            </Typography>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <FormControlLabel
+                labelPlacement="start" //ラベルを左,チェックを右に
+                sx={{
+                  m: 0,
+                  gap: "0.2rem",
+                  ".MuiFormControlLabel-label": {
+                    fontSize: "3rem",
+                    color: palette.darkGray,
+                    fontWeight: "bold",
+                  },
+                }}
+                control={
+                  <Checkbox
+                  sx={{
+                    "& .MuiSvgIcon-root": { fontSize: "5rem" },
+                    p: 0.5,
+                  }}
+                  checked={checked.includes(cat.id)}
+                  onChange={() => handleCheck(cat.id)}
+                />
+                }
+                  label="一括"
+                  />
+            </Box>
+          </Box>
+
+          <Divider sx={{ mb: 0.6 }} />
+
+          {/* 下段: ピッカー（全幅） */}
+          <ResponsiveDateTimePicker
+            isHandset={isHandset}
+            open={openPickerId === cat.id}
+            onOpen={makeOpenHandler(cat)}
+            onClose={handlePickerClose}
+            onAccept={handleAccept}
+            onChange={makeChangeHandler(cat.id)}
+            value={cat.startTime ? dayjs(cat.startTime) : null}
+            ampm={false}
+            views={["year", "month", "day", "hours", "minutes", "seconds"]}
+            format="YYYY/MM/DD HH:mm:ss"
+            closeOnSelect={false}
+            // reduceAnimationsはモバイルでの体感をよくします
+            reduceAnimations
+            // ← カスタム ActionBar を使う
+            // slots={{ actionBar: MyActionBar }}
+            slotProps={{
+              //日時指定popupのサイズ指定
+              ...pickerSizeSlotProps(isHandset),
+              /* 入力フィールド（表示テキストのフォントを確実に大きくするのは field） */
+              textField: {
+                size: "medium",
+                fullWidth: true,
+                // フィールドクリックでポップアップを開かせたくない場合
+                onClick: (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation(),
+
+                // 手入力を許可（readOnlyになってしまう版への対策）
+                inputProps: {
+                  readOnly: false,
+                  inputMode: "numeric",
+                  placeholder: "YYYY/MM/DD HH:mm:ss",
+                  onFocus: (e: React.FocusEvent<HTMLInputElement>) => {
+                    e.currentTarget.select();
+                  },
+                },
+
+                // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
+                sx: {
+                  /* 右側アイコン */
+                  "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "4rem" },
+
+                  /* v8 のセクション表示（年/月/日など） */
+                  "& .MuiPickersSectionList-root": { fontSize: "3rem" },
+                  "& .MuiPickersSection-root": { fontSize: "2.2rem" },
+                },
+              },
+
+              /* カレンダー／時間リスト側（ポータル内） */
+              layout: { sx: pickerLayoutSx },
+
+              /* 右側のカレンダーアイコン → ここだけで開く */
+              openPickerButton: {
+                onClick: () => setOpenPickerId(cat.id),
+              },
+              dialog: { keepMounted: true }, // ← 内部 Dialog を保持
+              /* フッターの「キャンセル / 次へ」 */
+              actionBar: {
+                actions: ["cancel", "accept"],
+                // カレンダー下のキャンセル、次へボタンのスタイル指定
+                sx: { "& .MuiButton-root": { fontSize: "2.6rem",  color: palette.navyBlue } },
+              },
+            }}
+          />
+        </Box>
+      ))}
+    </Stack>
+  );
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullScreen={isHandset}
+      maxWidth="md"
+      fullWidth
+      disableEnforceFocus //ネストしたモーダルと相性をよくする
+      disableRestoreFocus
+      keepMounted
+    >
+      <DialogTitle
+        sx={{
+          textAlign: "center",
+          fontSize: isHandset ? "4rem" : "2.4rem",
+          fontWeight: "bold",
+          color: palette.navyBlue,
+        }}
+      >
+        スタート時刻設定
+      </DialogTitle>
+
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        adapterLocale="ja"
+        localeText={{ okButtonLabel: "次へ", cancelButtonLabel: "キャンセル" }} //日付時刻設定のボタンの部分の文言
+      >
+        <DialogContent>
+          {isHandset ? <MobileList /> : <DesktopTable />}
+        </DialogContent>
+
+        <DialogActions
+          sx={{
+            px: "2.2rem",
+            pb: "2rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.8rem",
+            flexWrap: "wrap",
+          }}
+        >
+          {/* 左：一括時刻指定 + 一括適用 */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.8rem",
+              flex: 1,
+              flexWrap: "wrap",
+            }}
+          >
+            <ResponsiveDateTimePicker
+            isHandset={isHandset}
+              value={bulkTime}
+              onChange={(v: Dayjs | null) => setBulkTime(v)}
+              open={openPickerId === BULK_ID}
+              onOpen={openBulkPicker}
+              onClose={handlePickerClose}
+              onAccept={handleAccept}
+              ampm={false}
+              views={["year", "month", "day", "hours", "minutes", "seconds"]}
+              format="YYYY/MM/DD HH:mm:ss"
+              closeOnSelect={false}
+              slotProps={{
+                //日時指定popupのサイズ指定
+                ...pickerSizeSlotProps(isHandset),
+                textField: {
+                  size: "medium",
+                  fullWidth:  true,
+                  label: "一括時刻指定",
+                  //labelのフォントサイズ調整
+                  InputLabelProps: {
+                    sx: {
+                      fontSize: isHandset ? "3rem" : "2.5rem"
+                    }
+                  },
+                  // 文字サイズの本命（Field実装にも効くセレクタをまとめて上書き）
+                  sx: {
+                    /* 右側アイコン */
+                    "& .MuiInputAdornment-root .MuiSvgIcon-root": { fontSize: "3.2rem" },
+
+                    /* v8 のセクション表示（年/月/日など） */
+                    "& .MuiPickersSectionList-root": { fontSize: isHandset ? "3rem" : "2.4rem"},
+                    "& .MuiPickersSection-root": { fontSize: "2rem" },
+                  },
+                },
+                  /* カレンダー／時間リスト側（ポータル内） */
+              layout: {sx: pickerLayoutSx },
+
+              dialog: { keepMounted: true }, // ← 内部 Dialog を保持
+                // フッターの「キャンセル / 次へ」
+                actionBar: {
+                  actions: ["cancel", "accept"],
+                  sx: { "& .MuiButton-root": { fontSize: "2.6rem",  color: palette.navyBlue } },
+                },
+              }}
+            />
+
+          </Box>
+
+          {/* 右：キャンセル / 保存 */}
+          <Box
+          sx={{
+            display: "flex",
+            gap: isHandset ? 1.5 : 1,
+            }}
+            >
+            <Button
+                sx={{ fontSize:"2.4rem" }}
+                variant="outlined"
+                onClick={handleBulkApply}
+                disabled={checked.length === 0 || !bulkTime}
+              >
+                一括適用
+              </Button>
+            <Button
+              onClick={onClose}
+              sx={{
+                fontSize: "2.6rem",
+                color: palette.darkGray,
+              }}
+            >
+              キャンセル
+            </Button>
+            <Button
+              onClick={() => onSave(edited)}
+              variant="contained"
+              sx={{
+                fontSize: isHandset ? "2.4rem" : "1.8rem",
+                color: palette.white,
+                background: palette.navyBlue,
+              }}
+            >
+              保存
+            </Button>
+          </Box>
+        </DialogActions>
+      </LocalizationProvider>
+    </Dialog>
+  );
+};
+
+export default StartTimeSettingDialog;
