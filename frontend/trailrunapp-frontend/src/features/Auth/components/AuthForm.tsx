@@ -1,5 +1,5 @@
-import React, {useMemo, useState} from "react";
-import { Box, TextField, IconButton, InputAdornment,Typography } from "@mui/material";
+import React, { useMemo, useState} from "react";
+import { Box, TextField, IconButton, InputAdornment, Typography } from "@mui/material";
 import { palette } from "../../../styles/palette";
 import useResponsive from "../../../hooks/useResponsive";
 import Visibility from "@mui/icons-material/Visibility";
@@ -15,18 +15,19 @@ type FieldConfig = {
   name: "name" | "telnumber" | "group" | "password";
   label: string;
   type: FieldType;
-  // required?: boolean;
   autoComplete?: string;
 };
 
 type Props = {
   role: Role;
   onSubmit?: (values: { name: string; telnumber: string;  password?: string; group?: string}) => void;
+  fieldErrors?: Partial<Record<FieldConfig["name"], string>>;
+  formError?: string;
 };
 
 
 
-const AuthForm:React.FC<Props> = ({role, onSubmit}) => {
+const AuthForm:React.FC<Props> = ({role, onSubmit, fieldErrors={}, formError=""}) => {
   //mobile対応,画面幅に応じてコンポーネントサイズと余白を調整
   const {isSmallMobile, isMobile} = useResponsive();
   // ログイン役割ごとに表示するフィールドセットを生成
@@ -95,6 +96,8 @@ const [showPassword, setShowPassword] = useState(false);
         type={f.type === "password" ? (showPassword ? "text" : "password") : f.type}
         value={values[f.name] ?? ""}
         onChange={handleChange(f.name)}
+        error={Boolean(fieldErrors[f.name])}
+        helperText={fieldErrors[f.name] ?? ""}
         {...(f.autoComplete ? { autoComplete: f.autoComplete } : {})}
         //telnumberフィールドのときだけ、inputProps に inputMode と pattern を追加して、モバイルで数字キーボードを出したり、数字以外の入力を受け付けないようにしています
       {...(f.name === "telnumber"
@@ -128,6 +131,11 @@ const [showPassword, setShowPassword] = useState(false);
           "& .MuiSvgIcon-root": {
             fontSize: "3rem",
           },
+           // エラーフィールドのtextfield
+            "& .MuiFormHelperText-root": {
+              fontSize: "1.6rem",
+              lineHeight: 1.4
+            },
         }}
         InputProps={
           f.type === "password"
@@ -137,6 +145,7 @@ const [showPassword, setShowPassword] = useState(false);
                 <IconButton
                 aria-label="パスワード表示切替"
                 onClick={() => setShowPassword(s => !s)}
+                type="button"
                 edge="end"
                 tabIndex={-1}
                 >
@@ -153,6 +162,19 @@ const [showPassword, setShowPassword] = useState(false);
         <AuthButton>
         {role === "admin" ? "管理者ログイン" : "スタッフログイン"}
         </AuthButton>
+        {formError && (
+          <Typography
+          role="alert"
+          sx={{
+            mt: "-1.6rem",
+            textAlign: "center",
+            color: palette.coralRed,
+            fontSize: "1.6rem",
+          }}
+          >
+            {formError}
+          </Typography>
+        )}
         <Box
         sx={{
           mt: MtGap,
