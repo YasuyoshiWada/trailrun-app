@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { palette } from "../../styles/palette";
 import AuthForm from "./components/AuthForm";
 import EventName from "./components/EventName";
@@ -24,7 +24,9 @@ const StaffLogin: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const fromLocation = (location.state as LocationState | undefined)?.from;
-  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<"name" | "telnumber", string>>
+    >({});
 
   return (
     <Box
@@ -60,16 +62,20 @@ const StaffLogin: React.FC = () => {
             const trimmedTelnumber = values.telnumber.trim();
             const trimmedGroup = values.group?.trim();
 
-            if (!trimmedName && !trimmedTelnumber) {
-              setError("名前と電話番号を入力してください。");
-              return;
-            }
+            const nextFieldErrors:
+              Partial<Record<"name" | "telnumber", string>>
+              = {};
+
             if (!trimmedName) {
-              setError("名前を入力してください。");
-              return;
+              nextFieldErrors.name = "名前を入力してください。";
+
             }
             if (!trimmedTelnumber) {
-              setError("電話番号を入力してください。");
+              nextFieldErrors.telnumber = "電話番号を入力してください。";
+            }
+
+            if (Object.keys(nextFieldErrors).length > 0) {
+              setFieldErrors(nextFieldErrors);
               return;
             }
 
@@ -78,7 +84,7 @@ const StaffLogin: React.FC = () => {
               telnumber: trimmedTelnumber,
               ...(trimmedGroup ? {group: trimmedGroup } : {}),
             });
-            setError(null);
+            setFieldErrors({});
             const destination =
               fromLocation !== undefined
                 ? {
@@ -89,20 +95,8 @@ const StaffLogin: React.FC = () => {
                 : "/";
             navigate(destination, { replace: true, state: fromLocation?.state });
           }}
+          fieldErrors={fieldErrors}
         />
-        {error ? (
-          <Typography
-            role="alert"
-            sx={{
-              mt: "1.2rem",
-              textAlign: "center",
-              color: palette.coralRed,
-              fontSize: "1.6rem",
-            }}
-          >
-            {error}
-          </Typography>
-        ) : null}
       </Box>
     </Box>
   )
