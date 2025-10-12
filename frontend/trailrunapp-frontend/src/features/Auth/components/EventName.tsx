@@ -17,12 +17,12 @@ const EventName:React.FC<Props> = ({eventName}) => {
         display:"flex",
         flexDirection: "column",
         alignItems:"center",
-        gap: (isSmallMobile || isMobile) ? "3rem" :"5rem",
+        gap: (isSmallMobile || isMobile) ? "3rem" :"3rem",
         width: "100%",
         maxWidth: "40rem",
         mx:"auto",
-        mt:"7rem",
-        mb: "3rem",
+        mt:"5rem",
+        mb: "1.5rem",
       }}>
         <Typography
         sx={{

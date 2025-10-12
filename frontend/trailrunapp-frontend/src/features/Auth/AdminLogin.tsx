@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { palette } from "../../styles/palette";
 import AuthForm from "./components/AuthForm";
 import EventName from "./components/EventName";
@@ -24,13 +24,17 @@ type LocationState = {
 
 const AdminLogin: React.FC = () => {
   // 画面幅に応じてカードサイズを調整するためのフラグ群。
-  const { isSmallMobile,isMobile } = useResponsive();
+  const { isSmallMobile, isMobile } = useResponsive();
   // 認証処理を実行する login 関数を Context から取得。
   const { login } = useAuth();
   // 遷移元の情報取得と遷移実行のために react-router のフックを利用。
   const location = useLocation();
   const navigate = useNavigate();
-  const [error, setError] = useState<string>("");
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<"name" | "telnumber" | "password", string>>
+  >({});
+
+  const [formError, setFormError] = useState<string>("");
   // 認証前にアクセスしようとしたページ情報があれば取り出す。
   //location.state は、React Router の navigate や <Link> で渡せる追加の状態オブジェクトです。ログイン前にアクセスしていた保護ページが navigate("/login", { state: { from: location } }) のように呼び出されていると、その state に { from: <元の location> } が入ります。useLocation() で取得した location がその情報を持っているので、location.state で参照しています。
 // 末尾の ?.from はオプショナルチェーンです。location.state が undefined でない場合だけ from プロパティを読み取り、未設定なら undefined を返します。ログインページに直接アクセスしたケースでも安全に扱えるようにした書き方です。
@@ -40,36 +44,54 @@ const AdminLogin: React.FC = () => {
     const password = (values.password ?? "").trim();
     const telnumber = values.telnumber.trim();
 
-    if (!telnumber) {
-      setError("電話番号を入力してください。");
-      return;
+    const nextFieldErrors:
+      Partial<Record<"name" | "telnumber" | "password", string>>
+    = {};
+
+    if (!name) {
+      nextFieldErrors.name = "名前を入力してください。";
     }
 
+    if (!telnumber) {
+      nextFieldErrors.telnumber = "電話番号を入力してください。";
+    }
+
+    if(!password) {
+      nextFieldErrors.password = "パスワードを入力してください。";
+    }
+//nextFieldErrors に何かしらエラーが入っていたら setFieldErrors で state を更新し、formError はクリアして return します。これにより AuthForm にエラー情報が渡され、各フィールドの下にエラーメッセージが表示されます。
+    if (Object.keys(nextFieldErrors).length > 0) {
+      setFieldErrors(nextFieldErrors);
+      setFormError("");
+      return;
+    }
     if (
       name !== ADMIN_CREDENTIALS.name ||
       password !== ADMIN_CREDENTIALS.password
     ) {
-      setError("名前またはパスワードが正しくありません。");
+      setFormError("名前またはパスワードが正しくありません。");
+      setFieldErrors({});
       return;
     }
 
-    setError("");
+    setFieldErrors({});
+    setFormError("");
     login("admin", {
       name,
       telnumber,
     });
     // 遷移元情報を組み立て、無ければトップページを指定。
     const destination =
-    fromLocation !== undefined
-    ? {
-      pathname: fromLocation.pathname,
-      ...(fromLocation.search ? { search: fromLocation.search } : {}),
-      ...(fromLocation.hash ? { hash: fromLocation.hash } : {}),
-    }
-    : "/";
+      fromLocation !== undefined
+        ? {
+            pathname: fromLocation.pathname,
+            ...(fromLocation.search ? { search: fromLocation.search } : {}),
+            ...(fromLocation.hash ? { hash: fromLocation.hash } : {}),
+          }
+        : "/";
     // 戻る操作でログインへ戻らないよう replace で遷移を実行。
     navigate(destination, { replace: true, state: fromLocation?.state });
-  }, [fromLocation, login, navigate, setError]);
+  }, [fromLocation, login, navigate]);
 
   // ログインカード全体のレイアウトを組み立てる。
   return (
@@ -102,20 +124,12 @@ const AdminLogin: React.FC = () => {
         {/* eventNameには大会ごとの名前が入る */}
         <EventName eventName={"eventName"} />
         {/* 管理者用のログインフォーム。送信時に Context へログインを通知。 */}
-        <AuthForm role={"admin"} onSubmit={handleSubmit} />
-        {error && (
-          <Typography
-          role="alert"
-          sx={{
-            mt: "1.6rem",
-            textAlign: "center",
-            color: palette.coralRed,
-            fontSize: "1.6rem",
-          }}
-          >
-            {error}
-          </Typography>
-        )}
+        <AuthForm
+        role={"admin"}
+        onSubmit={handleSubmit}
+        fieldErrors={fieldErrors}
+        formError={formError}
+        />
       </Box>
     </Box>
   )
