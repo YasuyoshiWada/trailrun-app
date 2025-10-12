@@ -67,7 +67,7 @@ const [showPassword, setShowPassword] = useState(false);
     onSubmit?.(result);
   };
   // モバイルの幅とPCの幅でgapを分ける定義
-  const baseGapRem = isSmallMobile ? 5 : isMobile ? 4 :3;
+  const baseGapRem = isSmallMobile ? 5 : isMobile ? 4 :2;
   const formGap = `${baseGapRem}rem`;
   // モバイルとPCでmarginTopを分ける定義
   const baseMtRem = isSmallMobile ? -5 : 0;
@@ -84,7 +84,9 @@ const [showPassword, setShowPassword] = useState(false);
         mx:"auto",
       }}
       >
-        {fields.map(f => (
+        {fields.map(f => {
+          const errorMessage = fieldErrors[f.name];
+          return (
         <TextField
         key={f.name}
         variant="outlined"
@@ -97,7 +99,7 @@ const [showPassword, setShowPassword] = useState(false);
         value={values[f.name] ?? ""}
         onChange={handleChange(f.name)}
         error={Boolean(fieldErrors[f.name])}
-        helperText={fieldErrors[f.name] ?? ""}
+        helperText={fieldErrors[f.name] ?? " "}
         {...(f.autoComplete ? { autoComplete: f.autoComplete } : {})}
         //telnumberフィールドのときだけ、inputProps に inputMode と pattern を追加して、モバイルで数字キーボードを出したり、数字以外の入力を受け付けないようにしています
       {...(f.name === "telnumber"
@@ -157,7 +159,8 @@ const [showPassword, setShowPassword] = useState(false);
           : {}
         }
         />
-        ))}
+      );
+        })}
 
         <AuthButton>
         {role === "admin" ? "管理者ログイン" : "スタッフログイン"}
