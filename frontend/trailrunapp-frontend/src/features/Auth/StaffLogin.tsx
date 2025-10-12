@@ -72,6 +72,8 @@ const StaffLogin: React.FC = () => {
             }
             if (!trimmedTelnumber) {
               nextFieldErrors.telnumber = "電話番号を入力してください。";
+            } else if (!/^[0-9-]+$/.test(trimmedTelnumber)) {
+              nextFieldErrors.telnumber = "指定されている形式で入力してください。";
             }
 
             if (Object.keys(nextFieldErrors).length > 0) {

@@ -10,9 +10,12 @@ type Props = {
 
 const SearchBar:React.FC<Props> = ({value, onChange }) => {
   const [focused, setFocused] = useState(false);
+  const [ hovered, setHovered ] = useState(false);
 
   return(
     <Box
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
     sx={{
       display:"flex",
       alignItems:"center",
@@ -21,7 +24,8 @@ const SearchBar:React.FC<Props> = ({value, onChange }) => {
       border:`0.3rem solid ${focused ? palette.cyan : palette.gray}`,
       borderRadius:"2rem",
       background:palette.lightGray,
-      transition: "border-color 0.2s"
+      transition: "border-color 0.2s",
+      opacity: hovered ? 0.5 : 1,
     }}>
       <TextField
       value={value}
