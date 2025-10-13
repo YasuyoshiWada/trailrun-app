@@ -75,7 +75,7 @@ const [showPassword, setShowPassword] = useState(false);
   const MtGap = `${gapMtRem}rem`;
 
   return (
-      <Box component="form" onSubmit={handleSubmit}
+      <Box component="form" onSubmit={handleSubmit}noValidate
       sx={{
         display:"grid",
         gap:formGap,
@@ -108,7 +108,7 @@ const [showPassword, setShowPassword] = useState(false);
             input: {
               inputProps: {
                 inputMode: "numeric",
-                pattern: "\\d*",
+                pattern: "[0-9]*",
               },
             },
           },
