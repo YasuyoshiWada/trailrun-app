@@ -54,7 +54,9 @@ const AdminLogin: React.FC = () => {
 
     if (!telnumber) {
       nextFieldErrors.telnumber = "電話番号を入力してください。";
-    }
+    } else if (!/^[0-9-]+$/.test(telnumber)) {
+              nextFieldErrors.telnumber = "指定されている形式で入力してください。";
+            }
 
     if(!password) {
       nextFieldErrors.password = "パスワードを入力してください。";
